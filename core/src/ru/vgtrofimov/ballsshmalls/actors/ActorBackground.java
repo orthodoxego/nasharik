@@ -4,6 +4,8 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
+import ru.vgtrofimov.ballsshmalls.settings.Setup;
+
 public class ActorBackground extends Actor {
 
     TextureRegion skin;
@@ -28,6 +30,8 @@ public class ActorBackground extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        batch.draw(skin, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
+        for (int i = 0; i < Setup.count_background; i++) {
+            batch.draw(skin, getX(), getY() + i * getWidth(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
+        }
     }
 }

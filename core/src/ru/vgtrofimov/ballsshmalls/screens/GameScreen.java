@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ru.vgtrofimov.ballsshmalls.Balls;
 import ru.vgtrofimov.ballsshmalls.stages.GameStage;
+import ru.vgtrofimov.ballsshmalls.stages.StageParent;
 import ru.vgtrofimov.ballsshmalls.textures.Textures;
 
 public class GameScreen implements Screen {
@@ -17,7 +18,7 @@ public class GameScreen implements Screen {
     Viewport viewport;
     OrthographicCamera camera;
     AssetManager manager;
-    Stage currentStage;
+    StageParent currentStage;
     Textures textures;
 
     public GameScreen(Balls balls, Viewport viewport, OrthographicCamera camera, AssetManager manager, Textures textures) {
@@ -54,7 +55,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void resize(int width, int height) {
-
+        currentStage.resize(width, height);
     }
 
     @Override

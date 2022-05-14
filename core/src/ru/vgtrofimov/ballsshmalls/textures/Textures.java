@@ -20,7 +20,7 @@ public class Textures {
 
         load = new Texture("png/pack.png");
         ball = getTextureRegionFromMap(0, 0, 64, 64, true, true, load);
-        ball_shadow = getTextureRegionFromMap(64, 0, 64, 64, true, true, load);
+        ball_shadow = getTextureRegionFromMap(64, 0, 64, 64, false, true, load);
     }
 
     private TextureRegion getTextureRegionFromMap(int x, int y, int width, int height, boolean flipX, boolean flipY, Texture texture) {

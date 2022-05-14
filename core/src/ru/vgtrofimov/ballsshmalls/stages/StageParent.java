@@ -24,7 +24,9 @@ public class StageParent extends Stage {
         super.act(delta);
     }
 
-    public void end() {
+    public void end() {   }
 
-    }
+    public void resize(int width, int height) { }
+
+
 }
