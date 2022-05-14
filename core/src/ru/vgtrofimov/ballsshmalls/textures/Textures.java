@@ -3,7 +3,11 @@ package ru.vgtrofimov.ballsshmalls.textures;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import ru.vgtrofimov.ballsshmalls.Balls;
+
 public class Textures {
+
+    TextureRegion background;
 
     TextureRegion ball;
     TextureRegion ball_shadow;
@@ -11,8 +15,10 @@ public class Textures {
     public Textures() {
         Texture load;
 
-        load = new Texture("png/pack.png");
+        load = new Texture("png/background.png");
+        background = getTextureRegionFromMap(0, 0, load.getWidth(), load.getHeight(), false, true, load);
 
+        load = new Texture("png/pack.png");
         ball = getTextureRegionFromMap(0, 0, 64, 64, true, true, load);
         ball_shadow = getTextureRegionFromMap(64, 0, 64, 64, true, true, load);
     }
@@ -29,5 +35,9 @@ public class Textures {
 
     public TextureRegion getBall_shadow() {
         return ball_shadow;
+    }
+
+    public TextureRegion getBackground() {
+        return background;
     }
 }

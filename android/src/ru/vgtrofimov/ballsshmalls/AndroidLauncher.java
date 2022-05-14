@@ -1,5 +1,7 @@
 package ru.vgtrofimov.ballsshmalls;
 
+import android.content.pm.ActivityInfo;
+import android.icu.lang.UCharacter;
 import android.os.Bundle;
 import android.view.WindowManager;
 
@@ -15,6 +17,7 @@ public class AndroidLauncher extends AndroidApplication {
 
 		// Запрет на гашение экрана
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
 		// Отключение лишнего для экономии энергопотребления
 		config.useAccelerometer = false;
