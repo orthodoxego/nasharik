@@ -11,7 +11,7 @@ public class DesktopLauncher {
 		config.setForegroundFPS(60);
 
 		int width = 1080, height = 1920;
-		float ratio = 0.5f;
+		float ratio = 0.4f;
 
 		config.setWindowedMode((int) (width * ratio), (int) (height * ratio));
 		config.setTitle("BallsShmalls");

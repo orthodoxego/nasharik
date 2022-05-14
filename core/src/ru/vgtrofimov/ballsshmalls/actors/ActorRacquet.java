@@ -34,8 +34,8 @@ public class ActorRacquet extends Actor {
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
 
-        batch.setColor(0.1f, 0.2f, 0, parentAlpha / 2);
-        batch.draw(skin, getX() + 3, getY() + 3 - y_correct_to_fire);
+        //batch.setColor(0.1f, 0.2f, 0, parentAlpha / 2);
+        //batch.draw(skin, getX() + 3, getY() + 3 - y_correct_to_fire);
 
         batch.setColor(1, 1, 1, parentAlpha);
         batch.draw(skin, getX(), getY() - y_correct_to_fire);

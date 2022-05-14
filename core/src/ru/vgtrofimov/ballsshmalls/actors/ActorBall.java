@@ -95,8 +95,10 @@ public class ActorBall extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        batch.setColor(0.1f, 0.2f, 0, parentAlpha / 2);
-        batch.draw(skin, getX() - correctX + 3, getY() - correctY + 3, getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
+
+        //batch.setColor(0.1f, 0.2f, 0, parentAlpha / 2);
+        //batch.draw(skin, getX() - correctX + 3, getY() - correctY + 3, getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
+
         batch.setColor(1, 1, 1, parentAlpha);
         batch.draw(skin, getX() - correctX, getY() - correctY, getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
         batch.draw(shadow, getX() - correctX, getY() - correctY, getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), 0);
