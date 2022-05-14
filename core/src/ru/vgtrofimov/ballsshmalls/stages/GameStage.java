@@ -7,6 +7,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import ru.vgtrofimov.ballsshmalls.Balls;
 import ru.vgtrofimov.ballsshmalls.actors.ActorBackground;
 import ru.vgtrofimov.ballsshmalls.actors.ActorBall;
+import ru.vgtrofimov.ballsshmalls.actors.ActorRacquet;
 import ru.vgtrofimov.ballsshmalls.screens.GameScreen;
 import ru.vgtrofimov.ballsshmalls.settings.Setup;
 import ru.vgtrofimov.ballsshmalls.textures.Textures;
@@ -17,6 +18,7 @@ public class GameStage extends StageParent {
     int game_world_width, game_world_height;
 
     ActorBall actorBall;
+    ActorRacquet actorRacquet;
 
     public GameStage(GameScreen gameScreen, Viewport viewport, OrthographicCamera camera, Textures textures) {
         super(gameScreen, viewport, camera);
@@ -36,13 +38,16 @@ public class GameStage extends StageParent {
         actorBall = new ActorBall(textures.getBall(), textures.getBall_shadow(),
                 game_world_width / 2,
                 game_world_height / 2,
-                0,
+                (int) (100 + Math.random() * 200),
                 50,
                 game_world_width,
                 game_world_height);
 
+        actorRacquet = new ActorRacquet(textures.getRacquet(), actorBall, game_world_width, game_world_height);
+        actorBall.setActorRacquet(actorRacquet);
 
         addActor(actorBackground);
+        addActor(actorRacquet);
         addActor(actorBall);
     }
 

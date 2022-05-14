@@ -11,6 +11,7 @@ public class Textures {
 
     TextureRegion ball;
     TextureRegion ball_shadow;
+    TextureRegion racquet;
 
     public Textures() {
         Texture load;
@@ -21,6 +22,8 @@ public class Textures {
         load = new Texture("png/pack.png");
         ball = getTextureRegionFromMap(0, 0, 64, 64, true, true, load);
         ball_shadow = getTextureRegionFromMap(64, 0, 64, 64, false, true, load);
+
+        racquet = getTextureRegionFromMap(0, 64, 196, 64, false, true, load);
     }
 
     private TextureRegion getTextureRegionFromMap(int x, int y, int width, int height, boolean flipX, boolean flipY, Texture texture) {
@@ -39,5 +42,9 @@ public class Textures {
 
     public TextureRegion getBackground() {
         return background;
+    }
+
+    public TextureRegion getRacquet() {
+        return racquet;
     }
 }
