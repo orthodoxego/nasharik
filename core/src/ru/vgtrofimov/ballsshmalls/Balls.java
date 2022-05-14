@@ -53,7 +53,7 @@ public class Balls extends ApplicationAdapter {
 	public void render () {
 		ScreenUtils.clear(0, 0, 0, 1);
 		if (!pause) {
-			// gameScreen.render(Gdx.graphics.getDeltaTime());
+			gameScreen.render(Gdx.graphics.getDeltaTime());
 		}
 	}
 
