@@ -13,8 +13,10 @@ public class ActorBall extends Actor {
     int correctX, correctY;
     float speedX, speedY, default_speed_x, default_speed_y;
     int world_width, world_height;
-    float velocity, gravity, default_velocity = 98;
-    float speed_rotate = 360, default_rotate = 360;
+    float velocity, default_velocity = 19.8f;
+    float gravity = 0.98f;
+    float massa = 10f;
+    float uprugost = 50f;
 
     public ActorBall(TextureRegion skin, TextureRegion shadow, int x, int y, int speedX, int speedY, int world_width, int world_height) {
         this.skin = skin;
@@ -23,7 +25,7 @@ public class ActorBall extends Actor {
         setHeight(skin.getRegionWidth());
         correctX = (int) (getWidth() / 2);
         correctY = (int) (getHeight() / 2);
-        setRotation(default_rotate);
+        setRotation(0);
         setX(x);
         setY(y);
         setBounds(x, y, getWidth(), getHeight());
@@ -36,14 +38,14 @@ public class ActorBall extends Actor {
         this.world_width = world_width;
         this.world_height = world_height;
         velocity = default_velocity;
-        gravity = 0.1f;
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
 
-        setRotation(getRotation() + delta * getSpeedY() + 5);
+        if (getSpeedY() != 0)
+            setRotation(getRotation() + delta * getSpeedY() + 5);
 
         setY(getY() + getSpeedY() * delta);
         //Balls.log("" + getSpeedY());
@@ -54,20 +56,21 @@ public class ActorBall extends Actor {
     private boolean check_move_balls(float delta) {
         if (getSpeedY() == 0) return false;
 
-        setSpeedY(getSpeedY() + velocity * delta);
+        setSpeedY(getSpeedY() + velocity + massa * gravity);
+        // velocity *= gravity;
 
         if (getY() + getHeight() > world_height) {
             setY(world_height - getHeight());
-            setSpeedY(-getSpeedY() * 0.95f);
-            speed_rotate = default_rotate;
+            setSpeedY((float) (-getSpeedY() * Math.sqrt(uprugost) / massa));
+            velocity = default_velocity;
 
-            if (Math.abs(getSpeedY()) < world_height * gravity / 32) setSpeedY(0);
+            if (Math.abs(getSpeedY()) < world_height * 0.035f) setSpeedY(0);
 
         }
         if (getY() < 0) {
             setY(0);
-            setSpeedY(-getSpeedY() * 1.2f);
-            speed_rotate = default_rotate;
+            velocity = default_velocity;
+            setSpeedY(-getSpeedY());
         }
 
         return true;
