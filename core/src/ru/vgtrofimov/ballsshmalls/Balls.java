@@ -10,6 +10,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ru.vgtrofimov.ballsshmalls.screens.GameScreen;
 import ru.vgtrofimov.ballsshmalls.settings.GdxViewport;
+import ru.vgtrofimov.ballsshmalls.settings.Setup;
+import ru.vgtrofimov.ballsshmalls.textures.Textures;
+
 
 public class Balls extends ApplicationAdapter {
 
@@ -19,6 +22,7 @@ public class Balls extends ApplicationAdapter {
 
 	// Игровые классы
 	GameScreen gameScreen;
+	Textures textures;
 
 	// Пауза
 	boolean pause = false;
@@ -31,8 +35,9 @@ public class Balls extends ApplicationAdapter {
 		viewport = new FillViewport(GdxViewport.WORLD_WIDTH, GdxViewport.WORLD_HEIGHT, camera);
 
 		manager = new AssetManager();
+		textures = new Textures();
 
-		// gameScreen = new GameScreen(this, setup, viewport, camera, manager, font, textures);
+		gameScreen = new GameScreen(this, viewport, camera, manager, textures);
 
 	}
 
@@ -42,12 +47,12 @@ public class Balls extends ApplicationAdapter {
 	}
 
 	public static void log(String nameClass, String msg) {
-		// Gdx.app.log(Setup.APP_ID, nameClass + ": " + msg);
+		Gdx.app.log(Setup.APP_ID, nameClass + ": " + msg);
 	}
 
-	// public static void log(String msg) {
-		// Gdx.app.log(Setup.APP_ID, "NO CLASS: " + msg);
-	// }
+	 public static void log(String msg) {
+		 Gdx.app.log(Setup.APP_ID, "NO CLASS: " + msg);
+	 }
 
 	@Override
 	public void render () {
