@@ -9,6 +9,11 @@ public class DesktopLauncher {
 	public static void main (String[] arg) {
 		Lwjgl3ApplicationConfiguration config = new Lwjgl3ApplicationConfiguration();
 		config.setForegroundFPS(60);
+
+		int width = 1080, height = 1920;
+		float ratio = 0.6f;
+
+		config.setWindowedMode((int) (width * ratio), (int) (height * ratio));
 		config.setTitle("BallsShmalls");
 		new Lwjgl3Application(new Balls(), config);
 	}
