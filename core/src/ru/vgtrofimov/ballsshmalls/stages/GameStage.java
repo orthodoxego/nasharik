@@ -63,16 +63,18 @@ public class GameStage extends StageParent {
                     actorTimer.setRandomFrame();
                     actorTimer.setPressed(true);
                 } else {
-                    if (actorRightHand == null && screenX > Gdx.graphics.getWidth() / 2) {
-                        actorRightHand = new ActorRightHand(actorBall, textures.getRightHand(), (int) actorBall.getX(), (int) actorBall.getY());
-                        actorRightHand.setPressed(true);
-                        addActor(actorRightHand);
-                    }
+                    if (actorBall.getY() > Gdx.graphics.getHeight() / 2) {
+                        if (actorRightHand == null && screenX > Gdx.graphics.getWidth() / 2) {
+                            actorRightHand = new ActorRightHand(actorBall, textures.getRightHand(), (int) actorBall.getX(), (int) actorBall.getY());
+                            actorRightHand.setPressed(true);
+                            addActor(actorRightHand);
+                        }
 
-                    if (actorLeftHand == null && screenX <= Gdx.graphics.getWidth() / 2) {
-                        actorLeftHand = new ActorLeftHand(actorBall, textures.getLeftHand(), (int) actorBall.getX(), (int) actorBall.getY());
-                        actorLeftHand.setPressed(true);
-                        addActor(actorLeftHand);
+                        if (actorLeftHand == null && screenX <= Gdx.graphics.getWidth() / 2) {
+                            actorLeftHand = new ActorLeftHand(actorBall, textures.getLeftHand(), (int) actorBall.getX(), (int) actorBall.getY());
+                            actorLeftHand.setPressed(true);
+                            addActor(actorLeftHand);
+                        }
                     }
                 }
                 return false;

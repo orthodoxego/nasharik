@@ -17,7 +17,7 @@ public class ActorBall extends Actor {
     float velocity, default_velocity = 19.8f;
     float gravity = 0.18f;
     float massa = 8f;
-    float uprugost = 50f;
+    float uprugost = 60f;
     ActorRacquet actorRacquet;
 
 
@@ -48,7 +48,7 @@ public class ActorBall extends Actor {
         super.act(delta);
 
         if (getSpeedY() != 0)
-            setRotation(getRotation() + delta * getSpeedX() * 3);
+            setRotation(getRotation() + delta * getSpeedX() * 1);
 
         setY(getY() + getSpeedY() * delta);
         setX(getX() + getSpeedX() * delta);
@@ -58,7 +58,6 @@ public class ActorBall extends Actor {
     }
 
     private boolean check_move_balls(float delta) {
-        if (getSpeedY() == 0) return false;
 
         setSpeedY(getSpeedY() + (velocity + massa * gravity) / 3);
         setSpeedX(getSpeedX() * 0.998f);

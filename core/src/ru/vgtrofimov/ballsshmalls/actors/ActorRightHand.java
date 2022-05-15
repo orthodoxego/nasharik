@@ -69,7 +69,7 @@ public class ActorRightHand extends Actor {
     public void setTime_to_death(float time_to_death) {
         if (time_to_death > 0) {
             setRotation(10);
-            actorBall.setSpeedY(actorBall.getSpeedY() - (int) (timeToPressed * GameStage.game_world_height * 0.3f));
+            actorBall.setSpeedY(actorBall.getSpeedY() - (int) (timeToPressed * GameStage.game_world_height * 0.1f));
             actorBall.setSpeedX(actorBall.getSpeedX() - (int) (timeToPressed * GameStage.game_world_width));
         }
         this.time_to_death = time_to_death;
