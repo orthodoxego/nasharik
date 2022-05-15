@@ -16,7 +16,7 @@ public class ActorBall extends Actor {
     float velocity, default_velocity = 19.8f;
     float gravity = 0.98f;
     float massa = 8f;
-    float uprugost = 50f;
+    float uprugost = 30f;
     ActorRacquet actorRacquet;
 
 
@@ -60,6 +60,7 @@ public class ActorBall extends Actor {
         if (getSpeedY() == 0) return false;
 
         setSpeedY(getSpeedY() + velocity + massa * gravity);
+        setSpeedX(getSpeedX() * 0.998f);
 
         if (getY() + getHeight() > world_height - skin.getRegionHeight()) {
             setY(world_height - getHeight() - skin.getRegionHeight() - getHeight() / 2);
@@ -70,25 +71,24 @@ public class ActorBall extends Actor {
             actorRacquet.setY_correct_to_fire(getHeight() / 2);
 
         }
-        if (getY() < 0) {
-            setY(0);
+        if (getY() < correctY) {
+            setY(correctY);
             velocity = default_velocity;
             setSpeedY(-getSpeedY());
         }
 
         if (getX() < skin.getRegionWidth() / 2) {
             setX(skin.getRegionWidth() / 2);
-            setSpeedX(-getSpeedX() * gravity);
+            setSpeedX(-getSpeedX() * 1.15f);
         }
 
         if (getX() > world_width - skin.getRegionWidth() / 2) {
             setX(world_width - skin.getRegionWidth() / 2);
-            setSpeedX(-getSpeedX() * gravity);
+            setSpeedX(-getSpeedX() * 1.15f);
         }
 
-        if (Math.abs(getSpeedY()) < world_width * 0.001f)
+        if (Math.abs(getSpeedX()) < 5f)
             setSpeedX(0);
-
         return true;
     }
 
@@ -118,6 +118,12 @@ public class ActorBall extends Actor {
 
     public void setSpeedY(float speedY) {
         this.speedY = speedY;
+    }
+
+    public void setEnergySpeedY(float speedY) {
+        if (Math.abs(speedY) > this.speedY) {
+            this.speedY = speedY;
+        }
     }
 
     public void setActorRacquet(ActorRacquet ar) {

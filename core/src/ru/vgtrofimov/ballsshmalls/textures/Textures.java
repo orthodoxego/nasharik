@@ -8,6 +8,8 @@ import ru.vgtrofimov.ballsshmalls.Balls;
 public class Textures {
 
     TextureRegion background;
+    TextureRegion timer[];
+    TextureRegion blank_timer;
 
     TextureRegion ball;
     TextureRegion ball_shadow;
@@ -20,7 +22,15 @@ public class Textures {
         background = getTextureRegionFromMap(0, 0, load.getWidth(), load.getHeight(), false, true, load);
 
         load = new Texture("png/pack.png");
-        ball = getTextureRegionFromMap(0, 0, 64, 64, true, true, load);
+
+        timer = new TextureRegion[32];
+        for (int i = 0; i < 32; i++) {
+                timer[i] = getTextureRegionFromMap(192 + i * 8, 0, 8, 32, false, true, load);
+        }
+        blank_timer = getTextureRegionFromMap(192, 32, 256, 32, false, true, load);
+
+
+        ball = getTextureRegionFromMap(0, 0, 64, 64, false, true, load);
         ball_shadow = getTextureRegionFromMap(64, 0, 64, 64, false, true, load);
 
         racquet = getTextureRegionFromMap(0, 64, 196, 64, false, true, load);
@@ -46,5 +56,13 @@ public class Textures {
 
     public TextureRegion getRacquet() {
         return racquet;
+    }
+
+    public TextureRegion[] getTimer() {
+        return timer;
+    }
+
+    public TextureRegion getBlank_timer() {
+        return blank_timer;
     }
 }
