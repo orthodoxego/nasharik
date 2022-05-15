@@ -64,10 +64,16 @@ public class ActorRacquet extends Actor {
     public void setPressed_energy(int pressed_energy) {
         if (pressed_energy != 0 && actorBall.getY() + 128 >= getY()) {
             actorBall.setY(getY() - 128);
-            actorBall.setEnergySpeedY(-pressed_energy * 200);
-            Balls.log("Energy to ball: " + (pressed_energy * 200));
+            actorBall.setEnergySpeedY(-pressed_energy * 50);
+            Balls.log("Energy to ball: " + (pressed_energy * 50));
         }
 
         this.pressed_energy = pressed_energy;
+    }
+
+
+
+    public float getY_correct_to_fire() {
+        return y_correct_to_fire;
     }
 }

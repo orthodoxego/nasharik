@@ -14,9 +14,9 @@ public class ActorBall extends Actor {
     float speedX, speedY, default_speed_x, default_speed_y;
     int world_width, world_height;
     float velocity, default_velocity = 19.8f;
-    float gravity = 0.98f;
+    float gravity = 0.18f;
     float massa = 8f;
-    float uprugost = 30f;
+    float uprugost = 50f;
     ActorRacquet actorRacquet;
 
 
@@ -59,11 +59,13 @@ public class ActorBall extends Actor {
     private boolean check_move_balls(float delta) {
         if (getSpeedY() == 0) return false;
 
-        setSpeedY(getSpeedY() + velocity + massa * gravity);
+        setSpeedY(getSpeedY() + (velocity + massa * gravity) / 3);
         setSpeedX(getSpeedX() * 0.998f);
 
-        if (getY() + getHeight() > world_height - skin.getRegionHeight()) {
-            setY(world_height - getHeight() - skin.getRegionHeight() - getHeight() / 2);
+        // if (getY() + getHeight() > world_height - skin.getRegionHeight()) {
+        if (getY() + getHeight() / 2 > actorRacquet.getY() - actorRacquet.getPressed_energy() - actorRacquet.getY_correct_to_fire()) {
+            // setY(world_height - getHeight() - skin.getRegionHeight() - getHeight() / 2);
+            setY(actorRacquet.getY() - getHeight() / 2 - actorRacquet.getPressed_energy() - actorRacquet.getY_correct_to_fire());
             setSpeedY((float) (-getSpeedY() * Math.sqrt(uprugost) / massa));
             velocity = default_velocity;
 
