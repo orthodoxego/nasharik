@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import ru.vgtrofimov.ballsshmalls.Balls;
+import ru.vgtrofimov.ballsshmalls.stages.GameStage;
 
 public class ActorBall extends Actor {
 
@@ -111,6 +112,14 @@ public class ActorBall extends Actor {
     }
 
     public void setSpeedX(float speedX) {
+
+        int modifier = 1;
+        if (speedX < 0) modifier = -1;
+
+        if (Math.abs(speedX) > GameStage.game_world_width) {
+            speedX = GameStage.game_world_width * modifier;
+        }
+
         this.speedX = speedX;
     }
 
@@ -119,6 +128,14 @@ public class ActorBall extends Actor {
     }
 
     public void setSpeedY(float speedY) {
+
+        int modifier = 1;
+        if (speedY < 0) modifier = -1;
+
+        if (Math.abs(speedY) > GameStage.game_world_height / 10) {
+            speedY = GameStage.game_world_height / 10 * modifier;
+        }
+
         this.speedY = speedY;
     }
 

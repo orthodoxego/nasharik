@@ -15,6 +15,8 @@ public class Textures {
     TextureRegion ball_shadow;
     TextureRegion racquet;
 
+    TextureRegion leftHand, rightHand;
+
     public Textures() {
         Texture load;
 
@@ -22,6 +24,9 @@ public class Textures {
         background = getTextureRegionFromMap(0, 0, load.getWidth(), load.getHeight(), false, true, load);
 
         load = new Texture("png/pack.png");
+
+        leftHand = getTextureRegionFromMap(0, 128, 32, 64, false, true, load);
+        rightHand = getTextureRegionFromMap(32, 128, 32, 64, false, true, load);
 
         timer = new TextureRegion[32];
         for (int i = 0; i < 32; i++) {
@@ -64,5 +69,13 @@ public class Textures {
 
     public TextureRegion getBlank_timer() {
         return blank_timer;
+    }
+
+    public TextureRegion getLeftHand() {
+        return leftHand;
+    }
+
+    public TextureRegion getRightHand() {
+        return rightHand;
     }
 }

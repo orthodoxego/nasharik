@@ -8,7 +8,9 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import ru.vgtrofimov.ballsshmalls.Balls;
 import ru.vgtrofimov.ballsshmalls.actors.ActorBackground;
 import ru.vgtrofimov.ballsshmalls.actors.ActorBall;
+import ru.vgtrofimov.ballsshmalls.actors.ActorLeftHand;
 import ru.vgtrofimov.ballsshmalls.actors.ActorRacquet;
+import ru.vgtrofimov.ballsshmalls.actors.ActorRightHand;
 import ru.vgtrofimov.ballsshmalls.actors.ActorTimer;
 import ru.vgtrofimov.ballsshmalls.screens.GameScreen;
 import ru.vgtrofimov.ballsshmalls.settings.Setup;
@@ -17,12 +19,15 @@ import ru.vgtrofimov.ballsshmalls.textures.Textures;
 public class GameStage extends StageParent {
 
     Textures textures;
-    int game_world_width, game_world_height;
+    InputProcessor inputProcessor;
+    public static int game_world_width, game_world_height;
 
     ActorBall actorBall;
     ActorRacquet actorRacquet;
     int correct_camera_y;
 
+    ActorRightHand actorRightHand;
+    ActorLeftHand actorLeftHand;
     ActorTimer actorTimer;
 
     public GameStage(GameScreen gameScreen, Viewport viewport, OrthographicCamera camera, Textures textures) {
@@ -35,7 +40,8 @@ public class GameStage extends StageParent {
     }
 
     private void reset() {
-        Gdx.input.setInputProcessor(new InputProcessor() {
+
+        inputProcessor = new InputProcessor() {
             @Override
             public boolean keyDown(int keycode) {
                 return false;
@@ -56,6 +62,18 @@ public class GameStage extends StageParent {
                 if (actorTimer != null) {
                     actorTimer.setRandomFrame();
                     actorTimer.setPressed(true);
+                } else {
+                    if (actorRightHand == null && screenX > Gdx.graphics.getWidth() / 2) {
+                        actorRightHand = new ActorRightHand(actorBall, textures.getRightHand(), (int) actorBall.getX(), (int) actorBall.getY());
+                        actorRightHand.setPressed(true);
+                        addActor(actorRightHand);
+                    }
+
+                    if (actorLeftHand == null && screenX <= Gdx.graphics.getWidth() / 2) {
+                        actorLeftHand = new ActorLeftHand(actorBall, textures.getLeftHand(), (int) actorBall.getX(), (int) actorBall.getY());
+                        actorLeftHand.setPressed(true);
+                        addActor(actorLeftHand);
+                    }
                 }
                 return false;
             }
@@ -66,6 +84,17 @@ public class GameStage extends StageParent {
                     actorTimer.setPressed(false);
                     actorRacquet.setPressed_energy(actorTimer.getFrame());
                 }
+
+                if (actorRightHand != null && actorRightHand.isPressed()) {
+                    actorRightHand.setPressed(false);
+                    actorRightHand.setTime_to_death(0.1f);
+                }
+
+                if (actorLeftHand != null && actorLeftHand.isPressed()) {
+                    actorLeftHand.setPressed(false);
+                    actorLeftHand.setTime_to_death(0.1f);
+                }
+
                 return false;
             }
 
@@ -83,7 +112,10 @@ public class GameStage extends StageParent {
             public boolean scrolled(float amountX, float amountY) {
                 return false;
             }
-        });
+        };
+
+        Gdx.input.setInputProcessor(inputProcessor);
+
         correct_camera_y = 128;
         addActors();
     }
@@ -112,7 +144,33 @@ public class GameStage extends StageParent {
     public void act(float delta) {
         super.act(delta);
 
+        if (actorRightHand != null) {
+            actorRightHand.setX(actorBall.getX() - 2);
+            actorRightHand.setY(actorBall.getY() + 16);
+            if (!actorRightHand.isEnabled()) {
+                actorRightHand.remove();
+                actorRightHand = null;
+            }
+        }
+
+        if (actorLeftHand != null) {
+            actorLeftHand.setX(actorBall.getX() - 30);
+            actorLeftHand.setY(actorBall.getY() + 16);
+            if (!actorLeftHand.isEnabled()) {
+                actorLeftHand.remove();
+                actorLeftHand = null;
+            }
+        }
+
+
+        calc_camera_pos(delta);
+    }
+
+    private void calc_camera_pos(float delta) {
+        /** РАСЧЁТ ПОЗИЦИИ КАМЕРЫ */
+
         if (actorTimer != null) actorTimer.setX(actorRacquet.getX() - 32);
+
 
         /**
          * Это какой-то пипец с расчётами камеры.
@@ -166,7 +224,6 @@ public class GameStage extends StageParent {
 
         camera.position.set(cam_pos_x,cam_pos_y + correct_camera_y, 0);
         camera.update();
-
     }
 
     @Override
