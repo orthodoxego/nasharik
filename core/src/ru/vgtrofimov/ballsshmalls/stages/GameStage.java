@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import ru.vgtrofimov.ballsshmalls.Balls;
 import ru.vgtrofimov.ballsshmalls.actors.ActorBackground;
 import ru.vgtrofimov.ballsshmalls.actors.ActorBall;
+import ru.vgtrofimov.ballsshmalls.actors.ActorFruit;
 import ru.vgtrofimov.ballsshmalls.actors.ActorLeftHand;
 import ru.vgtrofimov.ballsshmalls.actors.ActorRacquet;
 import ru.vgtrofimov.ballsshmalls.actors.ActorRightHand;
@@ -64,13 +65,13 @@ public class GameStage extends StageParent {
                     actorTimer.setPressed(true);
                 } else {
                     if (actorBall.getY() > Gdx.graphics.getHeight() / 2) {
-                        if (actorRightHand == null && screenX > Gdx.graphics.getWidth() / 2) {
+                        if (actorRightHand == null && actorLeftHand == null && screenX > Gdx.graphics.getWidth() / 2) {
                             actorRightHand = new ActorRightHand(actorBall, textures.getRightHand(), (int) actorBall.getX(), (int) actorBall.getY());
                             actorRightHand.setPressed(true);
                             addActor(actorRightHand);
                         }
 
-                        if (actorLeftHand == null && screenX <= Gdx.graphics.getWidth() / 2) {
+                        if (actorLeftHand == null && actorRightHand == null && screenX <= Gdx.graphics.getWidth() / 2) {
                             actorLeftHand = new ActorLeftHand(actorBall, textures.getLeftHand(), (int) actorBall.getX(), (int) actorBall.getY());
                             actorLeftHand.setPressed(true);
                             addActor(actorLeftHand);
@@ -139,7 +140,18 @@ public class GameStage extends StageParent {
 
         addActor(actorBackground);
         addActor(actorRacquet);
+
+        for (int i = 0; i < 30; i++) {
+            ActorFruit actorFruit = new ActorFruit(textures.getFruits()[(int) (Math.random() * textures.getFruits().length)],
+                    textures.getCircle(),
+                    (int) (Math.random() * game_world_width), (int) (Math.random() * game_world_height),
+                    0, 0);
+            addActor(actorFruit);
+        }
+
         addActor(actorBall);
+
+
     }
 
     @Override
@@ -214,7 +226,7 @@ public class GameStage extends StageParent {
 
         if (actorBall.getY() > game_world_height - camera.viewportHeight) {
             if (actorTimer == null) {
-                actorTimer = new ActorTimer(textures.getTimer(), textures.getBlank_timer(), (int) actorRacquet.getX() - 32, (int) (actorRacquet.getY() + 64));
+                actorTimer = new ActorTimer(textures.getTimer(), textures.getBlank_timer(), (int) actorRacquet.getX() - 32, (int) (actorRacquet.getY() + 48));
                 addActor(actorTimer);
             }
         } else {

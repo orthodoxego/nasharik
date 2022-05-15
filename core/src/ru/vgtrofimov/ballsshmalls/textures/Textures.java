@@ -8,8 +8,11 @@ import ru.vgtrofimov.ballsshmalls.Balls;
 public class Textures {
 
     TextureRegion background;
+    TextureRegion circle;
     TextureRegion timer[];
     TextureRegion blank_timer;
+
+    TextureRegion fruits[];
 
     TextureRegion ball;
     TextureRegion ball_shadow;
@@ -27,6 +30,14 @@ public class Textures {
 
         leftHand = getTextureRegionFromMap(0, 128, 32, 64, false, true, load);
         rightHand = getTextureRegionFromMap(32, 128, 32, 64, false, true, load);
+        circle = getTextureRegionFromMap(196, 64, 64, 64, false, true, load);
+
+        fruits = new TextureRegion[14];
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 7; j++) {
+                fruits[i * 7 + j] = getTextureRegionFromMap(64 + j * 64, 128 + i * 64, 64, 64, false, true, load);
+            }
+        }
 
         timer = new TextureRegion[32];
         for (int i = 0; i < 32; i++) {
@@ -77,5 +88,13 @@ public class Textures {
 
     public TextureRegion getRightHand() {
         return rightHand;
+    }
+
+    public TextureRegion[] getFruits() {
+        return fruits;
+    }
+
+    public TextureRegion getCircle() {
+        return circle;
     }
 }
