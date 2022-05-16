@@ -224,7 +224,7 @@ public class GameStage extends StageParent {
         if (correct_camera_y > camera.viewportHeight / 1) correct_camera_y = (int) (camera.viewportHeight / 1);
         if (correct_camera_y < -camera.viewportHeight / 3) correct_camera_y = (int) -(camera.viewportHeight / 3);
 
-        if (actorBall.getY() > game_world_height - camera.viewportHeight) {
+        if (actorBall.getY() > game_world_height - camera.viewportHeight / 2) {
             if (actorTimer == null) {
                 actorTimer = new ActorTimer(textures.getTimer(), textures.getBlank_timer(), (int) actorRacquet.getX() - 32, (int) (actorRacquet.getY() + 48));
                 addActor(actorTimer);

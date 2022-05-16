@@ -71,8 +71,12 @@ public class ActorBall extends Actor {
 
             if (Math.abs(getSpeedY()) < world_height * 0.03f) setSpeedY(0);
             actorRacquet.setY_correct_to_fire(getHeight() / 2);
-
         }
+
+        if (getY() + getHeight() / 2 > actorRacquet.getY() - actorRacquet.getPressed_energy() - actorRacquet.getY_correct_to_fire() * 3) {
+            setY(actorRacquet.getY() - actorRacquet.getPressed_energy() - actorRacquet.getY_correct_to_fire() * 3 - getHeight() / 2);
+        }
+
         if (getY() < correctY) {
             setY(correctY);
             velocity = default_velocity;

@@ -10,7 +10,7 @@ public class ActorTimer extends Actor {
     TextureRegion[] skin;
     TextureRegion skin_blank;
     int frame;
-    float timerFrame = 0.05f;
+    float timerFrame = 0.01f;
     float timerDelta = 0;
     int correctX, correctY;
     boolean enabled;
