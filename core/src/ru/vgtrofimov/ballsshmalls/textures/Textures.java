@@ -3,8 +3,6 @@ package ru.vgtrofimov.ballsshmalls.textures;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
-import ru.vgtrofimov.ballsshmalls.Balls;
-
 public class Textures {
 
     TextureRegion background;
@@ -12,7 +10,7 @@ public class Textures {
     TextureRegion timer[];
     TextureRegion blank_timer;
 
-    TextureRegion fruits[];
+    TextureRegion shapes[];
 
     TextureRegion ball;
     TextureRegion ball_shadow;
@@ -32,9 +30,9 @@ public class Textures {
         rightHand = getTextureRegionFromMap(32, 128, 32, 64, false, true, load);
         circle = getTextureRegionFromMap(196, 64, 64, 64, false, true, load);
 
-        fruits = new TextureRegion[7];
+        shapes = new TextureRegion[7];
         for (int i = 0; i < 7; i++) {
-            fruits[i] = getTextureRegionFromMap(64 + i * 64, 128, 64, 64, false, true, load);
+            shapes[i] = getTextureRegionFromMap(64 + i * 64, 128, 64, 64, false, true, load);
         }
 
         timer = new TextureRegion[32];
@@ -88,8 +86,8 @@ public class Textures {
         return rightHand;
     }
 
-    public TextureRegion[] getFruits() {
-        return fruits;
+    public TextureRegion[] getShapes() {
+        return shapes;
     }
 
     public TextureRegion getCircle() {

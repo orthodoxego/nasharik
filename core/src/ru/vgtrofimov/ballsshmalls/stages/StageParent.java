@@ -7,14 +7,16 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ru.vgtrofimov.ballsshmalls.screens.GameScreen;
+import ru.vgtrofimov.ballsshmalls.settings.Setup;
 
 public class StageParent extends Stage {
-
+    Setup setup;
     GameScreen gameScreen;
     OrthographicCamera camera;
 
-    public StageParent(GameScreen gameScreen, Viewport viewport, OrthographicCamera camera) {
+    public StageParent(GameScreen gameScreen, Setup setup, Viewport viewport, OrthographicCamera camera) {
         this.gameScreen = gameScreen;
+        this.setup = setup;
         this.setViewport(viewport);
         this.camera = camera;
     }

@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ru.vgtrofimov.ballsshmalls.screens.GameScreen;
+import ru.vgtrofimov.ballsshmalls.settings.Font;
 import ru.vgtrofimov.ballsshmalls.settings.GdxViewport;
 import ru.vgtrofimov.ballsshmalls.settings.Setup;
 import ru.vgtrofimov.ballsshmalls.textures.Textures;
@@ -20,12 +21,17 @@ public class Balls extends ApplicationAdapter {
 	private Viewport viewport;
 	private AssetManager manager;
 
+	// Настройки
+	Setup setup;
+
 	// Игровые классы
 	GameScreen gameScreen;
 	Textures textures;
 
 	// Пауза
 	boolean pause = false;
+
+	public static Font font;
 	
 	@Override
 	public void create () {
@@ -36,8 +42,11 @@ public class Balls extends ApplicationAdapter {
 
 		manager = new AssetManager();
 		textures = new Textures();
+		setup = new Setup();
 
-		gameScreen = new GameScreen(this, viewport, camera, manager, textures);
+		font = new Font();
+
+		gameScreen = new GameScreen(this, setup, viewport, camera, manager, textures);
 
 	}
 

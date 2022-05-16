@@ -33,7 +33,7 @@ public class ActorBall extends Actor {
         setY(y);
         setBounds(x, y, getWidth(), getHeight());
         setOrigin(32, 32);
-        setScale(0.8f, 0.8f);
+        setScale(0.9f, 0.9f);
         this.default_speed_x = speedX;
         this.default_speed_y = speedY;
         setSpeedX(default_speed_x);

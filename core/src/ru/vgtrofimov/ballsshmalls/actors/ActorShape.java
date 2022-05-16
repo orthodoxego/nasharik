@@ -6,9 +6,10 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import ru.vgtrofimov.ballsshmalls.Balls;
 
-public class ActorFruit extends Actor {
+public class ActorShape extends Actor {
 
     TextureRegion skin;
+    int number_shape;
     TextureRegion background;
     int score;
     boolean enabled = true;
@@ -16,15 +17,24 @@ public class ActorFruit extends Actor {
     float angle = 0, max_angle = 45, count_angle = 66;
     float speedX, speedY;
     int correctX, correctY;
+    int centerX, centerY, maxX, maxY;
+    int widthScreen, heightScreen;
 
-    public ActorFruit(TextureRegion skin, TextureRegion background, float x, float y, float speedX, float speedY) {
+    public ActorShape(TextureRegion skin, int number_shape, TextureRegion background, float x, float y, float speedX, float speedY, int maxX, int maxY, int widthScreen, int heightScreen) {
         this.skin = skin;
+        this.number_shape = number_shape;
         this.background = background;
         this.speedX = speedX;
         this.speedY = speedY;
+        this.maxX = maxX;
+        this.maxY = maxY;
+        this.centerX = (int) x;
+        this.centerY = (int) y;
+        this.widthScreen = widthScreen;
+        this.heightScreen = heightScreen;
         setWidth(skin.getRegionWidth()); setHeight(skin.getRegionHeight());
         setX(x); setY(y);
-        setScale(0.75f, 0.75f);
+        setScale(0.9f, 0.9f);
         setOrigin(getWidth() / 2, getHeight() / 2);
         setRotation(angle);
         correctX = (int) (getWidth() / 2); correctY = (int) (getHeight() / 2);
@@ -34,21 +44,44 @@ public class ActorFruit extends Actor {
     @Override
     public void act(float delta) {
         super.act(delta);
+        if (enabled) move(delta);
+    }
 
+    private void move(float delta) {
         setRotation(angle);
         angle += count_angle * delta;
         if (Math.abs(angle) > max_angle) {
             count_angle *= -1;
         }
+
+        setX(getX() + speedX * delta);
+        setY(getY() + speedY * delta);
+        check_coord(delta);
+    }
+
+    private void check_coord(float delta) {
+        if (getX() > widthScreen - getWidth() || getX() < getWidth()
+        || getX() > centerX + maxX || getX() < centerX - maxX) {
+            setSpeedX(-getSpeedX());
+            setX(getX() + getSpeedX() * delta);
+        }
+
+        if (getY() > heightScreen - getHeight() || getY() < getHeight() ||
+        getY() > centerY + maxY || getY() < centerY - maxY) {
+            setSpeedY(-getSpeedY());
+            setY(getY() + speedY * delta);
+        }
+
+
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
 
-        // batch.draw(background, getX() - correctX, getY() - correctY, getOriginX(), getOriginY(), background.getRegionWidth(), background.getRegionHeight(), getScaleX() + 0.2f, getScaleY() + 0.2f, 0);
-        batch.draw(skin, getX() - correctX, getY() - correctY, getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
-
+        if (enabled) {
+            batch.draw(skin, getX() - correctX, getY() - correctY, getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
+        }
 
     }
 
@@ -90,5 +123,20 @@ public class ActorFruit extends Actor {
 
     public void setSpeedY(float speedY) {
         this.speedY = speedY;
+    }
+
+    public int getNumber_shape() {
+        return number_shape;
+    }
+
+    public boolean isCollision(ActorBall actorBall) {
+        /** Проверка столкновения с шаром. */
+        int a = (int) Math.abs(actorBall.getX() - getX());
+        int b = (int) Math.abs(actorBall.getY() - getY());
+        int c = (int) Math.pow(a * a + b * b, 0.5f);
+        if (c < actorBall.getWidth() * 0.75f) {
+            return true;
+        }
+        return false;
     }
 }

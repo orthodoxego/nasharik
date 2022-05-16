@@ -5,34 +5,43 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.util.Vector;
+
 import ru.vgtrofimov.ballsshmalls.Balls;
 import ru.vgtrofimov.ballsshmalls.actors.ActorBackground;
 import ru.vgtrofimov.ballsshmalls.actors.ActorBall;
-import ru.vgtrofimov.ballsshmalls.actors.ActorFruit;
+import ru.vgtrofimov.ballsshmalls.actors.ActorShape;
 import ru.vgtrofimov.ballsshmalls.actors.ActorLeftHand;
 import ru.vgtrofimov.ballsshmalls.actors.ActorRacquet;
 import ru.vgtrofimov.ballsshmalls.actors.ActorRightHand;
+import ru.vgtrofimov.ballsshmalls.actors.ActorShapeLine;
 import ru.vgtrofimov.ballsshmalls.actors.ActorTimer;
 import ru.vgtrofimov.ballsshmalls.screens.GameScreen;
+import ru.vgtrofimov.ballsshmalls.settings.Score;
 import ru.vgtrofimov.ballsshmalls.settings.Setup;
 import ru.vgtrofimov.ballsshmalls.textures.Textures;
 
 public class GameStage extends StageParent {
 
+    Score score;
     Textures textures;
     InputProcessor inputProcessor;
     public static int game_world_width, game_world_height;
 
     ActorBall actorBall;
     ActorRacquet actorRacquet;
+    ActorShapeLine actorShapeLine;
     int correct_camera_y;
+
+    Vector<ActorShape> actorShape;
 
     ActorRightHand actorRightHand;
     ActorLeftHand actorLeftHand;
     ActorTimer actorTimer;
 
-    public GameStage(GameScreen gameScreen, Viewport viewport, OrthographicCamera camera, Textures textures) {
-        super(gameScreen, viewport, camera);
+    public GameStage(GameScreen gameScreen, Setup setup, Viewport viewport, OrthographicCamera camera, Textures textures) {
+        super(gameScreen, setup, viewport, camera);
+
         this.textures = textures;
 
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -120,6 +129,7 @@ public class GameStage extends StageParent {
         Gdx.input.setInputProcessor(inputProcessor);
 
         correct_camera_y = 128;
+        score = new Score(setup);
         addActors();
     }
 
@@ -141,23 +151,82 @@ public class GameStage extends StageParent {
         addActor(actorBackground);
         addActor(actorRacquet);
 
-        for (int i = 0; i < 30; i++) {
-            ActorFruit actorFruit = new ActorFruit(textures.getFruits()[(int) (Math.random() * textures.getFruits().length)],
+
+        /***************************************************************************
+         ********* ДОБАВЛЕНИЕ ФИГУР И ФОРМИРОВАНИЕ СПИСКА ПОСЛЕДОВАТЕЛЬНОСТИ ******* 16/05/22
+         **************************************************************************/
+
+        int speed[] = {-10, -20, -30, 30, 20, 10};
+        int number = 15;
+        int[] shapes = new int[number];
+
+        int line = (int) ((game_world_height * 0.9f) / number);
+
+        actorShape = new Vector<>();
+
+        for (int i = 0; i < number; i++) {
+            int shp = (int) (Math.random() * textures.getShapes().length);
+            shapes[i] = shp;
+            actorShape.add(new ActorShape(textures.getShapes()[shp], shp,
                     textures.getCircle(),
-                    (int) (Math.random() * game_world_width), (int) (Math.random() * game_world_height),
-                    0, 0);
-            addActor(actorFruit);
+                    64 + (int) (Math.random() * (game_world_width - 128)), line * i + (int) (Math.random() * line),
+                    speed[(int) (Math.random() * speed.length)], speed[(int) (Math.random() * speed.length)],
+                    100 + (int) (Math.random() * 200), 50 + (int) (Math.random() * 50),
+                    game_world_width, game_world_height)
+                    );
+            addActor(actorShape.lastElement());
         }
+
+        shapes = shuffleShapes(shapes);
+        score.createTask(shapes);
 
         addActor(actorBall);
 
+        actorShapeLine = new ActorShapeLine(textures.getShapes(), score);
+        addActor(actorShapeLine);
+    }
 
+    private int[] shuffleShapes(int[] sh) {
+        for (int i = 0; i < sh.length * 3; i++) {
+            int pos1 = (int) (Math.random() * sh.length);
+            int pos2 = (int) (Math.random() * sh.length);
+            int tmp = sh[pos1];
+            sh[pos2] = sh[pos1];
+            sh[pos1] = tmp;
+        }
+        return sh;
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
 
+        checkHand();
+        calc_camera_pos(delta);
+
+        check_collision_player_and_shape();
+
+        if (actorShapeLine != null) {
+            actorShapeLine.setX(camera.position.x - camera.viewportWidth / 2);
+            actorShapeLine.setY(camera.position.y - camera.viewportHeight / 2);
+        }
+    }
+
+    private void check_collision_player_and_shape() {
+        for (ActorShape ash : actorShape) {
+            if (ash.isEnabled() && ash.isCollision(actorBall)) {
+                if (score.checkShape(ash.getNumber_shape())) {
+                    score.addScore(1);
+                } else {
+                    score.decScore(3);
+                }
+                ash.setEnabled(false);
+            }
+        }
+    }
+
+
+    private void checkHand() {
         if (actorRightHand != null) {
             actorRightHand.setX(actorBall.getX() - 2);
             actorRightHand.setY(actorBall.getY() + 16);
@@ -175,9 +244,6 @@ public class GameStage extends StageParent {
                 actorLeftHand = null;
             }
         }
-
-
-        calc_camera_pos(delta);
     }
 
     private void calc_camera_pos(float delta) {
