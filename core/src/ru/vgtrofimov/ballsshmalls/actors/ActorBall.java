@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import ru.vgtrofimov.ballsshmalls.Balls;
+import ru.vgtrofimov.ballsshmalls.settings.Font;
 import ru.vgtrofimov.ballsshmalls.stages.GameStage;
 
 public class ActorBall extends Actor {
@@ -108,6 +109,8 @@ public class ActorBall extends Actor {
         batch.setColor(1, 1, 1, parentAlpha);
         batch.draw(skin, getX() - correctX, getY() - correctY, getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
         batch.draw(shadow, getX() - correctX, getY() - correctY, getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), 0);
+
+        // Font.play_regular_14px.draw(batch, "" + speedY, 100, getY() + 100);
     }
 
     public float getSpeedX() {

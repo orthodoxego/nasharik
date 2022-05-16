@@ -21,7 +21,7 @@ public class ActorRightHand extends Actor {
         this.skin = skin;
         setX(x); setY(y); // setBounds(getX(), getY(), skin.getRegionWidth(), skin.getRegionHeight());
         setWidth(skin.getRegionWidth()); setHeight(skin.getRegionHeight());
-        setOrigin(getWidth(), getHeight()); setScale(1, 1);
+        setOrigin(getWidth() / 2, getHeight() / 2); setScale(1, 1);
         setRotation(33);
     }
 
@@ -41,13 +41,14 @@ public class ActorRightHand extends Actor {
             if (timeToPressed > 1.5f) {
                 enabled = false;
             }
+            setRotation(getRotation() + timeToPressed);
         }
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-        batch.draw(skin, getX(), getY(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
+        batch.draw(skin, getX() + timeToPressed * 10, getY() - timeToPressed * 10, getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
     }
 
     public boolean isPressed() {
@@ -73,5 +74,6 @@ public class ActorRightHand extends Actor {
             actorBall.setSpeedX(actorBall.getSpeedX() - (int) (timeToPressed * GameStage.game_world_width));
         }
         this.time_to_death = time_to_death;
+        timeToPressed = 0;
     }
 }

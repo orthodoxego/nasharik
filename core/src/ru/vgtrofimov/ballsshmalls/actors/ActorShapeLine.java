@@ -19,7 +19,7 @@ public class ActorShapeLine extends Actor {
         this.score = score;
         rotate = new float[score.getTask().length];
         for (int i = 0; i < rotate.length; i++) {
-            rotate[i] = i * (int) (360 / rotate.length);
+            rotate[i] = i * (360 / rotate.length);
         }
     }
 

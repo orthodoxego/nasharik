@@ -1,5 +1,7 @@
 package ru.vgtrofimov.ballsshmalls.settings;
 
+import java.util.Vector;
+
 import ru.vgtrofimov.ballsshmalls.Balls;
 
 public class Score {
@@ -12,16 +14,17 @@ public class Score {
 
     public Score(Setup setup) {
         this.setup = setup;
+        nextLevel();
         restart();
     }
 
-    private void restart() {
-        lives = 3;
-        currentShape = 0;
+    public void nextLevel() {
         setup.setLevel(setup.getLevel() + 1);
-        int count_shapes_grabbed = Math.min(Math.max(5, setup.getLevel() * 3 - 1), 9);
-        count_shapes_grabbed = 9;
-        task = new Task[count_shapes_grabbed];
+        lives = 3;
+    }
+
+    public void restart() {
+        currentShape = 0;
     }
 
     /** В момент добавления фигур на сцену создаётся случайная последовательность. **/
@@ -29,9 +32,10 @@ public class Score {
         task[num] = new Task(shape, false);
     }
 
-    public void createTask(int[] sh) {
-        for (int i = 0; i < task.length; i++) {
-            setTask(i, sh[i]);
+    public void createTask(Vector<Integer> sh) {
+        task = new Task[sh.size()];
+        for (int i = 0; i < sh.size(); i++) {
+            setTask(i, sh.elementAt(i));
         }
     }
 
@@ -60,7 +64,7 @@ public class Score {
     }
 
     public boolean checkShape(int number_shape) {
-        if (number_shape == task[currentShape].number_shape) {
+        if (number_shape < task.length && number_shape == task[currentShape].number_shape) {
             task[currentShape].setGrabbed(true);
             currentShape += 1;
             return true;
@@ -68,7 +72,6 @@ public class Score {
         return false;
     }
     public void addScore(int i) {
-        Balls.log("Score added");
         this.score += i;
     }
 

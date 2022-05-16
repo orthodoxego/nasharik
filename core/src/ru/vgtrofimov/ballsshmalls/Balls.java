@@ -51,7 +51,7 @@ public class Balls extends ApplicationAdapter {
 	}
 
 	public static Balls self() {
-		/** Возвращает главный класс игры из любого места. **/
+		/* Возвращает главный класс игры из любого места. */
 		return (Balls) Gdx.app.getApplicationListener();
 	}
 

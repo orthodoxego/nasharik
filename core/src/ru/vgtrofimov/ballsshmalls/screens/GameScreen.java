@@ -47,7 +47,7 @@ public class GameScreen implements Screen {
 
     @Override
     public void render(float delta) {
-        /** Отрисует текущую сцену Stage. **/
+        /* Отрисует текущую сцену Stage. */
 
         camera.update();
         ScreenUtils.clear(0, 0, 0, 1);

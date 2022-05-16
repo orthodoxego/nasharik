@@ -39,7 +39,6 @@ public class ActorRacquet extends Actor {
             if (pressed_energy > 0) pressed_energy *= 0.98f;
             if (pressed_energy < 1) pressed_energy = 0;
         }
-
     }
 
     @Override

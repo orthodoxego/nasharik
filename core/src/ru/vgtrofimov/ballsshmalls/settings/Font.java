@@ -10,7 +10,7 @@ public class Font {
 
     FreeTypeFontGenerator play_regular;
     FreeTypeFontGenerator play_bold;
-    GlyphLayout glyphLayout;
+    public static GlyphLayout glyphLayout;
 
     public static BitmapFont play_bold_14px;
     public static BitmapFont play_regular_14px;
@@ -41,8 +41,8 @@ public class Font {
 
     }
 
-    public GlyphLayout getGlyphLayout() {
-        return this.glyphLayout;
+    public static GlyphLayout getGlyphLayout() {
+        return glyphLayout;
     }
 
 }
