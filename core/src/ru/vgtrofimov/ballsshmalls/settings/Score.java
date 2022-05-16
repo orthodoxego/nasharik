@@ -64,9 +64,13 @@ public class Score {
     }
 
     public boolean checkShape(int number_shape) {
-        if (number_shape < task.length && number_shape == task[currentShape].number_shape) {
+        if (currentShape == GameConstant.WIN) return true;
+        if (number_shape == task[currentShape].number_shape) {
             task[currentShape].setGrabbed(true);
             currentShape += 1;
+            if (currentShape == task.length) {
+                currentShape = GameConstant.WIN;
+            }
             return true;
         }
         return false;
@@ -78,5 +82,13 @@ public class Score {
     public void decScore(int i) {
         this.score -= i;
         if (this.score < 0) this.score = 0;
+    }
+
+    public int getCurrentShape() {
+        return currentShape;
+    }
+
+    public int getLevel() {
+        return setup.getLevel();
     }
 }

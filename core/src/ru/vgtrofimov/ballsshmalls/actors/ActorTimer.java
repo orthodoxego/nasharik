@@ -24,7 +24,7 @@ public class ActorTimer extends Actor {
         setY(y);
         setRotation(0);
         setWidth(skin[frame].getRegionWidth());
-        setHeight(skin[frame].getRegionHeight());
+        setHeight(skin[frame].getRegionHeight() / 3.0f);
         setBounds(x, y, getWidth(), getHeight());
         setScale(1f, 1f);
         correctX = (int) (getWidth() / 2);

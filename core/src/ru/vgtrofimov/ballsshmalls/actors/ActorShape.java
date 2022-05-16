@@ -10,7 +10,6 @@ public class ActorShape extends Actor {
 
     TextureRegion skin;
     int number_shape;
-    TextureRegion background;
     int score;
     boolean enabled = true;
     boolean scored = true;
@@ -20,10 +19,9 @@ public class ActorShape extends Actor {
     int centerX, centerY, maxX, maxY;
     int widthScreen, heightScreen;
 
-    public ActorShape(TextureRegion skin, int number_shape, TextureRegion background, float x, float y, float speedX, float speedY, int maxX, int maxY, int widthScreen, int heightScreen) {
+    public ActorShape(TextureRegion skin, int number_shape, float x, float y, float speedX, float speedY, int maxX, int maxY, int widthScreen, int heightScreen) {
         this.skin = skin;
         this.number_shape = number_shape;
-        this.background = background;
         this.speedX = speedX;
         this.speedY = speedY;
         this.maxX = maxX;

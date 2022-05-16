@@ -27,14 +27,17 @@ public class Font {
         parameter.flip = true;
         parameter.kerning = true;
         parameter.size = (int) (GdxViewport.FIXED_BLOCK * 1.6f);
-        parameter.borderWidth = 1;
+        parameter.borderWidth = 0;
         parameter.borderStraight = true;
         parameter.spaceX = 0;
         parameter.borderColor = Color.valueOf("3b8686");
         parameter.color = Color.valueOf("e7da83");
 
-        play_bold_14px = play_bold.generateFont(parameter);
         play_regular_14px = play_regular.generateFont(parameter);
+
+        parameter.borderColor = Color.valueOf("df9b62");
+        parameter.color = Color.valueOf("df9b62");
+        play_bold_14px = play_bold.generateFont(parameter);
 
         play_regular.dispose();
         play_bold.dispose();

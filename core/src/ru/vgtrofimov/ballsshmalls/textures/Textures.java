@@ -6,9 +6,10 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 public class Textures {
 
     TextureRegion background;
-    TextureRegion circle;
     TextureRegion timer[];
     TextureRegion blank_timer;
+    TextureRegion blackHole;
+    TextureRegion winHole;
 
     TextureRegion shapes[];
 
@@ -28,7 +29,8 @@ public class Textures {
 
         leftHand = getTextureRegionFromMap(0, 128, 32, 64, false, true, load);
         rightHand = getTextureRegionFromMap(32, 128, 32, 64, false, true, load);
-        circle = getTextureRegionFromMap(196, 64, 64, 64, false, true, load);
+        blackHole = getTextureRegionFromMap(256, 64, 64, 64, false, true, load);
+        winHole = getTextureRegionFromMap(384, 64, 64, 64, false, true, load);
 
         shapes = new TextureRegion[7];
         for (int i = 0; i < 7; i++) {
@@ -90,7 +92,11 @@ public class Textures {
         return shapes;
     }
 
-    public TextureRegion getCircle() {
-        return circle;
+    public TextureRegion getBlackHole() {
+        return blackHole;
+    }
+
+    public TextureRegion getWinHole() {
+        return winHole;
     }
 }

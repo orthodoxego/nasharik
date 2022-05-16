@@ -20,6 +20,7 @@ import ru.vgtrofimov.ballsshmalls.actors.ActorShapeLine;
 import ru.vgtrofimov.ballsshmalls.actors.ActorTextMoveYtoY;
 import ru.vgtrofimov.ballsshmalls.actors.ActorTimer;
 import ru.vgtrofimov.ballsshmalls.screens.GameScreen;
+import ru.vgtrofimov.ballsshmalls.settings.GameConstant;
 import ru.vgtrofimov.ballsshmalls.settings.Levels;
 import ru.vgtrofimov.ballsshmalls.settings.PositionUnit;
 import ru.vgtrofimov.ballsshmalls.settings.Score;
@@ -98,13 +99,13 @@ public class GameStage extends StageParent {
                     actorTimer.setPressed(true);
                 } else {
                     if (actorBall.getY() > camera.viewportHeight / 3) {
-                        if (actorRightHand == null && actorLeftHand == null && screenX > game_world_width / 2) {
+                        if (actorRightHand == null && actorLeftHand == null && screenX > Gdx.graphics.getWidth() / 2) {
                             actorRightHand = new ActorRightHand(actorBall, textures.getRightHand(), (int) actorBall.getX(), (int) actorBall.getY());
                             actorRightHand.setPressed(true);
                             addActor(actorRightHand);
                         }
 
-                        if (actorLeftHand == null && actorRightHand == null && screenX <= game_world_width / 2) {
+                        if (actorLeftHand == null && actorRightHand == null && screenX <= Gdx.graphics.getWidth() / 2) {
                             actorLeftHand = new ActorLeftHand(actorBall, textures.getLeftHand(), (int) actorBall.getX(), (int) actorBall.getY());
                             actorLeftHand.setPressed(true);
                             addActor(actorLeftHand);
@@ -181,7 +182,7 @@ public class GameStage extends StageParent {
 
         addActor(actorBall);
 
-        actorShapeLine = new ActorShapeLine(textures.getShapes(), score);
+        actorShapeLine = new ActorShapeLine(textures.getShapes(), score, (int) camera.viewportHeight);
         addActor(actorShapeLine);
     }
 
@@ -199,7 +200,6 @@ public class GameStage extends StageParent {
 
         for (PositionUnit pu : level) {
             actorShape.add(new ActorShape(textures.getShapes()[pu.code], pu.code,
-                    textures.getCircle(),
                     pu.x, pu.y,
                     speed[(int) (Math.random() * speed.length)], speed[(int) (Math.random() * speed.length)],
                     100 + (int) (Math.random() * 200), 50 + (int) (Math.random() * 50),
@@ -227,9 +227,13 @@ public class GameStage extends StageParent {
                 actorBall.setSpeedY(0);
 
                 // Проверка текстового актёра.
+                // Если актер есть и если он закончен, то либо следующий уровень, либо заново
                 if (actorTextMoveYtoY != null) {
                     if (!actorTextMoveYtoY.isEnabled()) {
                         actorTextMoveYtoY.remove();
+                        if (score.getCurrentShape() == GameConstant.WIN) {
+                            score.nextLevel();
+                        }
                         softReset();
                     }
                 }
@@ -237,7 +241,7 @@ public class GameStage extends StageParent {
 
             if (actorShapeLine != null) {
                 actorShapeLine.setX(camera.position.x - camera.viewportWidth / 2);
-                actorShapeLine.setY(camera.position.y - camera.viewportHeight / 2);
+                actorShapeLine.setY(camera.position.y - camera.viewportHeight * 0.5f);
             }
 
 
@@ -249,6 +253,9 @@ public class GameStage extends StageParent {
             if (ash.isEnabled() && ash.isCollision(actorBall)) {
                 if (score.checkShape(ash.getNumber_shape())) {
                     score.addScore(1);
+                    if (score.getCurrentShape() == GameConstant.WIN) {
+                        nextLevel(); // Следующий уровень
+                    }
                 } else {
                     nextTry(); // Новая попытка
                 }
@@ -323,7 +330,10 @@ public class GameStage extends StageParent {
 
         if (actorBall.getY() > game_world_height - camera.viewportHeight / 2) {
             if (actorTimer == null) {
-                actorTimer = new ActorTimer(textures.getTimer(), textures.getBlank_timer(), (int) actorRacquet.getX() - 32, (int) (actorRacquet.getY() + 48));
+                actorTimer = new ActorTimer(textures.getTimer(),
+                        textures.getBlank_timer(),
+                        (int) actorRacquet.getX() - 32,
+                        (int) (actorRacquet.getY() + 32));
                 addActor(actorTimer);
             }
         } else {
@@ -365,7 +375,36 @@ public class GameStage extends StageParent {
         actorBall.setSpeedX(0);
         actorBall.setSpeedY(0);
         Gdx.input.setInputProcessor(null);
-        actorTextMoveYtoY = new ActorTextMoveYtoY(1, 1, 1, 1, camera.position.y + 100, camera.position.y - 300, "ПОПРОБУЙ ЕЩЁ РАЗ :(", (int) camera.viewportHeight);
+        actorTextMoveYtoY = new ActorTextMoveYtoY("df9b62",
+                textures.getBlackHole(),
+                camera.position.y + 200,
+                camera.position.y - 100,
+                "ПОПРОБУЙ ЕЩЁ РАЗ :(", (int) camera.viewportWidth, (int) camera.viewportHeight,
+                (int) (camera.position.x - camera.viewportWidth / 2),
+                (int) (camera.position.y - camera.viewportHeight / 2));
+        addActor(actorTextMoveYtoY);
+    }
+
+    private void nextLevel() {
+        // Добавляется актёр с текстом. Когда текст пройдёт, актёр удаляется и вызывается
+        // softReset()
+        move_cam = false;
+        if (actorLeftHand != null) actorLeftHand.remove();
+        if (actorRightHand != null) actorRightHand.remove();
+
+        actorBall.setSpeedX(0);
+        actorBall.setSpeedY(0);
+
+        Gdx.input.setInputProcessor(null);
+
+        actorTextMoveYtoY = new ActorTextMoveYtoY("FFFFFF",
+                textures.getWinHole(),
+                camera.position.y + 200,
+                camera.position.y - 100,
+                "СЛЕДУЮЩИЙ УРОВЕНЬ!", (int) camera.viewportWidth, (int) camera.viewportHeight,
+                (int) (camera.position.x - camera.viewportWidth / 2),
+                (int) (camera.position.y - camera.viewportHeight / 2));
+
         addActor(actorTextMoveYtoY);
     }
 
