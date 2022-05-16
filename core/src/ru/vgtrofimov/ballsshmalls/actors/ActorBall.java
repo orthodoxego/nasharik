@@ -33,7 +33,7 @@ public class ActorBall extends Actor {
         setY(y);
         setBounds(x, y, getWidth(), getHeight());
         setOrigin(32, 32);
-        setScale(0.5f, 0.5f);
+        setScale(0.8f, 0.8f);
         this.default_speed_x = speedX;
         this.default_speed_y = speedY;
         setSpeedX(default_speed_x);
@@ -59,13 +59,13 @@ public class ActorBall extends Actor {
 
     private boolean check_move_balls(float delta) {
 
-        setSpeedY(getSpeedY() + (velocity + massa * gravity) / 3);
+        setSpeedY(getSpeedY() + (velocity + massa * gravity) / 4);
         setSpeedX(getSpeedX() * 0.998f);
 
         // if (getY() + getHeight() > world_height - skin.getRegionHeight()) {
-        if (getY() + getHeight() / 2 > actorRacquet.getY() - actorRacquet.getPressed_energy() - actorRacquet.getY_correct_to_fire()) {
+        if (getY() + getHeight() / 2 > actorRacquet.getY() - actorRacquet.getPressed_energy() - actorRacquet.getY_correct_to_fire() * 3) {
             // setY(world_height - getHeight() - skin.getRegionHeight() - getHeight() / 2);
-            setY(actorRacquet.getY() - getHeight() / 2 - actorRacquet.getPressed_energy() - actorRacquet.getY_correct_to_fire());
+            setY(actorRacquet.getY() - getHeight() / 2 - actorRacquet.getPressed_energy() - actorRacquet.getY_correct_to_fire() * 3);
             setSpeedY((float) (-getSpeedY() * Math.sqrt(uprugost) / massa));
             velocity = default_velocity;
 

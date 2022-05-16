@@ -13,7 +13,7 @@ public class ActorFruit extends Actor {
     int score;
     boolean enabled = true;
     boolean scored = true;
-    float angle = 0, max_angle = 33, count_angle = 66;
+    float angle = 0, max_angle = 45, count_angle = 66;
     float speedX, speedY;
     int correctX, correctY;
 
@@ -24,8 +24,8 @@ public class ActorFruit extends Actor {
         this.speedY = speedY;
         setWidth(skin.getRegionWidth()); setHeight(skin.getRegionHeight());
         setX(x); setY(y);
-        setScale(1.3f, 1.3f);
-        setOrigin(getWidth() / 2, getHeight() / 4);
+        setScale(0.75f, 0.75f);
+        setOrigin(getWidth() / 2, getHeight() / 2);
         setRotation(angle);
         correctX = (int) (getWidth() / 2); correctY = (int) (getHeight() / 2);
         angle = (float) (-max_angle + (Math.random() * max_angle * 2));

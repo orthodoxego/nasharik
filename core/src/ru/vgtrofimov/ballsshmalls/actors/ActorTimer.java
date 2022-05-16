@@ -74,6 +74,7 @@ public class ActorTimer extends Actor {
     }
 
     public void setRandomFrame() {
-        this.frame = (int) (Math.random() * skin.length);
+        this.frame = 0;
+        // this.frame = (int) (Math.random() * skin.length);
     }
 }
