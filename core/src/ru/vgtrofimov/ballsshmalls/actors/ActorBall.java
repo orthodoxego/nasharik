@@ -68,7 +68,7 @@ public class ActorBall extends Actor {
         check_move_balls(delta);
     }
 
-    private boolean check_move_balls(float delta) {
+    public boolean check_move_balls(float delta) {
 
         setSpeedY(getSpeedY() + (velocity + massa * gravity) / 4 * getScaleX());
         setSpeedX(getSpeedX() * 0.998f);
@@ -119,7 +119,7 @@ public class ActorBall extends Actor {
         batch.draw(skin, getX() - correctX, getY() - correctY, getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
         batch.draw(shadow, getX() - correctX, getY() - correctY, getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), 0);
 
-        // Font.play_regular_14px.draw(batch, "" + speedY, 100, getY() + 100);
+        Font.play_regular_14px.draw(batch, "" + (int) getY(), 0, getY());
     }
 
     public float getSpeedX() {
@@ -163,4 +163,5 @@ public class ActorBall extends Actor {
     public void setActorRacquet(ActorRacquet ar) {
         this.actorRacquet = ar;
     }
+
 }

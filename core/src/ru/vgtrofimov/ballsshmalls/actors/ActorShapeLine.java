@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
+import ru.vgtrofimov.ballsshmalls.Balls;
 import ru.vgtrofimov.ballsshmalls.settings.Font;
 import ru.vgtrofimov.ballsshmalls.settings.Score;
 import ru.vgtrofimov.ballsshmalls.settings.Task;
@@ -20,7 +21,7 @@ public class ActorShapeLine extends Actor {
         this.shapes = shapes;
         this.score = score;
         this.viewportHeight = viewportHeight;
-        rotate = new float[score.getTask().length];
+        rotate = new float[shapes.length];
         for (int i = 0; i < rotate.length; i++) {
             rotate[i] = i * (360.0f / rotate.length);
         }
@@ -29,7 +30,7 @@ public class ActorShapeLine extends Actor {
     @Override
     public void act(float delta) {
         super.act(delta);
-        for (int i = 0; i < rotate.length; i++) {
+        for (int i = 0; i < shapes.length; i++) {
             rotate[i] += 90 * delta;
             if (rotate[i] > 360) rotate[i] = 0;
         }
@@ -41,17 +42,17 @@ public class ActorShapeLine extends Actor {
 
         for (int i = 0; i < score.getTask().length; i++) {
             if (!score.getTask()[i].isGrabbed()) {
-                batch.draw(shapes[score.getTask()[i].getNumber_shape()], 30 + getX() + i * 50, getY() + 20, 24, 24, 48, 48, 1, 1, rotate[i]);
+                batch.draw(shapes[score.getTask()[i].getNumber_shape()], 30 + getX() + i * 50, getY() + 60, 24, 24, 48, 48, 1, 1, rotate[i]);
             } else {
-                batch.setColor(1, 1, 1, 0.3f);
-                batch.draw(shapes[score.getTask()[i].getNumber_shape()], 30 + getX() + i * 50, getY() + 20, 24, 24, 48, 48, 1, 1, 0);
+                batch.setColor(1, 1, 1, 0.2f);
+                batch.draw(shapes[score.getTask()[i].getNumber_shape()], 30 + getX() + i * 50, getY() + 60, 18, 18, 48, 48, 1, 1, 0);
             }
 
             batch.setColor(1, 1, 1, 1);
         }
 
-        Font.play_regular_14px.draw(batch, "Очки: " + score.getScore(), getX() + 30, getY() + 80);
-        Font.play_regular_14px.draw(batch, "Уровень: " + score.getLevel(), getX() + 305, getY() + 80);
+        Font.play_regular_14px.draw(batch, "Очки: " + score.getScore(), getX() + 30, getY() + 20);
+        Font.play_regular_14px.draw(batch, "Уровень: " + score.getLevel(), getX() + 305, getY() + 20);
 
         Font.play_regular_14px.draw(batch, "Рекорд: " + score.getRecordScore(), getX() + 30, getY() + viewportHeight - 40);
         Font.play_regular_14px.draw(batch, "Попытки: " + score.getLives(), getX() + 305, getY() + viewportHeight - 40);

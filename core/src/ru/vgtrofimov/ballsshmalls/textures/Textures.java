@@ -3,6 +3,8 @@ package ru.vgtrofimov.ballsshmalls.textures;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
+import ru.vgtrofimov.ballsshmalls.Balls;
+
 public class Textures {
 
     TextureRegion background;

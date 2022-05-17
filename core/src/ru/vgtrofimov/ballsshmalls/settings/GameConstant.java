@@ -5,8 +5,9 @@ public class GameConstant {
     public static int WIN = 5000;
 
 
-    public static int CORRECT_TECH = 25;
-    public static int MINE = 25;
+    public static final int CORRECT_TECH = 25;
+    public static final int MINE = 25;
+    public static final int TELEPORT = 26;
 
 
 

@@ -18,6 +18,7 @@ import ru.vgtrofimov.ballsshmalls.actors.ActorLeftHand;
 import ru.vgtrofimov.ballsshmalls.actors.ActorRacquet;
 import ru.vgtrofimov.ballsshmalls.actors.ActorRightHand;
 import ru.vgtrofimov.ballsshmalls.actors.ActorShapeLine;
+import ru.vgtrofimov.ballsshmalls.actors.ActorTeleport;
 import ru.vgtrofimov.ballsshmalls.actors.ActorTextMoveYtoY;
 import ru.vgtrofimov.ballsshmalls.actors.ActorTimer;
 import ru.vgtrofimov.ballsshmalls.screens.GameScreen;
@@ -46,6 +47,7 @@ public class GameStage extends StageParent {
 
     Vector<ActorShape> actorShape;
     Vector<ActorMine> actorMines;
+    Vector<ActorTeleport> actorTeleport;
     Vector<ActorFrames> actorFrames;
 
     ActorRightHand actorRightHand;
@@ -213,16 +215,34 @@ public class GameStage extends StageParent {
     private void addTech(Levels lev) {
         Vector<PositionUnit> tech = lev.getTech(setup.getLevel() - 1);
         actorMines = new Vector<>();
+        actorTeleport = new Vector<>();
 
         int[] speed = {-1, -2, -3, 3, 2, 1};
         for (PositionUnit pu : tech) {
-            actorMines.add(new ActorMine(textures.getTechobject()[pu.code - GameConstant.CORRECT_TECH], pu.code,
-                    pu.x, pu.y,
-                    speed[(int) (Math.random() * speed.length)], speed[(int) (Math.random() * speed.length)],
-                    5 + (int) (Math.random() * 20), 5 + (int) (Math.random() * 20),
-                    game_world_width, game_world_height)
-            );
-            addActor(actorMines.lastElement());
+            switch (pu.code) {
+                case GameConstant.MINE:
+                    actorMines.add(new ActorMine(textures.getTechobject()[pu.code - GameConstant.CORRECT_TECH], pu.code,
+                            pu.x, pu.y,
+                            speed[(int) (Math.random() * speed.length)], speed[(int) (Math.random() * speed.length)],
+                            5 + (int) (Math.random() * 20), 5 + (int) (Math.random() * 20),
+                            game_world_width, game_world_height)
+                    );
+                    addActor(actorMines.lastElement());
+                    break;
+                case GameConstant.TELEPORT:
+                    actorTeleport.add(new ActorTeleport(textures.getTechobject()[pu.code - GameConstant.CORRECT_TECH], pu.code,
+                            pu.x, pu.y,
+                            0, 0,
+                            0, 0,
+                            game_world_width, game_world_height,
+                            pu.teleportToX, pu.teleportToY)
+                    );
+                    actorTeleport.lastElement().setActorBall(actorBall);
+                    addActor(actorTeleport.lastElement());
+                    break;
+                default:
+                    break;
+            }
         }
 
     }
@@ -253,9 +273,6 @@ public class GameStage extends StageParent {
 
     @Override
     public void act(float delta) {
-
-
-
         if (!pause) {
             super.act(delta);
             if (move_cam) {
@@ -264,7 +281,6 @@ public class GameStage extends StageParent {
                 checkHand();
                 check_collision_player_and_shape();
                 check_collision_player_and_tech();
-                removeActorFrames();
             } else {
                 // КАМЕРА ЗАБЛОЧЕНА
                 // Останавливается шар
@@ -284,6 +300,8 @@ public class GameStage extends StageParent {
                 }
             }
 
+            removeActorFrames();
+
             if (actorShapeLine != null) {
                 actorShapeLine.setX(camera.position.x - camera.viewportWidth / 2);
                 actorShapeLine.setY(camera.position.y - camera.viewportHeight * 0.5f);
@@ -295,6 +313,10 @@ public class GameStage extends StageParent {
     private void removeActorFrames() {
         for (ActorFrames af : actorFrames) {
             if (!af.isEnabled()) af.remove();
+        }
+
+        for (int i = actorFrames.size() - 1; i > -1; i--) {
+            if (!actorFrames.elementAt(i).isEnabled()) actorFrames.removeElement(actorFrames.elementAt(i));
         }
     }
 
@@ -331,16 +353,20 @@ public class GameStage extends StageParent {
                 am.setScale(2.5f, 2.5f);
                 actorBall.setSpeedX(-actorBall.getSpeedX() * 3);
                 actorBall.setSpeedY(-actorBall.getSpeedY() * 3);
+                actorBall.check_move_balls(Gdx.graphics.getDeltaTime());
             }
         }
 
-        /*
-        for (int i = actorMines.size() - 1; i > -1; i--) {
-            if (!actorMines.elementAt(i).isEnabled()) {
-                actorMines.removeElementAt(i);
+        for (ActorTeleport at : actorTeleport) {
+            if (at.isEnabled() && at.isCollision(actorBall) && !at.isProcessing_teleport()) {
+                at.setProcessing_teleport(true);
+                at.setScale(0f, 0f);
+                actorBall.setX(at.getX());
+                actorBall.setY(at.getY());
+                actorBall.setSpeedX(0);
+                actorBall.setSpeedY(0);
             }
         }
-        */
 
     }
 

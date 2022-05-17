@@ -53,7 +53,7 @@ public class Levels {
     public Vector<PositionUnit> getLevel01() {
         /* Высота игрового мира 512 * 15 = 7584 (Setup.count_background) */
         Vector<PositionUnit> level = new Vector<>();
-        level.add(new PositionUnit(256, 7100, GameConstant.STAR));
+        level.add(new PositionUnit(240, 7100, GameConstant.STAR));
         level.add(new PositionUnit(128, 6100, GameConstant.TRIANGLE));
         level.add(new PositionUnit(384, 5100, GameConstant.PENTAGON));
         return level;
@@ -72,7 +72,7 @@ public class Levels {
         tech.add(new PositionUnit(50, 4500, GameConstant.MINE));
         tech.add(new PositionUnit(100, 4500, GameConstant.MINE));
         tech.add(new PositionUnit(200, 4500, GameConstant.MINE));
-        tech.add(new PositionUnit(256, 4500, GameConstant.MINE));
+        tech.add(new PositionUnit(240, 4500, GameConstant.MINE));
         tech.add(new PositionUnit(300, 4500, GameConstant.MINE));
         tech.add(new PositionUnit(400, 4500, GameConstant.MINE));
         tech.add(new PositionUnit(500, 4500, GameConstant.MINE));
@@ -97,11 +97,11 @@ public class Levels {
     public Vector<PositionUnit> getLevel02() {
         /* Высота игрового мира 512 * 15 = 7584 (Setup.count_background) */
         Vector<PositionUnit> level = new Vector<>();
-        level.add(new PositionUnit(256, 7100, GameConstant.TRIANGLE));
+        level.add(new PositionUnit(240, 7100, GameConstant.TRIANGLE));
         level.add(new PositionUnit(400, 6800, GameConstant.CIRCLE));
         level.add(new PositionUnit(368, 6200, GameConstant.POLYGOON));
         level.add(new PositionUnit(312, 4000, GameConstant.SQUARE));
-        level.add(new PositionUnit(256, 2000, GameConstant.SIXSTAR));
+        level.add(new PositionUnit(240, 2000, GameConstant.SIXSTAR));
         return level;
     }
 
@@ -117,7 +117,7 @@ public class Levels {
 
     public Vector<PositionUnit> getTech03() {
         Vector<PositionUnit> tech = new Vector<>();
-        tech.add(new PositionUnit(200, 250, GameConstant.MINE));
+        tech.add(new PositionUnit(200, 240, GameConstant.MINE));
         tech.add(new PositionUnit(400, 7000, GameConstant.MINE));
         tech.add(new PositionUnit(200, 6400, GameConstant.MINE));
         tech.add(new PositionUnit(400, 5400, GameConstant.MINE));
@@ -135,7 +135,7 @@ public class Levels {
         level.add(new PositionUnit(200, 6500, GameConstant.CIRCLE));
         level.add(new PositionUnit(400, 5500, GameConstant.TRIANGLE));
         level.add(new PositionUnit(200, 3500, GameConstant.SQUARE));
-        level.add(new PositionUnit(400, 2500, GameConstant.SIXSTAR));
+        level.add(new PositionUnit(400, 2400, GameConstant.SIXSTAR));
         level.add(new PositionUnit(200, 2000, GameConstant.PENTAGON));
         level.add(new PositionUnit(400, 1500, GameConstant.POLYGOON));
         level.add(new PositionUnit(200, 1000, GameConstant.SIXSTAR));
@@ -158,13 +158,17 @@ public class Levels {
         level.add(new PositionUnit(220, 7000, GameConstant.MINE));
         level.add(new PositionUnit(300, 6000, GameConstant.MINE));
         level.add(new PositionUnit(400, 4500, GameConstant.MINE));
-        level.add(new PositionUnit(256, 3800, GameConstant.MINE));
-        level.add(new PositionUnit(256, 3600, GameConstant.MINE));
-        level.add(new PositionUnit(256, 3200, GameConstant.MINE));
-        level.add(new PositionUnit(256, 2600, GameConstant.MINE));
-        level.add(new PositionUnit(256, 2200, GameConstant.MINE));
+        level.add(new PositionUnit(240, 3800, GameConstant.MINE));
+        level.add(new PositionUnit(240, 3600, GameConstant.MINE));
+        level.add(new PositionUnit(240, 3200, GameConstant.MINE));
+        level.add(new PositionUnit(240, 2600, GameConstant.MINE));
+        level.add(new PositionUnit(240, 2200, GameConstant.MINE));
         level.add(new PositionUnit(400, 1200, GameConstant.MINE));
         level.add(new PositionUnit(400, 600,  GameConstant.MINE));
+
+        level.add(new PositionUnit(240, 6500,  GameConstant.TELEPORT));
+        level.lastElement().teleportToX = 100;
+        level.lastElement().teleportToY = 1200;
 
         return level;
     }
@@ -174,21 +178,21 @@ public class Levels {
         Vector<PositionUnit> level = new Vector<>();
         level.add(new PositionUnit(200, 7100, GameConstant.PENTAGON));
         level.add(new PositionUnit(400, 6900, GameConstant.PENTAGON));
-        level.add(new PositionUnit(200, 6000, GameConstant.CIRCLE));
+        level.add(new PositionUnit(200, 6900, GameConstant.CIRCLE));
         level.add(new PositionUnit(400, 5800, GameConstant.TRIANGLE));
         level.add(new PositionUnit(200, 5500, GameConstant.SQUARE));
         level.add(new PositionUnit(400, 5200, GameConstant.SIXSTAR));
         level.add(new PositionUnit(100, 4500, GameConstant.PENTAGON));
-        level.add(new PositionUnit(256, 4500, GameConstant.POLYGOON));
+        level.add(new PositionUnit(240, 4500, GameConstant.POLYGOON));
         level.add(new PositionUnit(412, 4500, GameConstant.SIXSTAR));
         level.add(new PositionUnit(200, 3500, GameConstant.TRIANGLE));
         level.add(new PositionUnit(300, 3200, GameConstant.PENTAGON));
-        level.add(new PositionUnit(400, 3100, GameConstant.TRIANGLE));
-        level.add(new PositionUnit(300, 2000, GameConstant.STAR));
-        level.add(new PositionUnit(150, 1500, GameConstant.TRIANGLE));
-        level.add(new PositionUnit(180, 1200, GameConstant.SIXSTAR));
-        level.add(new PositionUnit(260, 800, GameConstant.POLYGOON));
-        level.add(new PositionUnit(320, 500, GameConstant.TRIANGLE));
+        level.add(new PositionUnit(400, 2600, GameConstant.TRIANGLE));
+        level.add(new PositionUnit(300, 1000, GameConstant.STAR));
+        level.add(new PositionUnit(150, 900, GameConstant.TRIANGLE));
+        level.add(new PositionUnit(180, 800, GameConstant.SIXSTAR));
+        level.add(new PositionUnit(260, 700, GameConstant.POLYGOON));
+        level.add(new PositionUnit(320, 250, GameConstant.TRIANGLE));
         return level;
     }
 
