@@ -5,6 +5,7 @@ import java.util.Vector;
 public class Levels {
 
     Vector<Vector<PositionUnit>> vpos;
+    Vector<Vector<PositionUnit>> tech;
     Vector<Vector<Integer>> grabber;
 
     public Levels() {
@@ -18,9 +19,11 @@ public class Levels {
 
         vpos = new Vector<>();
         grabber = new Vector<>();
+        tech = new Vector<>();
 
         vpos.add(getLevel01());
         grabber.add(getGrabber01());
+        tech.add(getTech01());
 
         vpos.add(getLevel02());
         grabber.add(getGrabber02());
@@ -37,6 +40,10 @@ public class Levels {
         return grabber.elementAt(level);
     }
 
+    public Vector<PositionUnit> getTech(int level) {
+        return tech.elementAt(level);
+    }
+
     public Vector<PositionUnit> getLevel01() {
         /* Высота игрового мира 512 * 15 = 7584 (Setup.count_background) */
         Vector<PositionUnit> level = new Vector<>();
@@ -51,6 +58,14 @@ public class Levels {
         grab.add(GameConstant.STAR);
         grab.add(GameConstant.TRIANGLE);
         return grab;
+    }
+
+    public Vector<PositionUnit> getTech01() {
+        Vector<PositionUnit> tech = new Vector<>();
+        tech.add(new PositionUnit(50, 7100, GameConstant.MINE));
+        tech.add(new PositionUnit(450, 6500, GameConstant.MINE));
+        tech.add(new PositionUnit(160, 6900, GameConstant.MINE));
+        return tech;
     }
 
     public Vector<PositionUnit> getLevel02() {

@@ -11,6 +11,7 @@ import java.util.Vector;
 
 import ru.vgtrofimov.ballsshmalls.actors.ActorBackground;
 import ru.vgtrofimov.ballsshmalls.actors.ActorBall;
+import ru.vgtrofimov.ballsshmalls.actors.ActorMine;
 import ru.vgtrofimov.ballsshmalls.actors.ActorShape;
 import ru.vgtrofimov.ballsshmalls.actors.ActorLeftHand;
 import ru.vgtrofimov.ballsshmalls.actors.ActorRacquet;
@@ -43,6 +44,7 @@ public class GameStage extends StageParent {
     int correct_camera_y;
 
     Vector<ActorShape> actorShape;
+    Vector<ActorMine> actorMines;
 
     ActorRightHand actorRightHand;
     ActorLeftHand actorLeftHand;
@@ -192,7 +194,9 @@ public class GameStage extends StageParent {
          ********* ДОБАВЛЕНИЕ ФИГУР И ФОРМИРОВАНИЕ СПИСКА ПОСЛЕДОВАТЕЛЬНОСТИ ******* 16/05/22
          **************************************************************************/
 
-        addShapes();
+        Levels lev = new Levels();
+        addShapes(lev);
+        addTech(lev);
 
         addActor(actorBall);
 
@@ -200,9 +204,25 @@ public class GameStage extends StageParent {
         addActor(actorShapeLine);
     }
 
-    private void addShapes() {
+    private void addTech(Levels lev) {
+        Vector<PositionUnit> tech = lev.getTech(setup.getLevel() - 1);
+        actorMines = new Vector<>();
 
-        Levels lev = new Levels();
+        int[] speed = {-5, -10, -15, 15, 10, 5};
+        for (PositionUnit pu : tech) {
+            actorMines.add(new ActorMine(textures.getTechobject()[pu.code - GameConstant.CORRECT_TECH], pu.code,
+                    pu.x, pu.y,
+                    speed[(int) (Math.random() * speed.length)], speed[(int) (Math.random() * speed.length)],
+                    100 + (int) (Math.random() * 200), 50 + (int) (Math.random() * 50),
+                    game_world_width, game_world_height)
+            );
+            addActor(actorMines.lastElement());
+        }
+
+    }
+
+    private void addShapes(Levels lev) {
+
         Vector<PositionUnit> level = lev.getLevel(setup.getLevel() - 1);
         Vector<Integer> shapes = lev.getGrabber(setup.getLevel() - 1);
 

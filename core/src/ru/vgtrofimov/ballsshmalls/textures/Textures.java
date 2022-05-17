@@ -12,6 +12,7 @@ public class Textures {
     TextureRegion winHole;
 
     TextureRegion shapes[];
+    TextureRegion techobject[];
 
     TextureRegion ball;
     TextureRegion ball_shadow;
@@ -35,6 +36,11 @@ public class Textures {
         shapes = new TextureRegion[7];
         for (int i = 0; i < 7; i++) {
             shapes[i] = getTextureRegionFromMap(64 + i * 64, 128, 64, 64, false, true, load);
+        }
+
+        techobject = new TextureRegion[10];
+        for (int i = 0; i < techobject.length; i++) {
+            techobject[i] = getTextureRegionFromMap(i * 64, 192, 64, 64, false, true, load);
         }
 
         timer = new TextureRegion[32];
@@ -98,5 +104,9 @@ public class Textures {
 
     public TextureRegion getWinHole() {
         return winHole;
+    }
+
+    public TextureRegion[] getTechobject() {
+        return techobject;
     }
 }
