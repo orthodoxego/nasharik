@@ -8,6 +8,14 @@ public class Levels {
     Vector<Vector<Integer>> grabber;
 
     public Levels() {
+
+        //
+        // ТЕРРИТОРИЯ ИГРЫ 7584 * 512 = 3880000 кв. км., если считать
+        // пиксель квадратным километром.
+        //
+        // Четырёхмегапиксельная игра, уии!
+        //
+
         vpos = new Vector<>();
         grabber = new Vector<>();
 
@@ -16,6 +24,9 @@ public class Levels {
 
         vpos.add(getLevel02());
         grabber.add(getGrabber02());
+
+        vpos.add(getLevel03());
+        grabber.add(getGrabber03());
     }
 
     public Vector<PositionUnit> getLevel(int level) {
@@ -30,19 +41,40 @@ public class Levels {
         /* Высота игрового мира 512 * 15 = 7584 (Setup.count_background) */
         Vector<PositionUnit> level = new Vector<>();
         level.add(new PositionUnit(256, 7100, GameConstant.STAR));
-        level.add(new PositionUnit(128, 6900, GameConstant.STAR));
-        level.add(new PositionUnit(384, 6900, GameConstant.STAR));
+        level.add(new PositionUnit(128, 6500, GameConstant.TRIANGLE));
+        level.add(new PositionUnit(384, 6900, GameConstant.PENTAGON));
         return level;
     }
 
     public Vector<Integer> getGrabber01() {
         Vector<Integer> grab = new Vector<>();
         grab.add(GameConstant.STAR);
-        grab.add(GameConstant.STAR);
+        grab.add(GameConstant.TRIANGLE);
         return grab;
     }
 
     public Vector<PositionUnit> getLevel02() {
+        /* Высота игрового мира 512 * 15 = 7584 (Setup.count_background) */
+        Vector<PositionUnit> level = new Vector<>();
+        level.add(new PositionUnit(100, 7100, GameConstant.TRIANGLE));
+        level.add(new PositionUnit(400, 6800, GameConstant.CIRCLE));
+        level.add(new PositionUnit(256, 6200, GameConstant.POLYGOON));
+        level.add(new PositionUnit(312, 4000, GameConstant.SQUARE));
+        level.add(new PositionUnit(256, 2000, GameConstant.SIXSTAR));
+        return level;
+    }
+
+    public Vector<Integer> getGrabber02() {
+        Vector<Integer> grab = new Vector<>();
+        grab.add(GameConstant.TRIANGLE);
+        grab.add(GameConstant.CIRCLE);
+        grab.add(GameConstant.POLYGOON);
+        grab.add(GameConstant.SQUARE);
+        grab.add(GameConstant.SIXSTAR);
+        return grab;
+    }
+
+    public Vector<PositionUnit> getLevel03() {
         /* Высота игрового мира 512 * 15 = 7584 (Setup.count_background) */
         Vector<PositionUnit> level = new Vector<>();
         level.add(new PositionUnit(200, 150, GameConstant.STAR));
@@ -58,7 +90,7 @@ public class Levels {
         return level;
     }
 
-    public Vector<Integer> getGrabber02() {
+    public Vector<Integer> getGrabber03() {
         Vector<Integer> grab = new Vector<>();
         grab.add(GameConstant.STAR);
         grab.add(GameConstant.PENTAGON);

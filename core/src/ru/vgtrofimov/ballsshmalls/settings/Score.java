@@ -76,7 +76,11 @@ public class Score {
         return false;
     }
     public void addScore(int i) {
-        this.score += i;
+        score += i;
+        if (score > 1610) score = 0;
+        if (score > setup.getRecordScore()) {
+            setup.setRecordScore(score);
+        }
     }
 
     public void decScore(int i) {
@@ -90,5 +94,9 @@ public class Score {
 
     public int getLevel() {
         return setup.getLevel();
+    }
+
+    public int getRecordScore() {
+        return setup.getRecordScore();
     }
 }

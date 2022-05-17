@@ -1,5 +1,6 @@
 package ru.vgtrofimov.ballsshmalls.actors;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -20,7 +21,7 @@ public class ActorBall extends Actor {
     float massa = 8f;
     float uprugost = 60f;
     ActorRacquet actorRacquet;
-
+    float newScale;
 
     public ActorBall(TextureRegion skin, TextureRegion shadow, int x, int y, int speedX, int speedY, int world_width, int world_height) {
         this.skin = skin;
@@ -34,7 +35,8 @@ public class ActorBall extends Actor {
         setY(y);
         setBounds(x, y, getWidth(), getHeight());
         setOrigin(32, 32);
-        setScale(0.9f, 0.9f);
+        setScale(0f, 0f);
+        newScale = 0.5f;
         this.default_speed_x = speedX;
         this.default_speed_y = speedY;
         setSpeedX(default_speed_x);
@@ -44,9 +46,17 @@ public class ActorBall extends Actor {
         velocity = default_velocity;
     }
 
+    public void addScalle(float sc) {
+        newScale = sc;
+    }
+
     @Override
     public void act(float delta) {
         super.act(delta);
+
+        if (getScaleX() < newScale) {
+            setScale(getScaleX() + delta, getScaleY() + delta);
+        }
 
         if (getSpeedY() != 0)
             setRotation(getRotation() + delta * getSpeedX() * 1);
@@ -60,14 +70,15 @@ public class ActorBall extends Actor {
 
     private boolean check_move_balls(float delta) {
 
-        setSpeedY(getSpeedY() + (velocity + massa * gravity) / 4);
+        setSpeedY(getSpeedY() + (velocity + massa * gravity) / 4 * getScaleX());
         setSpeedX(getSpeedX() * 0.998f);
 
         // if (getY() + getHeight() > world_height - skin.getRegionHeight()) {
         if (getY() + getHeight() / 2 > actorRacquet.getY() - actorRacquet.getPressed_energy() - actorRacquet.getY_correct_to_fire() * 3) {
             // setY(world_height - getHeight() - skin.getRegionHeight() - getHeight() / 2);
-            setY(actorRacquet.getY() - getHeight() / 2 - actorRacquet.getPressed_energy() - actorRacquet.getY_correct_to_fire() * 3);
-            setSpeedY((float) (-getSpeedY() * Math.sqrt(uprugost) / massa));
+            // setY(actorRacquet.getY() - getHeight() / 2 - actorRacquet.getPressed_energy() - actorRacquet.getY_correct_to_fire() * 3);
+            // setY(actorRacquet.getY() - getHeight() / 2);
+            setSpeedY(Math.min(-256, (float) (-getSpeedY() * Math.sqrt(uprugost) / massa)));
             velocity = default_velocity;
 
             if (Math.abs(getSpeedY()) < world_height * 0.03f) setSpeedY(0);
@@ -75,7 +86,8 @@ public class ActorBall extends Actor {
         }
 
         if (getY() + getHeight() / 2 > actorRacquet.getY() - actorRacquet.getPressed_energy() - actorRacquet.getY_correct_to_fire() * 3) {
-            setY(actorRacquet.getY() - actorRacquet.getPressed_energy() - actorRacquet.getY_correct_to_fire() * 3 - getHeight() / 2);
+            // setY(actorRacquet.getY() - actorRacquet.getPressed_energy() - actorRacquet.getY_correct_to_fire() * 3 - getHeight() / 2);
+            setY(actorRacquet.getY() - getHeight() * 2);
         }
 
         if (getY() < correctY) {
@@ -102,9 +114,6 @@ public class ActorBall extends Actor {
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
-
-        //batch.setColor(0.1f, 0.2f, 0, parentAlpha / 2);
-        //batch.draw(skin, getX() - correctX + 3, getY() - correctY + 3, getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
 
         batch.setColor(1, 1, 1, parentAlpha);
         batch.draw(skin, getX() - correctX, getY() - correctY, getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());

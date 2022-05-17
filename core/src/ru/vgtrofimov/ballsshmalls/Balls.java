@@ -30,7 +30,6 @@ public class Balls extends ApplicationAdapter {
 
 	// Пауза
 	boolean pause = false;
-
 	public static Font font;
 	
 	@Override
@@ -81,17 +80,21 @@ public class Balls extends ApplicationAdapter {
 	@Override
 	public void pause() {
 		super.pause();
+		setup.savePrefs();
 		pause = true;
+		gameScreen.pause();
 	}
 
 	@Override
 	public void resume() {
 		super.resume();
 		pause = false;
+		gameScreen.resume();
 	}
 
 	@Override
 	public void dispose () {
+
 	}
 
 }

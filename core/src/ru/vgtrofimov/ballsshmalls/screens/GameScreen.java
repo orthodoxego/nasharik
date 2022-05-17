@@ -63,17 +63,17 @@ public class GameScreen implements Screen {
 
     @Override
     public void pause() {
-
+        currentStage.setPause(true);
     }
 
     @Override
     public void resume() {
-
+        currentStage.setPause(false);
     }
+
 
     @Override
     public void hide() {
-
     }
 
     @Override

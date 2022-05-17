@@ -11,7 +11,6 @@ import ru.vgtrofimov.ballsshmalls.settings.Font;
 import ru.vgtrofimov.ballsshmalls.stages.GameStage;
 
 public class ActorTextMoveYtoY extends Actor {
-    String textColor;
     float a;
     TextureRegion blackHole;
     int fromY;
@@ -24,8 +23,7 @@ public class ActorTextMoveYtoY extends Actor {
     int screenWidth, screenHeight;
     float time;
 
-    public ActorTextMoveYtoY(String textColor, TextureRegion blackHole, float fromY, float toY, String text, int screenWidth, int screenHeight, int nulX, int nulY) {
-        this.textColor = textColor;
+    public ActorTextMoveYtoY(TextureRegion blackHole, float fromY, float toY, String text, int screenWidth, int screenHeight, int nulX, int nulY) {
         this.blackHole = blackHole;
         a = 0.0f;
         setY(fromY);
@@ -57,7 +55,7 @@ public class ActorTextMoveYtoY extends Actor {
         if (Math.abs(getY() - toY) > 10) setY(getY() + speed * delta);
 
         a += delta * 3;
-        if (a > 1) a = 1;
+        if (a > 0.9f) a = 0.9f;
         time += delta;
         if (time > 1.5f) enabled = false;
     }

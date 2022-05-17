@@ -13,6 +13,7 @@ public class StageParent extends Stage {
     Setup setup;
     GameScreen gameScreen;
     OrthographicCamera camera;
+    boolean pause;
 
     public StageParent(GameScreen gameScreen, Setup setup, Viewport viewport, OrthographicCamera camera) {
         this.gameScreen = gameScreen;
@@ -30,5 +31,11 @@ public class StageParent extends Stage {
 
     public void resize(int width, int height) { }
 
+    public void setPause(boolean p) {
+        this.pause = p;
+    }
 
+    public boolean isPause() {
+        return pause;
+    }
 }

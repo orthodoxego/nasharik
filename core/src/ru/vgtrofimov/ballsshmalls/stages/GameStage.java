@@ -1,15 +1,14 @@
 package ru.vgtrofimov.ballsshmalls.stages;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import java.util.Collections;
 import java.util.Vector;
 
-import ru.vgtrofimov.ballsshmalls.Balls;
 import ru.vgtrofimov.ballsshmalls.actors.ActorBackground;
 import ru.vgtrofimov.ballsshmalls.actors.ActorBall;
 import ru.vgtrofimov.ballsshmalls.actors.ActorShape;
@@ -30,13 +29,13 @@ import ru.vgtrofimov.ballsshmalls.textures.Textures;
 public class GameStage extends StageParent {
 
     Score score;
-    boolean pause;
     boolean move_cam;
     Textures textures;
     InputProcessor inputProcessor;
     public static int game_world_width, game_world_height;
 
     ActorTextMoveYtoY actorTextMoveYtoY;
+    ActorTextMoveYtoY actorPause;
 
     ActorBall actorBall;
     ActorRacquet actorRacquet;
@@ -47,7 +46,7 @@ public class GameStage extends StageParent {
 
     ActorRightHand actorRightHand;
     ActorLeftHand actorLeftHand;
-    ActorTimer actorTimer;
+    // ActorTimer actorTimer;
 
     public GameStage(GameScreen gameScreen, Setup setup, Viewport viewport, OrthographicCamera camera, Textures textures) {
         super(gameScreen, setup, viewport, camera);
@@ -79,6 +78,21 @@ public class GameStage extends StageParent {
         inputProcessor = new InputProcessor() {
             @Override
             public boolean keyDown(int keycode) {
+                if (keycode == Input.Keys.P) {
+                    pause = !pause;
+                }
+
+                if (pause) {
+                    actorPause = new ActorTextMoveYtoY(textures.getBlackHole(),
+                            camera.position.y,
+                            camera.position.y,
+                            "П А У З А", (int) camera.viewportWidth, (int) camera.viewportHeight,
+                            (int) (camera.position.x - camera.viewportWidth / 2),
+                            (int) (camera.position.y - camera.viewportHeight / 2));
+                    addActor(actorPause);
+                } else {
+                    if (actorPause != null) actorPause.remove();
+                }
                 return false;
             }
 
@@ -94,33 +108,33 @@ public class GameStage extends StageParent {
 
             @Override
             public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-                if (actorTimer != null) {
-                    actorTimer.setRandomFrame();
-                    actorTimer.setPressed(true);
-                } else {
-                    if (actorBall.getY() > camera.viewportHeight / 3) {
-                        if (actorRightHand == null && actorLeftHand == null && screenX > Gdx.graphics.getWidth() / 2) {
-                            actorRightHand = new ActorRightHand(actorBall, textures.getRightHand(), (int) actorBall.getX(), (int) actorBall.getY());
-                            actorRightHand.setPressed(true);
-                            addActor(actorRightHand);
-                        }
+//                if (actorTimer != null) {
+//                    actorTimer.setRandomFrame();
+//                    actorTimer.setPressed(true);
+//                } else {
+                if (actorBall.getY() > camera.viewportHeight / 3 && !pause) {
+                    if (actorRightHand == null && actorLeftHand == null && screenX > Gdx.graphics.getWidth() / 2) {
+                        actorRightHand = new ActorRightHand(actorBall, textures.getRightHand(), (int) actorBall.getX(), (int) actorBall.getY());
+                        actorRightHand.setPressed(true);
+                        addActor(actorRightHand);
+                    }
 
-                        if (actorLeftHand == null && actorRightHand == null && screenX <= Gdx.graphics.getWidth() / 2) {
-                            actorLeftHand = new ActorLeftHand(actorBall, textures.getLeftHand(), (int) actorBall.getX(), (int) actorBall.getY());
-                            actorLeftHand.setPressed(true);
-                            addActor(actorLeftHand);
-                        }
+                    if (actorLeftHand == null && actorRightHand == null && screenX <= Gdx.graphics.getWidth() / 2 && !pause) {
+                        actorLeftHand = new ActorLeftHand(actorBall, textures.getLeftHand(), (int) actorBall.getX(), (int) actorBall.getY());
+                        actorLeftHand.setPressed(true);
+                        addActor(actorLeftHand);
                     }
                 }
+//                }
                 return false;
             }
 
             @Override
             public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-                if (actorTimer != null && actorTimer.isPressed()) {
-                    actorTimer.setPressed(false);
-                    actorRacquet.setPressed_energy(actorTimer.getFrame());
-                }
+//                if (actorTimer != null && actorTimer.isPressed()) {
+//                    actorTimer.setPressed(false);
+//                    actorRacquet.setPressed_energy(actorTimer.getFrame());
+//                }
 
                 if (actorRightHand != null && actorRightHand.isPressed()) {
                     actorRightHand.setPressed(false);
@@ -213,6 +227,9 @@ public class GameStage extends StageParent {
 
     @Override
     public void act(float delta) {
+
+
+
         if (!pause) {
             super.act(delta);
             if (move_cam) {
@@ -253,6 +270,7 @@ public class GameStage extends StageParent {
             if (ash.isEnabled() && ash.isCollision(actorBall)) {
                 if (score.checkShape(ash.getNumber_shape())) {
                     score.addScore(1);
+                    actorBall.addScalle(actorBall.getScaleX() + 0.4f / score.getTask().length);
                     if (score.getCurrentShape() == GameConstant.WIN) {
                         nextLevel(); // Следующий уровень
                     }
@@ -287,7 +305,7 @@ public class GameStage extends StageParent {
     private void calc_camera_pos(float delta) {
         /** РАСЧЁТ ПОЗИЦИИ КАМЕРЫ */
 
-        if (actorTimer != null) actorTimer.setX(actorRacquet.getX() - 32);
+//        if (actorTimer != null) actorTimer.setX(actorRacquet.getX() - 32);
 
         /**
          * Это какой-то пипец с расчётами камеры.
@@ -328,20 +346,20 @@ public class GameStage extends StageParent {
         if (correct_camera_y > camera.viewportHeight / 3) correct_camera_y = (int) (camera.viewportHeight / 3);
         if (correct_camera_y < -camera.viewportHeight / 3) correct_camera_y = (int) -(camera.viewportHeight / 3);
 
-        if (actorBall.getY() > game_world_height - camera.viewportHeight / 2) {
-            if (actorTimer == null) {
-                actorTimer = new ActorTimer(textures.getTimer(),
-                        textures.getBlank_timer(),
-                        (int) actorRacquet.getX() - 32,
-                        (int) (actorRacquet.getY() + 32));
-                addActor(actorTimer);
-            }
-        } else {
-            if (actorTimer != null) {
-                actorTimer.remove();
-                actorTimer = null;
-            }
-        }
+//        if (actorBall.getY() > game_world_height - camera.viewportHeight / 2) {
+//            if (actorTimer == null) {
+//                actorTimer = new ActorTimer(textures.getTimer(),
+//                        textures.getBlank_timer(),
+//                        (int) actorRacquet.getX() - 32,
+//                        (int) (actorRacquet.getY() + 32));
+//                addActor(actorTimer);
+//            }
+//        } else {
+//            if (actorTimer != null) {
+//                actorTimer.remove();
+//                actorTimer = null;
+//            }
+//        }
 
         camera.position.set(cam_pos_x,cam_pos_y + correct_camera_y, 0);
         camera.update();
@@ -375,14 +393,14 @@ public class GameStage extends StageParent {
         actorBall.setSpeedX(0);
         actorBall.setSpeedY(0);
         Gdx.input.setInputProcessor(null);
-        actorTextMoveYtoY = new ActorTextMoveYtoY("df9b62",
-                textures.getBlackHole(),
+        actorTextMoveYtoY = new ActorTextMoveYtoY(textures.getBlackHole(),
                 camera.position.y + 200,
                 camera.position.y - 100,
                 "ПОПРОБУЙ ЕЩЁ РАЗ :(", (int) camera.viewportWidth, (int) camera.viewportHeight,
                 (int) (camera.position.x - camera.viewportWidth / 2),
                 (int) (camera.position.y - camera.viewportHeight / 2));
         addActor(actorTextMoveYtoY);
+        actorShapeLine.toFront();
     }
 
     private void nextLevel() {
@@ -397,8 +415,7 @@ public class GameStage extends StageParent {
 
         Gdx.input.setInputProcessor(null);
 
-        actorTextMoveYtoY = new ActorTextMoveYtoY("FFFFFF",
-                textures.getWinHole(),
+        actorTextMoveYtoY = new ActorTextMoveYtoY(textures.getWinHole(),
                 camera.position.y + 200,
                 camera.position.y - 100,
                 "СЛЕДУЮЩИЙ УРОВЕНЬ!", (int) camera.viewportWidth, (int) camera.viewportHeight,
@@ -406,6 +423,7 @@ public class GameStage extends StageParent {
                 (int) (camera.position.y - camera.viewportHeight / 2));
 
         addActor(actorTextMoveYtoY);
+        actorShapeLine.toFront();
     }
 
 }
