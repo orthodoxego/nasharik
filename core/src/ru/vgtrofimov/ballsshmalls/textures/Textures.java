@@ -13,6 +13,7 @@ public class Textures {
 
     TextureRegion shapes[];
     TextureRegion techobject[];
+    TextureRegion explosion[];
 
     TextureRegion ball;
     TextureRegion ball_shadow;
@@ -22,6 +23,13 @@ public class Textures {
 
     public Textures() {
         Texture load;
+
+        load = new Texture("png/explosion.png");
+        explosion = new TextureRegion[8];
+        for (int i = 0; i < 2; i++) {
+            for (int j = 0; j < 4; j++) {
+                explosion[i * 4 + j] = getTextureRegionFromMap(j * 128, i * 128, 128, 128, false, true, load);            }
+        }
 
         load = new Texture("png/background.png");
         background = getTextureRegionFromMap(0, 0, load.getWidth(), load.getHeight(), false, true, load);
@@ -108,5 +116,9 @@ public class Textures {
 
     public TextureRegion[] getTechobject() {
         return techobject;
+    }
+
+    public TextureRegion[] getExplosion() {
+        return explosion;
     }
 }

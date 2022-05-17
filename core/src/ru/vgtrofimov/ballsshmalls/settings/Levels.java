@@ -27,6 +27,7 @@ public class Levels {
 
         vpos.add(getLevel02());
         grabber.add(getGrabber02());
+        tech.add(getTech02());
 
         vpos.add(getLevel03());
         grabber.add(getGrabber03());
@@ -48,8 +49,8 @@ public class Levels {
         /* Высота игрового мира 512 * 15 = 7584 (Setup.count_background) */
         Vector<PositionUnit> level = new Vector<>();
         level.add(new PositionUnit(256, 7100, GameConstant.STAR));
-        level.add(new PositionUnit(128, 6500, GameConstant.TRIANGLE));
-        level.add(new PositionUnit(384, 6900, GameConstant.PENTAGON));
+        level.add(new PositionUnit(128, 6100, GameConstant.TRIANGLE));
+        level.add(new PositionUnit(384, 5100, GameConstant.PENTAGON));
         return level;
     }
 
@@ -57,14 +58,19 @@ public class Levels {
         Vector<Integer> grab = new Vector<>();
         grab.add(GameConstant.STAR);
         grab.add(GameConstant.TRIANGLE);
+        grab.add(GameConstant.PENTAGON);
         return grab;
     }
 
     public Vector<PositionUnit> getTech01() {
         Vector<PositionUnit> tech = new Vector<>();
-        tech.add(new PositionUnit(50, 7100, GameConstant.MINE));
-        tech.add(new PositionUnit(450, 6500, GameConstant.MINE));
-        tech.add(new PositionUnit(160, 6900, GameConstant.MINE));
+        tech.add(new PositionUnit(50, 4500, GameConstant.MINE));
+        tech.add(new PositionUnit(100, 4500, GameConstant.MINE));
+        tech.add(new PositionUnit(200, 4500, GameConstant.MINE));
+        tech.add(new PositionUnit(256, 4500, GameConstant.MINE));
+        tech.add(new PositionUnit(300, 4500, GameConstant.MINE));
+        tech.add(new PositionUnit(400, 4500, GameConstant.MINE));
+        tech.add(new PositionUnit(500, 4500, GameConstant.MINE));
         return tech;
     }
 
@@ -87,6 +93,16 @@ public class Levels {
         grab.add(GameConstant.SQUARE);
         grab.add(GameConstant.SIXSTAR);
         return grab;
+    }
+
+    public Vector<PositionUnit> getTech02() {
+        Vector<PositionUnit> tech = new Vector<>();
+        tech.add(new PositionUnit(50, 7100, GameConstant.MINE));
+        tech.add(new PositionUnit(250, 7100, GameConstant.MINE));
+        tech.add(new PositionUnit(350, 7100, GameConstant.MINE));
+        tech.add(new PositionUnit(450, 6500, GameConstant.MINE));
+        tech.add(new PositionUnit(160, 6900, GameConstant.MINE));
+        return tech;
     }
 
     public Vector<PositionUnit> getLevel03() {
