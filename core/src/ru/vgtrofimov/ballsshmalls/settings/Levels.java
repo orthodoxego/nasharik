@@ -31,6 +31,7 @@ public class Levels {
 
         vpos.add(getLevel03());
         grabber.add(getGrabber03());
+        tech.add(getTech03());
     }
 
     public Vector<PositionUnit> getLevel(int level) {
@@ -74,12 +75,27 @@ public class Levels {
         return tech;
     }
 
+
+    public Vector<PositionUnit> getTech02() {
+        Vector<PositionUnit> tech = new Vector<>();
+        tech.add(new PositionUnit(100, 7100, GameConstant.MINE));
+        tech.add(new PositionUnit(412, 7100, GameConstant.MINE));
+        tech.add(new PositionUnit(196, 6200, GameConstant.MINE));
+        tech.add(new PositionUnit(450, 4000, GameConstant.MINE));
+        tech.add(new PositionUnit(160, 4000, GameConstant.MINE));
+        tech.add(new PositionUnit(50, 2000, GameConstant.MINE));
+        tech.add(new PositionUnit(200, 2000, GameConstant.MINE));
+        tech.add(new PositionUnit(350, 2000, GameConstant.MINE));
+        tech.add(new PositionUnit(490, 2000, GameConstant.MINE));
+        return tech;
+    }
+
     public Vector<PositionUnit> getLevel02() {
         /* Высота игрового мира 512 * 15 = 7584 (Setup.count_background) */
         Vector<PositionUnit> level = new Vector<>();
-        level.add(new PositionUnit(100, 7100, GameConstant.TRIANGLE));
+        level.add(new PositionUnit(256, 7100, GameConstant.TRIANGLE));
         level.add(new PositionUnit(400, 6800, GameConstant.CIRCLE));
-        level.add(new PositionUnit(256, 6200, GameConstant.POLYGOON));
+        level.add(new PositionUnit(368, 6200, GameConstant.POLYGOON));
         level.add(new PositionUnit(312, 4000, GameConstant.SQUARE));
         level.add(new PositionUnit(256, 2000, GameConstant.SIXSTAR));
         return level;
@@ -95,13 +111,15 @@ public class Levels {
         return grab;
     }
 
-    public Vector<PositionUnit> getTech02() {
+    public Vector<PositionUnit> getTech03() {
         Vector<PositionUnit> tech = new Vector<>();
-        tech.add(new PositionUnit(50, 7100, GameConstant.MINE));
-        tech.add(new PositionUnit(250, 7100, GameConstant.MINE));
-        tech.add(new PositionUnit(350, 7100, GameConstant.MINE));
-        tech.add(new PositionUnit(450, 6500, GameConstant.MINE));
-        tech.add(new PositionUnit(160, 6900, GameConstant.MINE));
+        tech.add(new PositionUnit(200, 350, GameConstant.MINE));
+        tech.add(new PositionUnit(400, 6800, GameConstant.MINE));
+        tech.add(new PositionUnit(200, 6000, GameConstant.MINE));
+        tech.add(new PositionUnit(400, 5000, GameConstant.MINE));
+        tech.add(new PositionUnit(200, 3000, GameConstant.MINE));
+        tech.add(new PositionUnit(400, 2000, GameConstant.MINE));
+        tech.add(new PositionUnit(200, 1500, GameConstant.MINE));
         return tech;
     }
 

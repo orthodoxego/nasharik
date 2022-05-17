@@ -201,8 +201,8 @@ public class GameStage extends StageParent {
          **************************************************************************/
 
         Levels lev = new Levels();
-        addShapes(lev);
         addTech(lev);
+        addShapes(lev);
 
         addActor(actorBall);
 
@@ -304,6 +304,14 @@ public class GameStage extends StageParent {
                 if (score.checkShape(ash.getNumber_shape())) {
                     score.addScore(1);
                     actorBall.addScalle(actorBall.getScaleX() + 0.4f / score.getTask().length);
+
+                    // Добавит взрыв
+                    actorFrames.add(new ActorFrames(textures.getExplosion(),
+                            0, 16,
+                            1,
+                            (int) ash.getX() - 64, (int) ash.getY() - 64));
+                    addActor(actorFrames.lastElement());
+
                     if (score.getCurrentShape() == GameConstant.WIN) {
                         nextLevel(); // Следующий уровень
                     }
@@ -316,25 +324,23 @@ public class GameStage extends StageParent {
     }
 
     private void check_collision_player_and_tech() {
-        for (ActorMine ash : actorMines) {
-            if (ash.isEnabled() && ash.isCollision(actorBall)) {
-                actorFrames.add(new ActorFrames(textures.getExplosion(),
-                        0, 16,
-                        1,
-                        (int) ash.getX() - 64, (int) ash.getY() - 64));
-                addActor(actorFrames.lastElement());
-                ash.setEnabled(false);
-                ash.remove();
+        for (ActorMine am : actorMines) {
+            if (am.isEnabled() && am.isCollision(actorBall)) {
+                // am.setEnabled(false);
+                // am.remove();
+                am.setScale(2.5f, 2.5f);
                 actorBall.setSpeedX(-actorBall.getSpeedX() * 3);
                 actorBall.setSpeedY(-actorBall.getSpeedY() * 3);
             }
         }
 
+        /*
         for (int i = actorMines.size() - 1; i > -1; i--) {
             if (!actorMines.elementAt(i).isEnabled()) {
                 actorMines.removeElementAt(i);
             }
         }
+        */
 
     }
 

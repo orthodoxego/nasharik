@@ -17,7 +17,7 @@ public class Setup {
     int level;
 
     public Setup() {
-        this.level = 1;
+        this.level = 2;
 
         loadPrefs();
     }
