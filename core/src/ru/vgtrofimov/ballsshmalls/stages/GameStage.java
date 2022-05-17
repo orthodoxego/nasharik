@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.Vector;
 
+import ru.vgtrofimov.ballsshmalls.Balls;
 import ru.vgtrofimov.ballsshmalls.actors.ActorBackground;
 import ru.vgtrofimov.ballsshmalls.actors.ActorBall;
 import ru.vgtrofimov.ballsshmalls.actors.ActorFrames;
@@ -77,6 +78,7 @@ public class GameStage extends StageParent {
         actorBall = null;
         actorRightHand = null;
         actorLeftHand = null;
+        actorShapeLine = null;
 
         score.restart();
         move_cam = true;
@@ -208,6 +210,7 @@ public class GameStage extends StageParent {
 
         addActor(actorBall);
 
+        Balls.log("Create line");
         actorShapeLine = new ActorShapeLine(textures.getShapes(), score, (int) camera.viewportHeight);
         addActor(actorShapeLine);
     }
@@ -244,7 +247,6 @@ public class GameStage extends StageParent {
                     break;
             }
         }
-
     }
 
     private void addShapes(Levels lev) {
@@ -262,12 +264,13 @@ public class GameStage extends StageParent {
             actorShape.add(new ActorShape(textures.getShapes()[pu.code], pu.code,
                     pu.x, pu.y,
                     speed[(int) (Math.random() * speed.length)], speed[(int) (Math.random() * speed.length)],
-                    100 + (int) (Math.random() * 200), 50 + (int) (Math.random() * 50),
+                    5 + (int) (Math.random() * 100), 5 + (int) (Math.random() * 50),
                     game_world_width, game_world_height)
             );
             addActor(actorShape.lastElement());
         }
         // Collections.shuffle(shapes);
+        Balls.log("Create task");
         score.createTask(shapes);
     }
 
@@ -353,6 +356,7 @@ public class GameStage extends StageParent {
                 am.setScale(2.5f, 2.5f);
                 actorBall.setSpeedX(-actorBall.getSpeedX() * 3);
                 actorBall.setSpeedY(-actorBall.getSpeedY() * 3);
+                actorBall.check_move_balls(Gdx.graphics.getDeltaTime());
                 actorBall.check_move_balls(Gdx.graphics.getDeltaTime());
             }
         }

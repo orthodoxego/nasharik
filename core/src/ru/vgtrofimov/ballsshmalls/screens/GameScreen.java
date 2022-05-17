@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ru.vgtrofimov.ballsshmalls.Balls;
 import ru.vgtrofimov.ballsshmalls.settings.Setup;
+import ru.vgtrofimov.ballsshmalls.stages.EndGameStage;
 import ru.vgtrofimov.ballsshmalls.stages.GameStage;
 import ru.vgtrofimov.ballsshmalls.stages.StageParent;
 import ru.vgtrofimov.ballsshmalls.textures.Textures;
@@ -20,8 +21,11 @@ public class GameScreen implements Screen {
     Viewport viewport;
     OrthographicCamera camera;
     AssetManager manager;
+
     StageParent currentStage;
     Textures textures;
+
+    int score = 0;
 
     public GameScreen(Balls balls, Setup setup, Viewport viewport, OrthographicCamera camera, AssetManager manager, Textures textures) {
         this.balls = balls;
@@ -32,12 +36,17 @@ public class GameScreen implements Screen {
         this.textures = textures;
 
         setCurrentStage();
+        // setEndGameStage();
     }
 
     private void setCurrentStage() {
         currentStage = null;
         currentStage = new GameStage(this, setup, viewport, camera, textures);
+    }
 
+    private void setEndGameStage() {
+        currentStage = null;
+        currentStage = new EndGameStage(this, setup, viewport, camera);
     }
 
     @Override
@@ -79,5 +88,13 @@ public class GameScreen implements Screen {
     @Override
     public void dispose() {
 
+    }
+
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
     }
 }

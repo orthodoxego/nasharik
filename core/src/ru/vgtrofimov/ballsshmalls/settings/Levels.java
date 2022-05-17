@@ -36,6 +36,10 @@ public class Levels {
         vpos.add(getLevel04());
         grabber.add(getGrabber04());
         tech.add(getTech04());
+
+        vpos.add(getLevel05());
+        grabber.add(getGrabber05());
+        tech.add(getTech05());
     }
 
     public Vector<PositionUnit> getLevel(int level) {
@@ -204,6 +208,56 @@ public class Levels {
         grab.add(GameConstant.PENTAGON);
         grab.add(GameConstant.CIRCLE);
         grab.add(GameConstant.PENTAGON);
+        return grab;
+    }
+
+    public Vector<PositionUnit> getTech05() {
+        Vector<PositionUnit> level = new Vector<>();
+        level.add(new PositionUnit(130, 6800, GameConstant.MINE));
+        level.add(new PositionUnit(400, 6800, GameConstant.MINE));
+        level.add(new PositionUnit(130, 6000, GameConstant.MINE));
+        level.add(new PositionUnit(400, 6000, GameConstant.MINE));
+        level.add(new PositionUnit(130, 5200, GameConstant.MINE));
+        level.add(new PositionUnit(400, 5200, GameConstant.MINE));
+        level.add(new PositionUnit(130, 4800, GameConstant.MINE));
+        level.add(new PositionUnit(400, 4800, GameConstant.MINE));
+
+        level.add(new PositionUnit(260, 6800,  GameConstant.TELEPORT));
+        level.lastElement().teleportToX = 260;
+        level.lastElement().teleportToY = 6400;
+
+        level.add(new PositionUnit(260, 6100,  GameConstant.TELEPORT));
+        level.lastElement().teleportToX = 260;
+        level.lastElement().teleportToY = 4800;
+
+        return level;
+    }
+
+    public Vector<PositionUnit> getLevel05() {
+        /* Высота игрового мира 512 * 15 = 7584 (Setup.count_background) */
+        Vector<PositionUnit> level = new Vector<>();
+        level.add(new PositionUnit(240, 7000, GameConstant.STAR));
+        level.add(new PositionUnit(240, 6600, GameConstant.TRIANGLE));
+        level.add(new PositionUnit(240, 6200, GameConstant.SIXSTAR));
+        level.add(new PositionUnit(140, 6100, GameConstant.CIRCLE));
+        level.add(new PositionUnit(380, 6100, GameConstant.CIRCLE));
+        level.add(new PositionUnit(240, 5800, GameConstant.SQUARE));
+        level.add(new PositionUnit(240, 5400, GameConstant.CIRCLE));
+        level.add(new PositionUnit(240, 5000, GameConstant.POLYGOON));
+        level.add(new PositionUnit(240, 4600, GameConstant.PENTAGON));
+        return level;
+    }
+
+    public Vector<Integer> getGrabber05() {
+        Vector<Integer> grab = new Vector<>();
+        grab.add(GameConstant.TRIANGLE);
+        grab.add(GameConstant.STAR);
+        grab.add(GameConstant.SQUARE);
+        grab.add(GameConstant.CIRCLE);
+        grab.add(GameConstant.CIRCLE);
+        grab.add(GameConstant.CIRCLE);
+        grab.add(GameConstant.PENTAGON);
+        grab.add(GameConstant.POLYGOON);
         return grab;
     }
 }
