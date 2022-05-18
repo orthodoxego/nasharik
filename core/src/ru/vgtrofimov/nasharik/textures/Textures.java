@@ -15,6 +15,8 @@ public class Textures {
     TextureRegion blackHole;
     TextureRegion winHole;
 
+    TextureRegion keyRestart, keyMenu;
+
     TextureRegion shapes[];
     TextureRegion techobject[];
     TextureRegion explosion[];
@@ -29,8 +31,8 @@ public class Textures {
         Texture load;
 
         load = new Texture("png/" + dir[Setup.theme] + "/explosion.png");
-        explosion = new TextureRegion[8];
-        for (int i = 0; i < 2; i++) {
+        explosion = new TextureRegion[16];
+        for (int i = 0; i < 4; i++) {
             for (int j = 0; j < 4; j++) {
                 explosion[i * 4 + j] = getTextureRegionFromMap(j * 128, i * 128, 128, 128, false, true, load);            }
         }
@@ -39,6 +41,9 @@ public class Textures {
         background = getTextureRegionFromMap(0, 0, load.getWidth(), load.getHeight(), false, true, load);
 
         load = new Texture("png/" + dir[Setup.theme] + "/pack.png");
+
+        keyRestart = getTextureRegionFromMap(0, 256, 64, 64, false, true, load);
+        keyMenu = getTextureRegionFromMap(64, 256, 64, 64, false, true, load);
 
         leftHand = getTextureRegionFromMap(0, 128, 32, 64, false, true, load);
         rightHand = getTextureRegionFromMap(32, 128, 32, 64, false, true, load);
@@ -124,5 +129,13 @@ public class Textures {
 
     public TextureRegion[] getExplosion() {
         return explosion;
+    }
+
+    public TextureRegion getKeyRestart() {
+        return keyRestart;
+    }
+
+    public TextureRegion getKeyMenu() {
+        return keyMenu;
     }
 }

@@ -101,7 +101,7 @@ public class ActorBall extends Actor {
         batch.draw(skin, getX() - correctX, getY() - correctY, getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
         batch.draw(shadow, getX() - correctX, getY() - correctY, getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), 0);
 
-        Font.play_regular_14px.draw(batch, "" + (int) getY(), 0, getY());
+        //Font.play_regular_14px.draw(batch, "" + (int) getY(), 0, getY());
 
     }
 

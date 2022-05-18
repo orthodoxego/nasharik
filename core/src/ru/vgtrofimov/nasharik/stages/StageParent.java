@@ -1,5 +1,6 @@
 package ru.vgtrofimov.nasharik.stages;
 
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -27,7 +28,8 @@ public class StageParent extends Stage {
 
     public void end() {   }
 
-    public void resize(int width, int height) { }
+    public void resize(int width, int height) {
+    }
 
     public void setPause(boolean p) {
         this.pause = p;

@@ -9,7 +9,6 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.Vector;
 
-import ru.vgtrofimov.nasharik.Balls;
 import ru.vgtrofimov.nasharik.actors.ActorBackground;
 import ru.vgtrofimov.nasharik.actors.ActorBall;
 import ru.vgtrofimov.nasharik.actors.ActorFrames;
@@ -29,12 +28,11 @@ import ru.vgtrofimov.nasharik.settings.Score;
 import ru.vgtrofimov.nasharik.settings.Setup;
 import ru.vgtrofimov.nasharik.textures.Textures;
 
-public class GameStage extends StageParent {
+public class GameStage extends StageParent implements InputProcessor{
 
     Score score;
     boolean move_cam;
     Textures textures;
-    InputProcessor inputProcessor;
     public static int game_world_width, game_world_height;
 
     ActorTextMoveYtoY actorTextMoveYtoY;
@@ -48,7 +46,7 @@ public class GameStage extends StageParent {
     Vector<ActorShape> actorShape;
     Vector<ActorSpring> actorSprings;
     Vector<ActorTeleport> actorTeleport;
-    Vector<ActorFrames> actorFrames;
+    Vector<ActorFrames> actorStarsGrab;
 
     ActorRightHand actorRightHand;
     ActorLeftHand actorLeftHand;
@@ -60,6 +58,10 @@ public class GameStage extends StageParent {
         this.textures = textures;
 
         resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        resize((int) viewport.getWorldWidth(), (int) viewport.getWorldHeight());
+        camera.position.x = 10;
+        camera.position.y = 10;
+
 
         hardReset();
     }
@@ -82,104 +84,14 @@ public class GameStage extends StageParent {
         score.restart();
         move_cam = true;
         pause = false;
-        inputProcessor = new InputProcessor() {
-            @Override
-            public boolean keyDown(int keycode) {
-                if (keycode == Input.Keys.P) {
-                    pause = !pause;
-                }
-
-                // Добавит актёра экрана паузы
-                if (pause) {
-                    actorPause = new ActorTextMoveYtoY(textures.getBlackHole(),
-                            camera.position.y,
-                            camera.position.y,
-                            "П А У З А", (int) camera.viewportWidth, (int) camera.viewportHeight,
-                            (int) (camera.position.x - camera.viewportWidth / 2),
-                            (int) (camera.position.y - camera.viewportHeight / 2));
-                    addActor(actorPause);
-                } else {
-                    if (actorPause != null) actorPause.remove();
-                }
-                return false;
-            }
-
-            @Override
-            public boolean keyUp(int keycode) {
-                return false;
-            }
-
-            @Override
-            public boolean keyTyped(char character) {
-                return false;
-            }
-
-            @Override
-            public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-//                if (actorTimer != null) {
-//                    actorTimer.setRandomFrame();
-//                    actorTimer.setPressed(true);
-//                } else {
-                if (actorBall.getY() > camera.viewportHeight / 3 && !pause) {
-                    if (actorRightHand == null && actorLeftHand == null && screenX > Gdx.graphics.getWidth() / 2) {
-                        actorRightHand = new ActorRightHand(actorBall, textures.getRightHand(), (int) actorBall.getX(), (int) actorBall.getY());
-                        actorRightHand.setPressed(true);
-                        addActor(actorRightHand);
-                    }
-
-                    if (actorLeftHand == null && actorRightHand == null && screenX <= Gdx.graphics.getWidth() / 2 && !pause) {
-                        actorLeftHand = new ActorLeftHand(actorBall, textures.getLeftHand(), (int) actorBall.getX(), (int) actorBall.getY());
-                        actorLeftHand.setPressed(true);
-                        addActor(actorLeftHand);
-                    }
-                }
-//                }
-                return false;
-            }
-
-            @Override
-            public boolean touchUp(int screenX, int screenY, int pointer, int button) {
-//                if (actorTimer != null && actorTimer.isPressed()) {
-//                    actorTimer.setPressed(false);
-//                    actorRacquet.setPressed_energy(actorTimer.getFrame());
-//                }
-
-                if (actorRightHand != null && actorRightHand.isPressed()) {
-                    actorRightHand.setPressed(false);
-                    actorRightHand.setTime_to_death(0.1f);
-                }
-
-                if (actorLeftHand != null && actorLeftHand.isPressed()) {
-                    actorLeftHand.setPressed(false);
-                    actorLeftHand.setTime_to_death(0.1f);
-                }
-
-                return false;
-            }
-
-            @Override
-            public boolean touchDragged(int screenX, int screenY, int pointer) {
-                return false;
-            }
-
-            @Override
-            public boolean mouseMoved(int screenX, int screenY) {
-                return false;
-            }
-
-            @Override
-            public boolean scrolled(float amountX, float amountY) {
-                return false;
-            }
-        };
-        Gdx.input.setInputProcessor(inputProcessor);
         correct_camera_y = 128;
         addActors();
     }
 
     private void addActors() {
 
-        actorFrames = new Vector<>();
+        actorStarsGrab = new Vector<>();
+        gameScreen.setInputListener();
 
         ActorBackground actorBackground = new ActorBackground(textures.getBackground(), Setup.count_background);
         int sx = 100 + (int) (Math.random() * 200);
@@ -209,7 +121,6 @@ public class GameStage extends StageParent {
 
         addActor(actorBall);
 
-        Balls.log("Create line");
         actorShapeLine = new ActorShapeLine(textures.getShapes(), score, (int) camera.viewportHeight);
         addActor(actorShapeLine);
     }
@@ -269,7 +180,6 @@ public class GameStage extends StageParent {
             addActor(actorShape.lastElement());
         }
         // Collections.shuffle(shapes);
-        Balls.log("Create task");
         score.createTask(shapes);
     }
 
@@ -294,6 +204,11 @@ public class GameStage extends StageParent {
                 if (actorTextMoveYtoY != null) {
                     if (!actorTextMoveYtoY.isEnabled()) {
                         actorTextMoveYtoY.remove();
+                        // КОНЕЦ ИГРЫ
+                        if (score.getLives() < 0) {
+                            gameScreen.setEndGameStage();
+                        }
+                        // СЛЕДУЮЩИЙ УРОВЕНЬ
                         if (score.getCurrentShape() == GameConstant.WIN) {
                             score.nextLevel();
                         }
@@ -313,16 +228,21 @@ public class GameStage extends StageParent {
     }
 
     private void removeActorFrames() {
-        for (ActorFrames af : actorFrames) {
+        for (ActorFrames af : actorStarsGrab) {
             if (!af.isEnabled()) af.remove();
         }
 
-        for (int i = actorFrames.size() - 1; i > -1; i--) {
-            if (!actorFrames.elementAt(i).isEnabled()) actorFrames.removeElement(actorFrames.elementAt(i));
+        for (int i = actorStarsGrab.size() - 1; i > -1; i--) {
+            if (!actorStarsGrab.elementAt(i).isEnabled()) actorStarsGrab.removeElement(actorStarsGrab.elementAt(i));
         }
     }
 
     private void check_collision_player_and_shape() {
+        for (ActorFrames asg : actorStarsGrab) {
+            asg.setX(actorBall.getX() - 64);
+            asg.setY(actorBall.getY() - 96);
+        }
+
         for (ActorShape ash : actorShape) {
             if (ash.isEnabled() && ash.isCollision(actorBall)) {
                 if (score.checkShape(ash.getNumber_shape())) {
@@ -330,11 +250,11 @@ public class GameStage extends StageParent {
                     actorBall.addScalle(actorBall.getScaleX() + 0.4f / score.getTask().length);
 
                     // Добавит взрыв
-                    actorFrames.add(new ActorFrames(textures.getExplosion(),
-                            0, 16,
+                    actorStarsGrab.add(new ActorFrames(textures.getExplosion(),
+                            0, 32,
                             1,
-                            (int) ash.getX() - 64, (int) ash.getY() - 64));
-                    addActor(actorFrames.lastElement());
+                            (int) actorBall.getX() - 64, (int) actorBall.getY() - 64));
+                    addActor(actorStarsGrab.lastElement());
 
                     if (score.getCurrentShape() == GameConstant.WIN) {
                         nextLevel(); // Следующий уровень
@@ -458,13 +378,22 @@ public class GameStage extends StageParent {
 
     @Override
     public void resize(int width, int height) {
+        // Balls.log("RESIZE GS " + width + " " + height);
 
         game_world_width = 512;
         game_world_height = textures.getBackground().getRegionHeight() * Setup.count_background;
 
-        getViewport().setWorldWidth(game_world_width);
-        getViewport().setWorldHeight(game_world_width * (float) height / width);
+        /*
+        getViewport().setScreenWidth(game_world_width);
+        getViewport().setScreenHeight((int) (game_world_width * (float) height / width));
         getViewport().update(game_world_width, game_world_width * height / width);
+
+         */
+
+        camera.viewportWidth = game_world_width;
+        camera.viewportHeight = game_world_width * (float) height / width;
+        camera.position.set(camera.viewportWidth / 2,camera.viewportHeight / 2, 0);
+        camera.update();
     }
 
     @Override
@@ -475,21 +404,34 @@ public class GameStage extends StageParent {
     private void nextTry() {
         // Добавляется актёр с текстом. Когда текст пройдёт, актёр удаляется и вызывается
         // softReset()
+
+        score.decScore(3);
+        score.setLives(score.getLives() - 1);
+
         move_cam = false;
         if (actorLeftHand != null) actorLeftHand.remove();
         if (actorRightHand != null) actorRightHand.remove();
 
-        score.decScore(3);
-        score.setLives(score.getLives() - 1);
         actorBall.setSpeedX(0);
         actorBall.setSpeedY(0);
         Gdx.input.setInputProcessor(null);
-        actorTextMoveYtoY = new ActorTextMoveYtoY(textures.getBlackHole(),
-                camera.position.y + 200,
-                camera.position.y - 100,
-                "ПОПРОБУЙ ЕЩЁ РАЗ :(", (int) camera.viewportWidth, (int) camera.viewportHeight,
-                (int) (camera.position.x - camera.viewportWidth / 2),
-                (int) (camera.position.y - camera.viewportHeight / 2));
+
+        if (score.getLives() < 0) {
+            actorTextMoveYtoY = new ActorTextMoveYtoY(textures.getBlackHole(),
+                    camera.position.y + 200,
+                    camera.position.y - 100,
+                    "ЭТО КОНЕЦ", (int) camera.viewportWidth, (int) camera.viewportHeight,
+                    (int) (camera.position.x - camera.viewportWidth / 2),
+                    (int) (camera.position.y - camera.viewportHeight / 2));
+        } else {
+            actorTextMoveYtoY = new ActorTextMoveYtoY(textures.getBlackHole(),
+                    camera.position.y + 200,
+                    camera.position.y - 100,
+                    "ПОПРОБУЙ ЕЩЁ РАЗ :(", (int) camera.viewportWidth, (int) camera.viewportHeight,
+                    (int) (camera.position.x - camera.viewportWidth / 2),
+                    (int) (camera.position.y - camera.viewportHeight / 2));
+        }
+
         addActor(actorTextMoveYtoY);
         actorShapeLine.toFront();
     }
@@ -516,5 +458,96 @@ public class GameStage extends StageParent {
         addActor(actorTextMoveYtoY);
         actorShapeLine.toFront();
     }
+
+    @Override
+    public boolean keyDown(int keycode) {
+        if (keycode == Input.Keys.MINUS) score.setLives(score.getLives() - 1);
+        if (keycode == Input.Keys.P) {
+            pause = !pause;
+        }
+
+        // Добавит актёра экрана паузы
+        if (pause) {
+            actorPause = new ActorTextMoveYtoY(textures.getBlackHole(),
+                    camera.position.y,
+                    camera.position.y,
+                    "П А У З А", (int) camera.viewportWidth, (int) camera.viewportHeight,
+                    (int) (camera.position.x - camera.viewportWidth / 2),
+                    (int) (camera.position.y - camera.viewportHeight / 2));
+            addActor(actorPause);
+        } else {
+            if (actorPause != null) actorPause.remove();
+        }
+        return false;
+    }
+
+    @Override
+    public boolean keyUp(int keycode) {
+        return false;
+    }
+
+    @Override
+    public boolean keyTyped(char character) {
+        return false;
+    }
+
+    @Override
+    public boolean touchDown(int screenX, int screenY, int pointer, int button) {
+//                if (actorTimer != null) {
+//                    actorTimer.setRandomFrame();
+//                    actorTimer.setPressed(true);
+//                } else {
+        if (actorBall.getY() > camera.viewportHeight / 3 && !pause) {
+            if (actorRightHand == null && actorLeftHand == null && screenX > Gdx.graphics.getWidth() / 2) {
+                actorRightHand = new ActorRightHand(actorBall, textures.getRightHand(), (int) actorBall.getX(), (int) actorBall.getY());
+                actorRightHand.setPressed(true);
+                addActor(actorRightHand);
+            }
+
+            if (actorLeftHand == null && actorRightHand == null && screenX <= Gdx.graphics.getWidth() / 2 && !pause) {
+                actorLeftHand = new ActorLeftHand(actorBall, textures.getLeftHand(), (int) actorBall.getX(), (int) actorBall.getY());
+                actorLeftHand.setPressed(true);
+                addActor(actorLeftHand);
+            }
+        }
+//                }
+        return false;
+    }
+
+    @Override
+    public boolean touchUp(int screenX, int screenY, int pointer, int button) {
+//                if (actorTimer != null && actorTimer.isPressed()) {
+//                    actorTimer.setPressed(false);
+//                    actorRacquet.setPressed_energy(actorTimer.getFrame());
+//                }
+
+        if (actorRightHand != null && actorRightHand.isPressed()) {
+            actorRightHand.setPressed(false);
+            actorRightHand.setTime_to_death(0.1f);
+        }
+
+        if (actorLeftHand != null && actorLeftHand.isPressed()) {
+            actorLeftHand.setPressed(false);
+            actorLeftHand.setTime_to_death(0.1f);
+        }
+
+        return false;
+    }
+
+    @Override
+    public boolean touchDragged(int screenX, int screenY, int pointer) {
+        return false;
+    }
+
+    @Override
+    public boolean mouseMoved(int screenX, int screenY) {
+        return false;
+    }
+
+    @Override
+    public boolean scrolled(float amountX, float amountY) {
+        return false;
+    }
+
 
 }

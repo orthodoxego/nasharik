@@ -18,6 +18,8 @@ public class Font {
     public static BitmapFont play_bold_14px;
     public static BitmapFont play_regular_14px;
 
+    public static BitmapFont play_bold_big;
+
     public Font() {
         play_regular = new FreeTypeFontGenerator(Gdx.files.internal("font/playregular.ttf"));
         play_bold = new FreeTypeFontGenerator(Gdx.files.internal("font/playbold.ttf"));
@@ -42,6 +44,10 @@ public class Font {
         parameter.color = Color.valueOf("df9b62");
         play_bold_14px = play_bold.generateFont(parameter);
 
+        parameter.size = (int) (GdxViewport.FIXED_BLOCK * 7.6f);
+        parameter.color = Color.valueOf("edd970");
+        play_bold_big = play_bold.generateFont(parameter);
+
         play_regular.dispose();
         play_bold.dispose();
 
@@ -50,5 +56,6 @@ public class Font {
     public static GlyphLayout getGlyphLayout() {
         return glyphLayout;
     }
+
 
 }

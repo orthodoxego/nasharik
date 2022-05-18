@@ -11,7 +11,7 @@ public class Setup {
     // Сколько раз повторяется текстура (высота игрового мира)
     public static int count_background = 15;
     int recordScore;
-
+    int score;
     int level;
 
     public static boolean shadow;
@@ -19,6 +19,7 @@ public class Setup {
 
     public Setup() {
         this.level = 0;
+        this.score = 0;
 
         loadPrefs();
     }
@@ -62,4 +63,11 @@ public class Setup {
         this.recordScore = recordScore;
     }
 
+    public int getScore() {
+        return score;
+    }
+
+    public void setScore(int score) {
+        this.score = score;
+    }
 }

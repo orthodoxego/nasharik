@@ -1,5 +1,8 @@
 package ru.vgtrofimov.nasharik.screens;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.InputMultiplexer;
+import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -34,18 +37,21 @@ public class GameScreen implements Screen {
         this.manager = manager;
         this.textures = textures;
 
-        // setCurrentStage();
+
+        // setNewGameStage();
         setEndGameStage();
     }
 
-    private void setCurrentStage() {
+    public void setNewGameStage() {
         currentStage = null;
         currentStage = new GameStage(this, setup, viewport, camera, textures);
+        Gdx.input.setInputProcessor(currentStage);
     }
 
-    private void setEndGameStage() {
+    public void setEndGameStage() {
         currentStage = null;
         currentStage = new EndGameStage(this, setup, viewport, camera, textures);
+        Gdx.input.setInputProcessor(currentStage);
     }
 
     @Override
@@ -95,5 +101,9 @@ public class GameScreen implements Screen {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public void setInputListener() {
+        Gdx.input.setInputProcessor(currentStage);
     }
 }

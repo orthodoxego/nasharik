@@ -79,11 +79,13 @@ public class Score {
         if (score > setup.getRecordScore()) {
             setup.setRecordScore(score);
         }
+        setup.setScore(score);
     }
 
     public void decScore(int i) {
         this.score -= i;
         if (this.score < 0) this.score = 0;
+        setup.setScore(score);
     }
 
     public int getCurrentShape() {
