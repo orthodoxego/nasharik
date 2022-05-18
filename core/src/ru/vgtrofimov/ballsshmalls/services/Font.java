@@ -1,10 +1,13 @@
-package ru.vgtrofimov.ballsshmalls.settings;
+package ru.vgtrofimov.ballsshmalls.services;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.freetype.FreeTypeFontGenerator;
+
+import ru.vgtrofimov.ballsshmalls.settings.GdxViewport;
+import ru.vgtrofimov.ballsshmalls.settings.Setup;
 
 public class Font {
 

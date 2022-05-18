@@ -13,7 +13,7 @@ import ru.vgtrofimov.ballsshmalls.Balls;
 import ru.vgtrofimov.ballsshmalls.actors.ActorBackground;
 import ru.vgtrofimov.ballsshmalls.actors.ActorBall;
 import ru.vgtrofimov.ballsshmalls.actors.ActorFrames;
-import ru.vgtrofimov.ballsshmalls.actors.ActorMine;
+import ru.vgtrofimov.ballsshmalls.actors.ActorSpring;
 import ru.vgtrofimov.ballsshmalls.actors.ActorShape;
 import ru.vgtrofimov.ballsshmalls.actors.ActorLeftHand;
 import ru.vgtrofimov.ballsshmalls.actors.ActorRacquet;
@@ -21,11 +21,10 @@ import ru.vgtrofimov.ballsshmalls.actors.ActorRightHand;
 import ru.vgtrofimov.ballsshmalls.actors.ActorShapeLine;
 import ru.vgtrofimov.ballsshmalls.actors.ActorTeleport;
 import ru.vgtrofimov.ballsshmalls.actors.ActorTextMoveYtoY;
-import ru.vgtrofimov.ballsshmalls.actors.ActorTimer;
 import ru.vgtrofimov.ballsshmalls.screens.GameScreen;
 import ru.vgtrofimov.ballsshmalls.settings.GameConstant;
 import ru.vgtrofimov.ballsshmalls.settings.Levels;
-import ru.vgtrofimov.ballsshmalls.settings.PositionUnit;
+import ru.vgtrofimov.ballsshmalls.services.PositionUnit;
 import ru.vgtrofimov.ballsshmalls.settings.Score;
 import ru.vgtrofimov.ballsshmalls.settings.Setup;
 import ru.vgtrofimov.ballsshmalls.textures.Textures;
@@ -47,7 +46,7 @@ public class GameStage extends StageParent {
     int correct_camera_y;
 
     Vector<ActorShape> actorShape;
-    Vector<ActorMine> actorMines;
+    Vector<ActorSpring> actorSprings;
     Vector<ActorTeleport> actorTeleport;
     Vector<ActorFrames> actorFrames;
 
@@ -217,20 +216,20 @@ public class GameStage extends StageParent {
 
     private void addTech(Levels lev) {
         Vector<PositionUnit> tech = lev.getTech(setup.getLevel() - 1);
-        actorMines = new Vector<>();
+        actorSprings = new Vector<>();
         actorTeleport = new Vector<>();
 
         int[] speed = {-1, -2, -3, 3, 2, 1};
         for (PositionUnit pu : tech) {
             switch (pu.code) {
                 case GameConstant.MINE:
-                    actorMines.add(new ActorMine(textures.getTechobject()[pu.code - GameConstant.CORRECT_TECH], pu.code,
+                    actorSprings.add(new ActorSpring(textures.getTechobject()[pu.code - GameConstant.CORRECT_TECH], pu.code,
                             pu.x, pu.y,
                             speed[(int) (Math.random() * speed.length)], speed[(int) (Math.random() * speed.length)],
                             5 + (int) (Math.random() * 20), 5 + (int) (Math.random() * 20),
                             game_world_width, game_world_height)
                     );
-                    addActor(actorMines.lastElement());
+                    addActor(actorSprings.lastElement());
                     break;
                 case GameConstant.TELEPORT:
                     actorTeleport.add(new ActorTeleport(textures.getTechobject()[pu.code - GameConstant.CORRECT_TECH], pu.code,
@@ -349,7 +348,7 @@ public class GameStage extends StageParent {
     }
 
     private void check_collision_player_and_tech() {
-        for (ActorMine am : actorMines) {
+        for (ActorSpring am : actorSprings) {
             if (am.isEnabled() && am.isCollision(actorBall)) {
                 // am.setEnabled(false);
                 // am.remove();

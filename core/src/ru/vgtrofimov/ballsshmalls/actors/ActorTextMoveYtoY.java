@@ -1,17 +1,15 @@
 package ru.vgtrofimov.ballsshmalls.actors;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.GlyphLayout;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-import ru.vgtrofimov.ballsshmalls.settings.Font;
+import ru.vgtrofimov.ballsshmalls.services.Font;
 import ru.vgtrofimov.ballsshmalls.stages.GameStage;
 
 public class ActorTextMoveYtoY extends Actor {
-    float a;
+    float alpha_channel;
     TextureRegion blackHole;
     int fromY;
     int toY;
@@ -21,11 +19,11 @@ public class ActorTextMoveYtoY extends Actor {
     int widthText;
     int nulX, nulY;
     int screenWidth, screenHeight;
-    float time;
+    float lifetime;
 
     public ActorTextMoveYtoY(TextureRegion blackHole, float fromY, float toY, String text, int screenWidth, int screenHeight, int nulX, int nulY) {
         this.blackHole = blackHole;
-        a = 0.0f;
+        alpha_channel = 0.0f;
         setY(fromY);
         this.fromY = (int) fromY;
         this.toY = (int) toY;
@@ -33,7 +31,7 @@ public class ActorTextMoveYtoY extends Actor {
         enabled = true;
         this.nulX = nulX;
         this.nulY = nulY;
-        this.time = 0;
+        this.lifetime = 0;
 
         this.screenWidth = screenWidth;
         this.screenHeight = screenHeight;
@@ -54,17 +52,17 @@ public class ActorTextMoveYtoY extends Actor {
 
         if (Math.abs(getY() - toY) > 10) setY(getY() + speed * delta);
 
-        a += delta * 3;
-        if (a > 0.9f) a = 0.9f;
-        time += delta;
-        if (time > 1.5f) enabled = false;
+        alpha_channel += delta * 3;
+        if (alpha_channel > 0.9f) alpha_channel = 0.9f;
+        lifetime += delta;
+        if (lifetime > 1.5f) enabled = false;
     }
 
     @Override
     public void draw(Batch batch, float parentAlpha) {
         super.draw(batch, parentAlpha);
 
-        batch.setColor(1, 1, 1, a);
+        batch.setColor(1, 1, 1, alpha_channel);
         batch.draw(blackHole, nulX, nulY, 0, 0, screenWidth, screenHeight, 1, 1, 0);
         batch.setColor(1, 1, 1, 1);
 

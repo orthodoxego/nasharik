@@ -9,7 +9,7 @@ import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ru.vgtrofimov.ballsshmalls.screens.GameScreen;
-import ru.vgtrofimov.ballsshmalls.settings.Font;
+import ru.vgtrofimov.ballsshmalls.services.Font;
 import ru.vgtrofimov.ballsshmalls.settings.GdxViewport;
 import ru.vgtrofimov.ballsshmalls.settings.Setup;
 import ru.vgtrofimov.ballsshmalls.textures.Textures;

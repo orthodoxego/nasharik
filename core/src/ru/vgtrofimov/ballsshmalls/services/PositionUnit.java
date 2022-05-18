@@ -1,4 +1,4 @@
-package ru.vgtrofimov.ballsshmalls.settings;
+package ru.vgtrofimov.ballsshmalls.services;
 
 public class PositionUnit {
     public int x, y;

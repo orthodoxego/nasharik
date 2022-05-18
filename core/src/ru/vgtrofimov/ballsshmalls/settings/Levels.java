@@ -2,6 +2,8 @@ package ru.vgtrofimov.ballsshmalls.settings;
 
 import java.util.Vector;
 
+import ru.vgtrofimov.ballsshmalls.services.PositionUnit;
+
 public class Levels {
 
     Vector<Vector<PositionUnit>> vpos;

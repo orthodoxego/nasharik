@@ -16,6 +16,8 @@ public class Setup {
 
     int level;
 
+    public static boolean shadow;
+
     public Setup() {
         this.level = 0;
 
@@ -25,11 +27,13 @@ public class Setup {
     public void loadPrefs() {
         Preferences prefs = Gdx.app.getPreferences(APP_ID);
         recordScore = prefs.getInteger("ajg6256ghjb3hg134j", 0);
+        shadow = prefs.getBoolean("kj828u2hjb3897y2h1", false);
     }
 
     public void savePrefs() {
         Preferences prefs = Gdx.app.getPreferences(APP_ID);
         prefs.putInteger("ajg6256ghjb3hg134j", recordScore);
+        prefs.putBoolean("kj828u2hjb3897y2h1", shadow);
         prefs.flush();
     }
 
@@ -55,5 +59,13 @@ public class Setup {
 
     public void setRecordScore(int recordScore) {
         this.recordScore = recordScore;
+    }
+
+    public boolean isShadow() {
+        return shadow;
+    }
+
+    public void setShadow(boolean shadow) {
+        this.shadow = shadow;
     }
 }

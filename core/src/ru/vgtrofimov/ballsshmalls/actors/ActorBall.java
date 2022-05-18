@@ -1,12 +1,15 @@
 package ru.vgtrofimov.ballsshmalls.actors;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
-import ru.vgtrofimov.ballsshmalls.Balls;
-import ru.vgtrofimov.ballsshmalls.settings.Font;
+import java.util.Vector;
+
+import ru.vgtrofimov.ballsshmalls.services.Font;
+import ru.vgtrofimov.ballsshmalls.services.XY;
+import ru.vgtrofimov.ballsshmalls.settings.GameConstant;
+import ru.vgtrofimov.ballsshmalls.settings.Setup;
 import ru.vgtrofimov.ballsshmalls.stages.GameStage;
 
 public class ActorBall extends Actor {
@@ -19,9 +22,11 @@ public class ActorBall extends Actor {
     float velocity, default_velocity = 19.8f;
     float gravity = 0.18f;
     float massa = 8f;
-    float uprugost = 60f;
+    float elastic = 60f;
     ActorRacquet actorRacquet;
     float newScale;
+    Vector<XY> shadow_ball;
+    float lifetime_for_shadow = 0;
 
     public ActorBall(TextureRegion skin, TextureRegion shadow, int x, int y, int speedX, int speedY, int world_width, int world_height) {
         this.skin = skin;
@@ -44,6 +49,10 @@ public class ActorBall extends Actor {
         this.world_width = world_width;
         this.world_height = world_height;
         velocity = default_velocity;
+
+        shadow_ball = new Vector<>();
+        shadow_ball.add(new XY(getX(), getY(), getScaleX()));
+        lifetime_for_shadow = 0;
     }
 
     public void addScalle(float sc) {
@@ -53,6 +62,15 @@ public class ActorBall extends Actor {
     @Override
     public void act(float delta) {
         super.act(delta);
+
+        lifetime_for_shadow += delta;
+        if (lifetime_for_shadow > GameConstant.TIME_TO_STEP_BALL) {
+            lifetime_for_shadow = 0;
+            if (shadow_ball.size() > 20) {
+                shadow_ball.remove(shadow_ball.size() - 1);
+            }
+            shadow_ball.insertElementAt(new XY(getX(), getY(), getScaleX()), 0);
+        }
 
         if (getScaleX() < newScale) {
             setScale(getScaleX() + delta, getScaleY() + delta);
@@ -68,6 +86,25 @@ public class ActorBall extends Actor {
         check_move_balls(delta);
     }
 
+    @Override
+    public void draw(Batch batch, float parentAlpha) {
+        super.draw(batch, parentAlpha);
+
+        if (Setup.shadow) {
+            for (int i = 0; i < shadow_ball.size(); i++) {
+                batch.setColor(1 - i * 0.05f, 1 - i * 0.02f, 1 - i * 0.05f, 0.5f - i * 0.04f);
+                batch.draw(skin, shadow_ball.elementAt(i).getX() - correctX, shadow_ball.elementAt(i).getY() - correctY, getOriginX(), getOriginY(), getWidth(), getHeight(), shadow_ball.elementAt(i).getScale() - i * 0.01f, shadow_ball.elementAt(i).getScale() - i * 0.01f, getRotation());
+            }
+        }
+
+        batch.setColor(1, 1, 1, parentAlpha);
+        batch.draw(skin, getX() - correctX, getY() - correctY, getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
+        batch.draw(shadow, getX() - correctX, getY() - correctY, getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), 0);
+
+        Font.play_regular_14px.draw(batch, "" + (int) getY(), 0, getY());
+
+    }
+
     public boolean check_move_balls(float delta) {
 
         setSpeedY(getSpeedY() + (velocity + massa * gravity) / 4 * getScaleX());
@@ -78,7 +115,7 @@ public class ActorBall extends Actor {
             // setY(world_height - getHeight() - skin.getRegionHeight() - getHeight() / 2);
             // setY(actorRacquet.getY() - getHeight() / 2 - actorRacquet.getPressed_energy() - actorRacquet.getY_correct_to_fire() * 3);
             // setY(actorRacquet.getY() - getHeight() / 2);
-            setSpeedY(Math.min(-256, (float) (-getSpeedY() * Math.sqrt(uprugost) / massa)));
+            setSpeedY(Math.min(-256, (float) (-getSpeedY() * Math.sqrt(elastic) / massa)));
             velocity = default_velocity;
 
             if (Math.abs(getSpeedY()) < world_height * 0.03f) setSpeedY(0);
@@ -109,17 +146,6 @@ public class ActorBall extends Actor {
         if (Math.abs(getSpeedX()) < 5f)
             setSpeedX(0);
         return true;
-    }
-
-    @Override
-    public void draw(Batch batch, float parentAlpha) {
-        super.draw(batch, parentAlpha);
-
-        batch.setColor(1, 1, 1, parentAlpha);
-        batch.draw(skin, getX() - correctX, getY() - correctY, getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
-        batch.draw(shadow, getX() - correctX, getY() - correctY, getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), 0);
-
-        Font.play_regular_14px.draw(batch, "" + (int) getY(), 0, getY());
     }
 
     public float getSpeedX() {
