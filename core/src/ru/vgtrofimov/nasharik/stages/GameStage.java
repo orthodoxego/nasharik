@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.Vector;
 
+import ru.vgtrofimov.nasharik.Balls;
 import ru.vgtrofimov.nasharik.actors.ActorBackground;
 import ru.vgtrofimov.nasharik.actors.ActorBall;
 import ru.vgtrofimov.nasharik.actors.ActorFrames;
@@ -57,8 +58,10 @@ public class GameStage extends StageParent implements InputProcessor{
 
         this.textures = textures;
 
-        resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        // resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         resize((int) viewport.getWorldWidth(), (int) viewport.getWorldHeight());
+        Balls.log(getClass().getName(), "" + viewport.getWorldWidth() + " " + viewport.getWorldHeight());
+
         camera.position.x = 10;
         camera.position.y = 10;
 
@@ -206,7 +209,7 @@ public class GameStage extends StageParent implements InputProcessor{
                         actorTextMoveYtoY.remove();
                         // КОНЕЦ ИГРЫ
                         if (score.getLives() < 0) {
-                            gameScreen.setEndGameStage();
+                            gameScreen.setEndStage();
                         }
                         // СЛЕДУЮЩИЙ УРОВЕНЬ
                         if (score.getCurrentShape() == GameConstant.WIN) {
@@ -405,7 +408,7 @@ public class GameStage extends StageParent implements InputProcessor{
         // Добавляется актёр с текстом. Когда текст пройдёт, актёр удаляется и вызывается
         // softReset()
 
-        score.decScore(3);
+        score.decScore(0);
         score.setLives(score.getLives() - 1);
 
         move_cam = false;
@@ -461,7 +464,8 @@ public class GameStage extends StageParent implements InputProcessor{
 
     @Override
     public boolean keyDown(int keycode) {
-        if (keycode == Input.Keys.MINUS) score.setLives(score.getLives() - 1);
+        if (keycode == Input.Keys.MINUS) score.setLives(score.getLives() - 10);
+        if (keycode == Input.Keys.ESCAPE) gameScreen.setEndStage();
         if (keycode == Input.Keys.P) {
             pause = !pause;
         }

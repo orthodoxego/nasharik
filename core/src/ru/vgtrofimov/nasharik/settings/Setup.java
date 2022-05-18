@@ -13,6 +13,7 @@ public class Setup {
     int recordScore;
     int score;
     int level;
+    int volume;
 
     public static boolean shadow;
     public static int theme;
@@ -29,6 +30,7 @@ public class Setup {
         recordScore = prefs.getInteger("ajg6256ghjb3hg134j", 0);
         shadow = prefs.getBoolean("kj828u2hjb3897y2h1", false);
         theme = prefs.getInteger("hjn2jbg1hjbHhvhUGB", 0);
+        volume = prefs.getInteger("jkoqopwoii919287iq", 30);
     }
 
     public void savePrefs() {
@@ -36,6 +38,7 @@ public class Setup {
         prefs.putInteger("ajg6256ghjb3hg134j", recordScore);
         prefs.putBoolean("kj828u2hjb3897y2h1", shadow);
         prefs.putInteger("hjn2jbg1hjbHhvhUGB", theme);
+        prefs.putInteger("jkoqopwoii919287iq", volume);
         prefs.flush();
     }
 
@@ -69,5 +72,13 @@ public class Setup {
 
     public void setScore(int score) {
         this.score = score;
+    }
+
+    public int getVolume() {
+        return volume;
+    }
+
+    public void setVolume(int volume) {
+        this.volume = volume;
     }
 }

@@ -36,14 +36,15 @@ public class Balls extends ApplicationAdapter {
 	public void create () {
 
 		camera = new OrthographicCamera();
+
 		camera.setToOrtho(true, GdxViewport.WORLD_WIDTH, GdxViewport.WORLD_HEIGHT);
-		viewport = new FillViewport(GdxViewport.WORLD_WIDTH, GdxViewport.WORLD_HEIGHT, camera);
+		// viewport = new FillViewport(GdxViewport.WORLD_WIDTH, GdxViewport.WORLD_HEIGHT, camera);
+		viewport = new FillViewport(GdxViewport.WORLD_WIDTH, GdxViewport.WORLD_WIDTH * ((float) Gdx.graphics.getHeight() / Gdx.graphics.getWidth()), camera);
+
 		setup = new Setup();
 
 		manager = new AssetManager();
-
 		textures = new Textures();
-
 
 		font = new Font();
 
@@ -93,6 +94,8 @@ public class Balls extends ApplicationAdapter {
 		pause = false;
 		gameScreen.resume();
 	}
+
+
 
 	@Override
 	public void dispose () {

@@ -1,7 +1,6 @@
 package ru.vgtrofimov.nasharik.stages;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -13,19 +12,20 @@ import ru.vgtrofimov.nasharik.actors.endgame.ActorText;
 import ru.vgtrofimov.nasharik.screens.GameScreen;
 import ru.vgtrofimov.nasharik.services.Font;
 import ru.vgtrofimov.nasharik.services.ReturnKey;
-import ru.vgtrofimov.nasharik.settings.GdxViewport;
 import ru.vgtrofimov.nasharik.settings.Setup;
 import ru.vgtrofimov.nasharik.textures.Textures;
 
-public class EndGameStage extends StageParent implements ReturnKey, InputProcessor {
+public class EndStage extends StageParent implements ReturnKey, InputProcessor {
 
     Textures textures;
 
-    public EndGameStage(GameScreen gameScreen, Setup setup, Viewport viewport, OrthographicCamera camera, Textures textures) {
+    public EndStage(GameScreen gameScreen, Setup setup, Viewport viewport, OrthographicCamera camera, Textures textures) {
         super(gameScreen, setup, viewport, camera);
         this.textures = textures;
 
-        resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        // resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        resize((int) viewport.getWorldWidth(), (int) viewport.getWorldHeight());
+        Balls.log(getClass().getName(), "" + viewport.getWorldWidth() + " " + viewport.getWorldHeight());
 
         ActorBackground actorBackground = new ActorBackground(textures.getBackground(), 3);
         addActor(actorBackground);
@@ -94,9 +94,10 @@ public class EndGameStage extends StageParent implements ReturnKey, InputProcess
     public void pressKey(KEY_NAME key_name) {
         switch (key_name) {
             case MENU:
+                gameScreen.setMenuStage();
                 break;
             case RESTART:
-                gameScreen.setNewGameStage();
+                gameScreen.setGameStage();
                 break;
         }
     }

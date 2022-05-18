@@ -13,6 +13,7 @@ public class Textures {
     TextureRegion timer[];
     TextureRegion blank_timer;
     TextureRegion blackHole;
+    TextureRegion nasharik;
     TextureRegion winHole;
 
     TextureRegion keyRestart, keyMenu;
@@ -27,6 +28,8 @@ public class Textures {
 
     TextureRegion leftHand, rightHand;
 
+    TextureRegion menuStartGame, menuSkin, menuVolume;
+
     public Textures() {
         Texture load;
 
@@ -40,7 +43,14 @@ public class Textures {
         load = new Texture("png/" + dir[Setup.theme] + "/background.png");
         background = getTextureRegionFromMap(0, 0, load.getWidth(), load.getHeight(), false, true, load);
 
+        load = new Texture("png/" + dir[Setup.theme] + "/nasharik.png");
+        nasharik = getTextureRegionFromMap(0, 0, load.getWidth(), load.getHeight(), false, true, load);
+
         load = new Texture("png/" + dir[Setup.theme] + "/pack.png");
+
+        menuStartGame = getTextureRegionFromMap(256, 386, 64, 64, false, true, load);
+        menuSkin = getTextureRegionFromMap(256, 448, 64, 64, false, true, load);
+        menuVolume = getTextureRegionFromMap(320, 386, 64, 64, false, true, load);
 
         keyRestart = getTextureRegionFromMap(0, 256, 64, 64, false, true, load);
         keyMenu = getTextureRegionFromMap(64, 256, 64, 64, false, true, load);
@@ -137,5 +147,25 @@ public class Textures {
 
     public TextureRegion getKeyMenu() {
         return keyMenu;
+    }
+
+    public String[] getDir() {
+        return dir;
+    }
+
+    public TextureRegion getMenuStartGame() {
+        return menuStartGame;
+    }
+
+    public TextureRegion getMenuSkin() {
+        return menuSkin;
+    }
+
+    public TextureRegion getMenuVolume() {
+        return menuVolume;
+    }
+
+    public TextureRegion getNasharik() {
+        return nasharik;
     }
 }
