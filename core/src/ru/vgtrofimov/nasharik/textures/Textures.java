@@ -21,6 +21,7 @@ public class Textures {
     TextureRegion shapes[];
     TextureRegion techobject[];
     TextureRegion explosion[];
+    TextureRegion stars;
 
     TextureRegion ball;
     TextureRegion ball_shadow;
@@ -28,17 +29,18 @@ public class Textures {
 
     TextureRegion leftHand, rightHand;
 
-    TextureRegion menuStartGame, menuSkin, menuVolume;
+    TextureRegion menuStartGame, menuSkin, menuVolume, menuHelp, menuShadow;
 
     public Textures() {
         Texture load;
 
         load = new Texture("png/" + dir[Setup.theme] + "/explosion.png");
-        explosion = new TextureRegion[16];
-        for (int i = 0; i < 4; i++) {
+        explosion = new TextureRegion[8];
+        for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 4; j++) {
-                explosion[i * 4 + j] = getTextureRegionFromMap(j * 128, i * 128, 128, 128, false, true, load);            }
+                explosion[(i * 4 + j)] = getTextureRegionFromMap(j * 128, i * 128, 128, 128, false, true, load);            }
         }
+
 
         load = new Texture("png/" + dir[Setup.theme] + "/background.png");
         background = getTextureRegionFromMap(0, 0, load.getWidth(), load.getHeight(), false, true, load);
@@ -51,6 +53,8 @@ public class Textures {
         menuStartGame = getTextureRegionFromMap(256, 386, 64, 64, false, true, load);
         menuSkin = getTextureRegionFromMap(256, 448, 64, 64, false, true, load);
         menuVolume = getTextureRegionFromMap(320, 386, 64, 64, false, true, load);
+        menuHelp = getTextureRegionFromMap(320, 448, 64, 64, false, true, load);
+        menuShadow = getTextureRegionFromMap(256, 320, 64, 64, false, true, load);
 
         keyRestart = getTextureRegionFromMap(0, 256, 64, 64, false, true, load);
         keyMenu = getTextureRegionFromMap(64, 256, 64, 64, false, true, load);
@@ -59,6 +63,9 @@ public class Textures {
         rightHand = getTextureRegionFromMap(32, 128, 32, 64, false, true, load);
         blackHole = getTextureRegionFromMap(256, 64, 64, 64, false, true, load);
         winHole = getTextureRegionFromMap(384, 64, 64, 64, false, true, load);
+
+
+        stars = getTextureRegionFromMap(384, 384, 128, 128, false, true, load);
 
         shapes = new TextureRegion[7];
         for (int i = 0; i < 7; i++) {
@@ -167,5 +174,17 @@ public class Textures {
 
     public TextureRegion getNasharik() {
         return nasharik;
+    }
+
+    public TextureRegion getMenuHelp() {
+        return menuHelp;
+    }
+
+    public TextureRegion getStars() {
+        return stars;
+    }
+
+    public TextureRegion getMenuShadow() {
+        return menuShadow;
     }
 }

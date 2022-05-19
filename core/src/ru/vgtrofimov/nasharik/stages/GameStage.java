@@ -12,6 +12,7 @@ import java.util.Vector;
 import ru.vgtrofimov.nasharik.Balls;
 import ru.vgtrofimov.nasharik.actors.ActorBackground;
 import ru.vgtrofimov.nasharik.actors.ActorBall;
+import ru.vgtrofimov.nasharik.actors.ActorCircleEffect;
 import ru.vgtrofimov.nasharik.actors.ActorFrames;
 import ru.vgtrofimov.nasharik.actors.ActorSpring;
 import ru.vgtrofimov.nasharik.actors.ActorShape;
@@ -27,6 +28,7 @@ import ru.vgtrofimov.nasharik.settings.Levels;
 import ru.vgtrofimov.nasharik.services.PositionUnit;
 import ru.vgtrofimov.nasharik.settings.Score;
 import ru.vgtrofimov.nasharik.settings.Setup;
+import ru.vgtrofimov.nasharik.settings.Sound;
 import ru.vgtrofimov.nasharik.textures.Textures;
 
 public class GameStage extends StageParent implements InputProcessor{
@@ -47,14 +49,14 @@ public class GameStage extends StageParent implements InputProcessor{
     Vector<ActorShape> actorShape;
     Vector<ActorSpring> actorSprings;
     Vector<ActorTeleport> actorTeleport;
-    Vector<ActorFrames> actorStarsGrab;
+    Vector<ActorCircleEffect> actorStarsGrab;
 
     ActorRightHand actorRightHand;
     ActorLeftHand actorLeftHand;
     // ActorTimer actorTimer;
 
-    public GameStage(GameScreen gameScreen, Setup setup, Viewport viewport, OrthographicCamera camera, Textures textures) {
-        super(gameScreen, setup, viewport, camera);
+    public GameStage(GameScreen gameScreen, Setup setup, Viewport viewport, OrthographicCamera camera, Textures textures, Sound sound) {
+        super(gameScreen, setup, sound, viewport, camera);
 
         this.textures = textures;
 
@@ -75,6 +77,7 @@ public class GameStage extends StageParent implements InputProcessor{
     }
 
     private void softReset() {
+        if (actorBall != null) actorBall.remove();
         for (Actor act : getActors()) {
             act.remove();
         }
@@ -99,7 +102,7 @@ public class GameStage extends StageParent implements InputProcessor{
         ActorBackground actorBackground = new ActorBackground(textures.getBackground(), Setup.count_background);
         int sx = 100 + (int) (Math.random() * 200);
         if (Math.random() < 0.5) sx *= -1;
-        actorBall = new ActorBall(textures.getBall(), textures.getBall_shadow(),
+        actorBall = new ActorBall(textures.getBall(), textures.getBall_shadow(), sound,
                 game_world_width / 2,
                 game_world_height - 512, // (int) (camera.viewportHeight / 2),
                 sx,
@@ -107,7 +110,7 @@ public class GameStage extends StageParent implements InputProcessor{
                 game_world_width,
                 game_world_height);
 
-        actorRacquet = new ActorRacquet(textures.getRacquet(), actorBall, game_world_width, game_world_height);
+        actorRacquet = new ActorRacquet(textures.getRacquet(), sound, actorBall, game_world_width, game_world_height);
         actorBall.setActorRacquet(actorRacquet);
 
         addActor(actorBackground);
@@ -231,7 +234,7 @@ public class GameStage extends StageParent implements InputProcessor{
     }
 
     private void removeActorFrames() {
-        for (ActorFrames af : actorStarsGrab) {
+        for (ActorCircleEffect af : actorStarsGrab) {
             if (!af.isEnabled()) af.remove();
         }
 
@@ -241,10 +244,10 @@ public class GameStage extends StageParent implements InputProcessor{
     }
 
     private void check_collision_player_and_shape() {
-        for (ActorFrames asg : actorStarsGrab) {
-            asg.setX(actorBall.getX() - 64);
-            asg.setY(actorBall.getY() - 96);
-        }
+//        for (ActorCircleEffect asg : actorStarsGrab) {
+//            asg.setX(actorBall.getX() - 64);
+//            asg.setY(actorBall.getY() - 64);
+//        }
 
         for (ActorShape ash : actorShape) {
             if (ash.isEnabled() && ash.isCollision(actorBall)) {
@@ -253,11 +256,18 @@ public class GameStage extends StageParent implements InputProcessor{
                     actorBall.addScalle(actorBall.getScaleX() + 0.4f / score.getTask().length);
 
                     // Добавит взрыв
-                    actorStarsGrab.add(new ActorFrames(textures.getExplosion(),
+                    /*actorStarsGrab.add(new ActorFrames(textures.getExplosion(),
                             0, 32,
                             1,
-                            (int) actorBall.getX() - 64, (int) actorBall.getY() - 64));
+                            (int) actorBall.getX() - 64, (int) actorBall.getY() - 64));*/
+//                    actorStarsGrab.add(new ActorCircleEffect(textures.getStars(),
+//                            (int) actorBall.getX(), (int) actorBall.getY()));
+
+                    actorStarsGrab.add(new ActorCircleEffect(textures.getStars(),
+                            (int) ash.getX() - 64, (int) ash.getY() - 64));
+
                     addActor(actorStarsGrab.lastElement());
+                    sound.play(Sound.SOUND.GRAB_FIGURE);
 
                     if (score.getCurrentShape() == GameConstant.WIN) {
                         nextLevel(); // Следующий уровень
@@ -280,6 +290,7 @@ public class GameStage extends StageParent implements InputProcessor{
                 actorBall.setSpeedY(-actorBall.getSpeedY() * 3);
                 actorBall.check_move_balls(Gdx.graphics.getDeltaTime());
                 actorBall.check_move_balls(Gdx.graphics.getDeltaTime());
+                sound.play(Sound.SOUND.SPRING);
             }
         }
 
@@ -408,6 +419,8 @@ public class GameStage extends StageParent implements InputProcessor{
         // Добавляется актёр с текстом. Когда текст пройдёт, актёр удаляется и вызывается
         // softReset()
 
+        sound.play(Sound.SOUND.BAD_RESULT);
+
         score.decScore(0);
         score.setLives(score.getLives() - 1);
 
@@ -442,6 +455,7 @@ public class GameStage extends StageParent implements InputProcessor{
     private void nextLevel() {
         // Добавляется актёр с текстом. Когда текст пройдёт, актёр удаляется и вызывается
         // softReset()
+        sound.play(Sound.SOUND.GOOD_RESULT);
         move_cam = false;
         if (actorLeftHand != null) actorLeftHand.remove();
         if (actorRightHand != null) actorRightHand.remove();
@@ -464,7 +478,7 @@ public class GameStage extends StageParent implements InputProcessor{
 
     @Override
     public boolean keyDown(int keycode) {
-        if (keycode == Input.Keys.MINUS) score.setLives(score.getLives() - 10);
+        // if (keycode == Input.Keys.MINUS) score.setLives(score.getLives() - 10);
         if (keycode == Input.Keys.ESCAPE) gameScreen.setEndStage();
         if (keycode == Input.Keys.P) {
             pause = !pause;
@@ -528,11 +542,13 @@ public class GameStage extends StageParent implements InputProcessor{
         if (actorRightHand != null && actorRightHand.isPressed()) {
             actorRightHand.setPressed(false);
             actorRightHand.setTime_to_death(0.1f);
+            sound.play(Sound.SOUND.HAND);
         }
 
         if (actorLeftHand != null && actorLeftHand.isPressed()) {
             actorLeftHand.setPressed(false);
             actorLeftHand.setTime_to_death(0.1f);
+            sound.play(Sound.SOUND.HAND);
         }
 
         return false;
@@ -552,6 +568,5 @@ public class GameStage extends StageParent implements InputProcessor{
     public boolean scrolled(float amountX, float amountY) {
         return false;
     }
-
 
 }

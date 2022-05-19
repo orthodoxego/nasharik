@@ -13,14 +13,15 @@ import ru.vgtrofimov.nasharik.screens.GameScreen;
 import ru.vgtrofimov.nasharik.services.Font;
 import ru.vgtrofimov.nasharik.services.ReturnKey;
 import ru.vgtrofimov.nasharik.settings.Setup;
+import ru.vgtrofimov.nasharik.settings.Sound;
 import ru.vgtrofimov.nasharik.textures.Textures;
 
 public class EndStage extends StageParent implements ReturnKey, InputProcessor {
 
     Textures textures;
 
-    public EndStage(GameScreen gameScreen, Setup setup, Viewport viewport, OrthographicCamera camera, Textures textures) {
-        super(gameScreen, setup, viewport, camera);
+    public EndStage(GameScreen gameScreen, Setup setup, Viewport viewport, OrthographicCamera camera, Textures textures, Sound sound) {
+        super(gameScreen, setup, sound, viewport, camera);
         this.textures = textures;
 
         // resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -100,6 +101,7 @@ public class EndStage extends StageParent implements ReturnKey, InputProcessor {
                 gameScreen.setGameStage();
                 break;
         }
+        sound.play(Sound.SOUND.CLICK_MENU);
     }
 
 

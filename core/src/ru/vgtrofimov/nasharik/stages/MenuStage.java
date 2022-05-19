@@ -6,12 +6,14 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ru.vgtrofimov.nasharik.Balls;
 import ru.vgtrofimov.nasharik.actors.ActorBackground;
+import ru.vgtrofimov.nasharik.actors.menu.ActorLittleText;
 import ru.vgtrofimov.nasharik.actors.menu.ActorTextKey;
 import ru.vgtrofimov.nasharik.actors.menu.ActorTextureStatic;
 import ru.vgtrofimov.nasharik.screens.GameScreen;
 import ru.vgtrofimov.nasharik.services.Font;
 import ru.vgtrofimov.nasharik.services.ReturnKey;
 import ru.vgtrofimov.nasharik.settings.Setup;
+import ru.vgtrofimov.nasharik.settings.Sound;
 import ru.vgtrofimov.nasharik.textures.Textures;
 
 public class MenuStage extends StageParent implements ReturnKey, InputProcessor {
@@ -21,9 +23,12 @@ public class MenuStage extends StageParent implements ReturnKey, InputProcessor 
     ActorTextKey menuStart;
     ActorTextKey menuSkin;
     ActorTextKey menuVolume;
+    ActorTextKey menuHelp;
+    ActorTextKey menuShadow;
+    ActorLittleText actorLittleText;
 
-    public MenuStage(GameScreen gameScreen, Setup setup, Viewport viewport, OrthographicCamera camera, Textures textures) {
-        super(gameScreen, setup, viewport, camera);
+    public MenuStage(GameScreen gameScreen, Setup setup, Viewport viewport, OrthographicCamera camera, Textures textures, Sound sound) {
+        super(gameScreen, setup, sound, viewport, camera);
         this.textures = textures;
 
         resize((int) viewport.getWorldWidth(), (int) viewport.getWorldHeight());
@@ -43,9 +48,9 @@ public class MenuStage extends StageParent implements ReturnKey, InputProcessor 
                 startX, startY,
                 KEY_NAME.MENU_START_GAME);
 
-        menuSkin = new ActorTextKey(this, Font.play_regular_14px, "Скин: базовый",
+        menuSkin = new ActorTextKey(this, Font.play_regular_14px, setup.getSkinStr(),
                 textures.getMenuSkin(),
-                startX, startY + lineHeight * 1,
+                startX, startY + lineHeight,
                 KEY_NAME.MENU_SELECT_SKIN);
 
         menuVolume = new ActorTextKey(this, Font.play_regular_14px, "Громкость: " + setup.getVolume(),
@@ -53,10 +58,27 @@ public class MenuStage extends StageParent implements ReturnKey, InputProcessor 
                 startX, startY + lineHeight * 2,
                 KEY_NAME.MENU_VOLUME);
 
+        menuShadow = new ActorTextKey(this, Font.play_regular_14px, setup.getShadowStr(),
+                textures.getMenuShadow(),
+                startX, startY + lineHeight * 3,
+                KEY_NAME.MENU_SHADOW);
+
+        menuHelp = new ActorTextKey(this, Font.play_regular_14px, setup.getHelpStr(),
+                textures.getMenuHelp(),
+                startX, startY + lineHeight * 4,
+                KEY_NAME.MENU_HELP);
+
+        actorLittleText = new ActorLittleText(Font.play_regular_little, setup.getMessageSkin(),
+                startX,
+                (int) (viewport.getWorldHeight() - 85));
+
 
         addActor(menuStart);
         addActor(menuSkin);
         addActor(menuVolume);
+        addActor(menuShadow);
+        addActor(menuHelp);
+        addActor(actorLittleText);
 
     }
 
@@ -83,6 +105,9 @@ public class MenuStage extends StageParent implements ReturnKey, InputProcessor 
                 gameScreen.setGameStage();
                 break;
             case MENU_SELECT_SKIN:
+                setup.incSkin();
+                actorLittleText.setMsg(setup.getMessageSkin());
+                menuSkin.setMsg(setup.getSkinStr());
                 break;
             case MENU_VOLUME:
                 int vol = setup.getVolume();
@@ -91,6 +116,15 @@ public class MenuStage extends StageParent implements ReturnKey, InputProcessor 
                 setup.setVolume(vol);
                 menuVolume.setMsg("Громкость: " + setup.getVolume());
                 break;
+            case MENU_SHADOW:
+                setup.shadowOnOff();
+                menuShadow.setMsg(setup.getShadowStr());
+                break;
+            case MENU_HELP:
+                setup.helpOnOff();
+                menuHelp.setMsg(setup.getHelpStr());
+                break;
         }
+        sound.play(Sound.SOUND.CLICK_MENU);
     }
 }

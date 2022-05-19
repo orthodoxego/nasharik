@@ -14,6 +14,9 @@ public class Setup {
     int score;
     int level;
     int volume;
+    int skin;
+    String[] skinName;
+    boolean help;
 
     public static boolean shadow;
     public static int theme;
@@ -21,6 +24,7 @@ public class Setup {
     public Setup() {
         this.level = 0;
         this.score = 0;
+        this.skinName = getSkinName();
 
         loadPrefs();
     }
@@ -29,16 +33,20 @@ public class Setup {
         Preferences prefs = Gdx.app.getPreferences(APP_ID);
         recordScore = prefs.getInteger("ajg6256ghjb3hg134j", 0);
         shadow = prefs.getBoolean("kj828u2hjb3897y2h1", false);
+        help = prefs.getBoolean("bbnwjhjushuh2jqpoj", false);
         theme = prefs.getInteger("hjn2jbg1hjbHhvhUGB", 0);
         volume = prefs.getInteger("jkoqopwoii919287iq", 30);
+        skin = prefs.getInteger("jqywopwoii919287iq", 0);
     }
 
     public void savePrefs() {
         Preferences prefs = Gdx.app.getPreferences(APP_ID);
         prefs.putInteger("ajg6256ghjb3hg134j", recordScore);
         prefs.putBoolean("kj828u2hjb3897y2h1", shadow);
+        prefs.putBoolean("bbnwjhjushuh2jqpoj", help);
         prefs.putInteger("hjn2jbg1hjbHhvhUGB", theme);
         prefs.putInteger("jkoqopwoii919287iq", volume);
+        prefs.putInteger("jqywopwoii919287iq", skin);
         prefs.flush();
     }
 
@@ -80,5 +88,57 @@ public class Setup {
 
     public void setVolume(int volume) {
         this.volume = volume;
+    }
+
+
+    public String getHelpStr() {
+        if (help) return "Пояснить за игру: да";
+        return "Описание выключено";
+    }
+
+    public String getSkinStr() {
+        return "Скин: " + skinName[skin];
+    }
+
+    public void incSkin() {
+        skin += 1;
+        if (skin >= skinName.length) skin = 0;
+    }
+
+    public void helpOnOff() {
+        help = !help;
+    }
+
+    private String[] getSkinName() {
+        // return new String[]{"базовый", "тёмный", "пузырьки"};
+        return new String[]{"базовый"};
+    }
+
+    public String[] getMessageSkin() {
+        String[] ret = new String[3];;
+        if (skin == 0) {
+            ret[0] = "Автор скина: разработчик";
+            ret[1] = "Анимация: Андрей Фролов";
+            ret[2] = "(c) 2022 Виктор Трофимов";
+        } else if (skin == 1) {
+            ret[0] = "";
+            ret[1] = "Автор скина: разработчик";
+            ret[2] = "(c) 2022 Виктор Трофимов";
+        } else if (skin == 2) {
+            ret[0] = "";
+            ret[1] = "Автор скина: разработчик";
+            ret[2] = "(c) 2022 Виктор Трофимов";
+        }
+        return ret;
+    }
+
+    public void shadowOnOff() {
+        shadow = !shadow;
+    }
+
+    public String getShadowStr() {
+        if (shadow)
+            return "Следы: есть";
+        return "Следы: нет";
     }
 }

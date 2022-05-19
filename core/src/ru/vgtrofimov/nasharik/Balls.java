@@ -12,6 +12,7 @@ import ru.vgtrofimov.nasharik.screens.GameScreen;
 import ru.vgtrofimov.nasharik.services.Font;
 import ru.vgtrofimov.nasharik.settings.GdxViewport;
 import ru.vgtrofimov.nasharik.settings.Setup;
+import ru.vgtrofimov.nasharik.settings.Sound;
 import ru.vgtrofimov.nasharik.textures.Textures;
 
 
@@ -23,6 +24,7 @@ public class Balls extends ApplicationAdapter {
 
 	// Настройки
 	Setup setup;
+	Sound sound;
 
 	// Игровые классы
 	GameScreen gameScreen;
@@ -42,13 +44,14 @@ public class Balls extends ApplicationAdapter {
 		viewport = new FillViewport(GdxViewport.WORLD_WIDTH, GdxViewport.WORLD_WIDTH * ((float) Gdx.graphics.getHeight() / Gdx.graphics.getWidth()), camera);
 
 		setup = new Setup();
+		sound = new Sound(setup);
 
 		manager = new AssetManager();
 		textures = new Textures();
 
 		font = new Font();
 
-		gameScreen = new GameScreen(this, setup, viewport, camera, manager, textures);
+		gameScreen = new GameScreen(this, setup, sound, viewport, camera, manager, textures);
 
 	}
 

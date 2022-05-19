@@ -6,16 +6,17 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import java.util.Vector;
 
-import ru.vgtrofimov.nasharik.services.Font;
 import ru.vgtrofimov.nasharik.services.XY;
 import ru.vgtrofimov.nasharik.settings.GameConstant;
 import ru.vgtrofimov.nasharik.settings.Setup;
+import ru.vgtrofimov.nasharik.settings.Sound;
 import ru.vgtrofimov.nasharik.stages.GameStage;
 
 public class ActorBall extends Actor {
 
     TextureRegion skin;
     TextureRegion shadow;
+    Sound sound;
     int correctX, correctY;
     float speedX, speedY, default_speed_x, default_speed_y;
     int world_width, world_height;
@@ -28,9 +29,10 @@ public class ActorBall extends Actor {
     Vector<XY> shadow_ball;
     float lifetime_for_shadow = 0;
 
-    public ActorBall(TextureRegion skin, TextureRegion shadow, int x, int y, int speedX, int speedY, int world_width, int world_height) {
+    public ActorBall(TextureRegion skin, TextureRegion shadow, Sound sound, int x, int y, int speedX, int speedY, int world_width, int world_height) {
         this.skin = skin;
         this.shadow = shadow;
+        this.sound = sound;
         setWidth(skin.getRegionWidth());
         setHeight(skin.getRegionWidth());
         correctX = (int) (getWidth() / 2);
@@ -122,7 +124,7 @@ public class ActorBall extends Actor {
             actorRacquet.setY_correct_to_fire(getHeight() / 2);
         }
 
-        if (getY() + getHeight() / 2 > actorRacquet.getY() - actorRacquet.getPressed_energy() - actorRacquet.getY_correct_to_fire() * 3) {
+        if (getY() + getHeight() / 2 > actorRacquet.getY()) { // - actorRacquet.getPressed_energy()) { // - actorRacquet.getY_correct_to_fire() * 3) {
             // setY(actorRacquet.getY() - actorRacquet.getPressed_energy() - actorRacquet.getY_correct_to_fire() * 3 - getHeight() / 2);
             setY(actorRacquet.getY() - getHeight() * 2);
         }

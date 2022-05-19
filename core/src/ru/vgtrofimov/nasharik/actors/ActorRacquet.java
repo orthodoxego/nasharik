@@ -4,17 +4,22 @@ import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
 
+import ru.vgtrofimov.nasharik.Balls;
+import ru.vgtrofimov.nasharik.settings.Sound;
+
 public class ActorRacquet extends Actor {
 
     TextureRegion skin;
+    Sound sound;
     ActorBall actorBall;
     int world_width, world_height;
     int correct_x;
     float y_correct_to_fire; // Корректировка для отпружинивания когда мяч бьёт по ракетке
     int pressed_energy;
 
-    public ActorRacquet(TextureRegion skin, ActorBall actorBall, int world_width, int world_height) {
+    public ActorRacquet(TextureRegion skin, Sound sound, ActorBall actorBall, int world_width, int world_height) {
         this.skin = skin;
+        this.sound = sound;
         this.actorBall = actorBall;
         this.world_width = world_width;
         this.world_height = world_height;
@@ -31,7 +36,14 @@ public class ActorRacquet extends Actor {
 
         if (getX() < 0) setX(0);
         if (getX() > world_width - correct_x * 2) setX(world_width - correct_x * 2);
-        if (Math.abs(y_correct_to_fire) > 0) y_correct_to_fire *= 0.97f;
+
+        if (Math.abs(y_correct_to_fire) > 0) {
+            y_correct_to_fire *= 0.97f;
+            if (y_correct_to_fire > 31 && y_correct_to_fire < 32) {
+                sound.play(Sound.SOUND.RACQUET_SPRING);
+                y_correct_to_fire = 31;
+            }
+        }
 
         if (pressed_energy != 0) {
             if (pressed_energy > 0) pressed_energy *= 0.98f;
@@ -51,6 +63,7 @@ public class ActorRacquet extends Actor {
     }
 
     public void setY_correct_to_fire(float yc) {
+        Balls.log("BUM");
         this.y_correct_to_fire = yc;
     }
 

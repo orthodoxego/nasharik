@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ru.vgtrofimov.nasharik.Balls;
 import ru.vgtrofimov.nasharik.settings.Setup;
+import ru.vgtrofimov.nasharik.settings.Sound;
 import ru.vgtrofimov.nasharik.stages.EndStage;
 import ru.vgtrofimov.nasharik.stages.GameStage;
 import ru.vgtrofimov.nasharik.stages.MenuStage;
@@ -19,6 +20,7 @@ public class GameScreen implements Screen {
 
     Balls balls;
     Setup setup;
+    Sound sound;
     Viewport viewport;
     OrthographicCamera camera;
     AssetManager manager;
@@ -28,9 +30,10 @@ public class GameScreen implements Screen {
 
     int score = 0;
 
-    public GameScreen(Balls balls, Setup setup, Viewport viewport, OrthographicCamera camera, AssetManager manager, Textures textures) {
+    public GameScreen(Balls balls, Setup setup, Sound sound, Viewport viewport, OrthographicCamera camera, AssetManager manager, Textures textures) {
         this.balls = balls;
         this.setup = setup;
+        this.sound = sound;
         this.viewport = viewport;
         this.camera = camera;
         this.manager = manager;
@@ -56,21 +59,21 @@ public class GameScreen implements Screen {
 
     public void setMenuStage() {
         currentStage = null;
-        currentStage = new MenuStage(this, setup, viewport, camera, textures);
+        currentStage = new MenuStage(this, setup, viewport, camera, textures, sound);
         Gdx.input.setInputProcessor(currentStage);
     }
 
     public void setGameStage() {
         setup.setScore(0);
-        setup.setLevel(0);
+        setup.setLevel(2);
         currentStage = null;
-        currentStage = new GameStage(this, setup, viewport, camera, textures);
+        currentStage = new GameStage(this, setup, viewport, camera, textures, sound);
         Gdx.input.setInputProcessor(currentStage);
     }
 
     public void setEndStage() {
         currentStage = null;
-        currentStage = new EndStage(this, setup, viewport, camera, textures);
+        currentStage = new EndStage(this, setup, viewport, camera, textures, sound);
         Gdx.input.setInputProcessor(currentStage);
     }
 

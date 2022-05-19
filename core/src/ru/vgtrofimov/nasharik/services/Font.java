@@ -19,6 +19,7 @@ public class Font {
     public static BitmapFont play_regular_14px;
 
     public static BitmapFont play_bold_big;
+    public static BitmapFont play_regular_little;
 
     public Font() {
         play_regular = new FreeTypeFontGenerator(Gdx.files.internal("font/playregular.ttf"));
@@ -47,6 +48,10 @@ public class Font {
         parameter.size = (int) (GdxViewport.FIXED_BLOCK * 7.6f);
         parameter.color = Color.valueOf("edd970");
         play_bold_big = play_bold.generateFont(parameter);
+
+        parameter.size = (int) (GdxViewport.FIXED_BLOCK * 1f);
+        parameter.color = Color.valueOf("f9b182");
+        play_regular_little = play_regular.generateFont(parameter);
 
         play_regular.dispose();
         play_bold.dispose();
