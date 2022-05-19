@@ -7,7 +7,7 @@ import ru.vgtrofimov.nasharik.settings.Setup;
 
 public class Textures {
 
-    String [] dir = {"base", "stone"};
+    String [] dir = {"base", "stone", "sea"};
 
     TextureRegion background;
     TextureRegion timer[];

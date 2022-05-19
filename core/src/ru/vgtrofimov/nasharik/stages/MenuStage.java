@@ -41,7 +41,7 @@ public class MenuStage extends StageParent implements ReturnKey, InputProcessor 
         actorBackground = new ActorBackground(textures.getBackground(), 3);
         addActor(actorBackground);
 
-        int startX = 96;
+        int startX = 64;
         int startY = (int) (viewport.getWorldHeight() / 2 * 0.7f);
         int lineHeight = 75;
 

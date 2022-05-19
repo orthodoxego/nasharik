@@ -114,8 +114,7 @@ public class Setup {
     }
 
     private String[] getSkinName() {
-        // return new String[]{"базовый", "тёмный", "пузырьки"};
-        return new String[]{"базовый", "камни"};
+        return new String[]{"базовый", "камни", "пляж"};
     }
 
     public String[] getMessageSkin() {

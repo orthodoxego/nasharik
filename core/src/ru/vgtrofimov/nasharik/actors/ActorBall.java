@@ -111,7 +111,7 @@ public class ActorBall extends Actor {
 
     public boolean check_move_balls(float delta) {
 
-        setSpeedY(getSpeedY() + (velocity + massa * gravity) / 4 * getScaleX());
+        setSpeedY(getSpeedY() + (velocity + massa * gravity) / 4 * getScaleX() * 0.75f);
         setSpeedX(getSpeedX() * 0.998f);
 
         if (getY() + getHeight() / 2 > actorRacquet.getY() - actorRacquet.getPressed_energy() - actorRacquet.getY_correct_to_fire() * 3) {
