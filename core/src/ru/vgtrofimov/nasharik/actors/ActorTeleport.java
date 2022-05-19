@@ -20,13 +20,15 @@ public class ActorTeleport extends ActorShape {
         super.act(delta);
 
         if (getScaleX() < 0.98f && processing_teleport) {
-            actorBall.setX(getX());
-            actorBall.setY(getY());
-            setScale(getScaleX() + delta * 1.2f, getScaleY() + delta * 1.2f);
+            actorBall.setX(getTeleportToX());
+            actorBall.setY(getTeleportToY());
+            actorBall.setSpeedX(0);
+            actorBall.setSpeedY(0);
+            setScale(getScaleX() + delta * 0.55f, getScaleY() + delta * 0.55f);
+            actorBall.setTempAlpha(getScaleX());
             if (getScaleX() >= 0.98f) {
                 setScale(1, 1);
-                actorBall.setX(teleportToX);
-                actorBall.setY(teleportToY);
+                actorBall.setTempAlpha(1);
                 processing_teleport = false;
             }
         }
@@ -68,5 +70,9 @@ public class ActorTeleport extends ActorShape {
 
     public void setActorBall(ActorBall actorBall) {
         this.actorBall = actorBall;
+    }
+
+    public void setScale(float scaleX, float scaleY) {
+        super.setScale(scaleX, scaleY);
     }
 }

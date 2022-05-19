@@ -26,7 +26,7 @@ public class ActorBall extends Actor {
     float massa = 8f;
     float elastic = 60f;
     ActorRacquet actorRacquet;
-    float newScale;
+    float newScale, tempAlpha;
     Vector<XY> shadow_ball;
     float lifetime_for_shadow = 0;
 
@@ -56,6 +56,7 @@ public class ActorBall extends Actor {
         shadow_ball = new Vector<>();
         shadow_ball.add(new XY(getX(), getY(), getScaleX()));
         lifetime_for_shadow = 0;
+        tempAlpha = 1.0f;
     }
 
     public void addScalle(float sc) {
@@ -101,11 +102,12 @@ public class ActorBall extends Actor {
             }
         }
 
-        batch.setColor(1, 1, 1, parentAlpha);
+        batch.setColor(1, 1, 1, Math.min(parentAlpha, tempAlpha));
         batch.draw(skin, getX() - correctX, getY() - correctY, getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
         batch.draw(shadow, getX() - correctX, getY() - correctY, getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), 0);
 
-        // Font.play_regular_14px.draw(batch, "" + (int) getY(), 0, getY());
+        Font.play_regular_little.draw(batch, "" + (int) getY(), 10, getY());
+        if (GameStage.isCollision) Font.play_regular_little.draw(batch, "Столкновения", 10, getY() + 20);
 
     }
 
@@ -190,4 +192,7 @@ public class ActorBall extends Actor {
         this.actorRacquet = ar;
     }
 
+    public void setTempAlpha(float tempAlpha) {
+        this.tempAlpha = tempAlpha;
+    }
 }

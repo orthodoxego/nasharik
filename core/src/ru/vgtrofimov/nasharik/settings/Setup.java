@@ -92,8 +92,8 @@ public class Setup {
 
 
     public String getHelpStr() {
-        if (help) return "Пояснить за игру: да";
-        return "Описание выключено";
+        if (help) return "Инструкции вкл.";
+        return "Инструкции выкл.";
     }
 
     public String getSkinStr() {
@@ -114,7 +114,7 @@ public class Setup {
     }
 
     private String[] getSkinName() {
-        return new String[]{"базовый", "камни", "пляж"};
+        return new String[]{"базовый", "самоцветы", "море"};
     }
 
     public String[] getMessageSkin() {
@@ -141,7 +141,7 @@ public class Setup {
 
     public String getShadowStr() {
         if (shadow)
-            return "Следы: есть";
-        return "Следы: нет";
+            return "Эффекты: есть";
+        return "Эффекты: нет";
     }
 }

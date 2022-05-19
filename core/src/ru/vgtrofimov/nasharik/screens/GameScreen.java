@@ -52,7 +52,7 @@ public class GameScreen implements Screen {
         camera.position.set(camera.viewportWidth / 2,camera.viewportHeight / 2, 0);
         camera.update();
 
-        // setNewGameStage();
+        // setGameStage();
         // setEndStage();
         setMenuStage();
     }
@@ -65,7 +65,7 @@ public class GameScreen implements Screen {
 
     public void setGameStage() {
         setup.setScore(0);
-        setup.setLevel(0);
+        setup.setLevel(8);
         currentStage = null;
         currentStage = new GameStage(this, setup, viewport, camera, textures, sound);
         Gdx.input.setInputProcessor(currentStage);

@@ -45,6 +45,11 @@ public class GameStage extends StageParent implements InputProcessor{
     ActorRacquet actorRacquet;
     ActorShapeLine actorShapeLine;
     int correct_camera_y;
+    int cam_move_to_Y = -1;
+    float cam_step_move_to = -1;
+    ActorTeleport objTeleport = null;
+
+    public static boolean isCollision = true;
 
     Vector<ActorShape> actorShape;
     Vector<ActorSpring> actorSprings;
@@ -104,7 +109,7 @@ public class GameStage extends StageParent implements InputProcessor{
         if (Math.random() < 0.5) sx *= -1;
         actorBall = new ActorBall(textures.getBall(), textures.getBall_shadow(), sound,
                 game_world_width / 2,
-                game_world_height - 512, // (int) (camera.viewportHeight / 2),
+                (int) (game_world_height * 0.95f), // (int) (camera.viewportHeight / 2),
                 sx,
                 50,
                 game_world_width,
@@ -195,10 +200,18 @@ public class GameStage extends StageParent implements InputProcessor{
             super.act(delta);
             if (move_cam) {
                 // РАСЧЁТЫ В МОМЕНТ ИГРЫ И ПЕРЕМЕЩЕНИЯ КАМЕРЫ
-                calc_camera_pos(delta);
+                if (objTeleport == null && cam_move_to_Y == -1) {
+                    calc_camera_pos(delta);
+                } else {
+                    cam_processing_teleport(delta);
+                }
+
                 checkHand();
-                check_collision_player_and_shape();
-                check_collision_player_and_tech();
+
+                if (isCollision) {
+                    check_collision_player_and_shape();
+                    check_collision_player_and_tech();
+                }
             } else {
                 // КАМЕРА ЗАБЛОЧЕНА
                 // Останавливается шар
@@ -298,10 +311,17 @@ public class GameStage extends StageParent implements InputProcessor{
         for (ActorTeleport at : actorTeleport) {
             if (at.isEnabled() && at.isCollision(actorBall) && !at.isProcessing_teleport()) {
                 sound.play(Sound.SOUND.TELEPORT);
+                if (objTeleport != null) {
+                    objTeleport.setProcessing_teleport(false);
+                    cam_processing_teleport(Gdx.graphics.getDeltaTime());
+                }
                 at.setProcessing_teleport(true);
+                cam_move_to_Y = -1;
                 at.setScale(0f, 0f);
-                actorBall.setX(at.getX());
-                actorBall.setY(at.getY());
+                actorBall.setTempAlpha(0);
+                objTeleport = at;
+                actorBall.setX(objTeleport.getTeleportToX());
+                actorBall.setY(objTeleport.getTeleportToY());
                 actorBall.setSpeedX(0);
                 actorBall.setSpeedY(0);
             }
@@ -332,8 +352,6 @@ public class GameStage extends StageParent implements InputProcessor{
     private void calc_camera_pos(float delta) {
         /** РАСЧЁТ ПОЗИЦИИ КАМЕРЫ */
 
-//        if (actorTimer != null) actorTimer.setX(actorRacquet.getX() - 32);
-
         /**
          * Это какой-то пипец с расчётами камеры.
          * По факту - взял correct_camera_y для расчёта коррекции оси Y камеры в
@@ -354,11 +372,11 @@ public class GameStage extends StageParent implements InputProcessor{
             if (actorBall.getSpeedY() <= 0) correct_camera_y = 0;
         }
 
-        if (actorBall.getSpeedY() > 150) {
+        if (actorBall.getSpeedY() > 50) {
             correct_camera_y += camera.viewportHeight / 4 * delta;
         }
 
-        if (actorBall.getSpeedY() < -150 && actorBall.getY() < game_world_height - camera.viewportHeight * 0.75f) {
+        if (actorBall.getSpeedY() < -50 && actorBall.getY() < game_world_height - camera.viewportHeight * 0.75f) {
             correct_camera_y -= camera.viewportHeight / 4 * delta;
         }
 
@@ -373,22 +391,36 @@ public class GameStage extends StageParent implements InputProcessor{
         if (correct_camera_y > camera.viewportHeight / 3) correct_camera_y = (int) (camera.viewportHeight / 3);
         if (correct_camera_y < -camera.viewportHeight / 3) correct_camera_y = (int) -(camera.viewportHeight / 3);
 
-//        if (actorBall.getY() > game_world_height - camera.viewportHeight / 2) {
-//            if (actorTimer == null) {
-//                actorTimer = new ActorTimer(textures.getTimer(),
-//                        textures.getBlank_timer(),
-//                        (int) actorRacquet.getX() - 32,
-//                        (int) (actorRacquet.getY() + 32));
-//                addActor(actorTimer);
-//            }
-//        } else {
-//            if (actorTimer != null) {
-//                actorTimer.remove();
-//                actorTimer = null;
-//            }
-//        }
-
         camera.position.set(cam_pos_x,cam_pos_y + correct_camera_y, 0);
+        camera.update();
+    }
+
+    private void cam_processing_teleport(float delta) {
+        if (cam_move_to_Y == -1) {
+            cam_move_to_Y = objTeleport.getTeleportToY();
+            cam_step_move_to = (int) ((cam_move_to_Y - camera.position.y) * delta * 0.75f);
+        }
+
+        int cam_pos_x = game_world_width / 2;
+        float cam_pos_y = camera.position.y + cam_step_move_to;
+
+        if (cam_step_move_to <= 0) {
+            if (cam_pos_y < cam_move_to_Y || !objTeleport.isProcessing_teleport()) {
+                correct_camera_y = 0;
+                cam_pos_y = cam_move_to_Y;
+                cam_move_to_Y = -1;
+                objTeleport = null;
+            }
+        } else if (cam_step_move_to > 0) {
+            if (cam_pos_y > cam_move_to_Y || !objTeleport.isProcessing_teleport()) {
+                correct_camera_y = 0;
+                cam_pos_y = cam_move_to_Y;
+                cam_move_to_Y = -1;
+                objTeleport = null;
+            }
+        }
+
+        camera.position.set(cam_pos_x,cam_pos_y, 0);
         camera.update();
     }
 
@@ -445,7 +477,7 @@ public class GameStage extends StageParent implements InputProcessor{
             actorTextMoveYtoY = new ActorTextMoveYtoY(textures.getBlackHole(),
                     camera.position.y + 200,
                     camera.position.y - 100,
-                    "ПОПРОБУЙ ЕЩЁ РАЗ :(", (int) camera.viewportWidth, (int) camera.viewportHeight,
+                    "НИЧЕГО, ПОПРОБУЙ ЕЩЁ!", (int) camera.viewportWidth, (int) camera.viewportHeight,
                     (int) (camera.position.x - camera.viewportWidth / 2),
                     (int) (camera.position.y - camera.viewportHeight / 2));
         }
@@ -470,7 +502,7 @@ public class GameStage extends StageParent implements InputProcessor{
         actorTextMoveYtoY = new ActorTextMoveYtoY(textures.getWinHole(),
                 camera.position.y + 200,
                 camera.position.y - 100,
-                "СЛЕДУЮЩИЙ УРОВЕНЬ!", (int) camera.viewportWidth, (int) camera.viewportHeight,
+                "УСПЕШНО! УРОВЕНЬ " + (score.getLevel() + 1), (int) camera.viewportWidth, (int) camera.viewportHeight,
                 (int) (camera.position.x - camera.viewportWidth / 2),
                 (int) (camera.position.y - camera.viewportHeight / 2));
 
@@ -480,8 +512,9 @@ public class GameStage extends StageParent implements InputProcessor{
 
     @Override
     public boolean keyDown(int keycode) {
-        // if (keycode == Input.Keys.MINUS) score.setLives(score.getLives() - 10);
+        if (keycode == Input.Keys.MINUS) score.setLives(score.getLives() - 10);
         if (keycode == Input.Keys.ESCAPE) gameScreen.setEndStage();
+        if (keycode == Input.Keys.NUM_1) isCollision = !isCollision;
         if (keycode == Input.Keys.P) {
             pause = !pause;
         }
@@ -517,14 +550,14 @@ public class GameStage extends StageParent implements InputProcessor{
 //                    actorTimer.setRandomFrame();
 //                    actorTimer.setPressed(true);
 //                } else {
-        if (actorBall.getY() > camera.viewportHeight / 3 && !pause) {
+        if (actorBall.getY() > camera.viewportHeight / 3 && !pause && objTeleport == null) {
             if (actorRightHand == null && actorLeftHand == null && screenX > Gdx.graphics.getWidth() / 2) {
                 actorRightHand = new ActorRightHand(actorBall, textures.getRightHand(), (int) actorBall.getX(), (int) actorBall.getY());
                 actorRightHand.setPressed(true);
                 addActor(actorRightHand);
             }
 
-            if (actorLeftHand == null && actorRightHand == null && screenX <= Gdx.graphics.getWidth() / 2 && !pause) {
+            if (actorLeftHand == null && actorRightHand == null && screenX <= Gdx.graphics.getWidth() / 2) {
                 actorLeftHand = new ActorLeftHand(actorBall, textures.getLeftHand(), (int) actorBall.getX(), (int) actorBall.getY());
                 actorLeftHand.setPressed(true);
                 addActor(actorLeftHand);
