@@ -63,7 +63,6 @@ public class ActorRacquet extends Actor {
     }
 
     public void setY_correct_to_fire(float yc) {
-        Balls.log("BUM");
         this.y_correct_to_fire = yc;
     }
 

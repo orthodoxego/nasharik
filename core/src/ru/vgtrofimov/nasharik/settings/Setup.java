@@ -105,28 +105,32 @@ public class Setup {
         if (skin >= skinName.length) skin = 0;
     }
 
+    public int getSkin() {
+        return skin;
+    }
+
     public void helpOnOff() {
         help = !help;
     }
 
     private String[] getSkinName() {
         // return new String[]{"базовый", "тёмный", "пузырьки"};
-        return new String[]{"базовый"};
+        return new String[]{"базовый", "камни"};
     }
 
     public String[] getMessageSkin() {
         String[] ret = new String[3];;
         if (skin == 0) {
-            ret[0] = "Автор скина: разработчик";
+            ret[0] = "";
             ret[1] = "Анимация: Андрей Фролов";
             ret[2] = "(c) 2022 Виктор Трофимов";
         } else if (skin == 1) {
             ret[0] = "";
-            ret[1] = "Автор скина: разработчик";
+            ret[1] = "";
             ret[2] = "(c) 2022 Виктор Трофимов";
         } else if (skin == 2) {
             ret[0] = "";
-            ret[1] = "Автор скина: разработчик";
+            ret[1] = "";
             ret[2] = "(c) 2022 Виктор Трофимов";
         }
         return ret;

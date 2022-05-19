@@ -47,7 +47,7 @@ public class Balls extends ApplicationAdapter {
 		sound = new Sound(setup);
 
 		manager = new AssetManager();
-		textures = new Textures();
+		textures = new Textures(setup);
 
 		font = new Font();
 

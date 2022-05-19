@@ -20,12 +20,16 @@ public class MenuStage extends StageParent implements ReturnKey, InputProcessor 
 
     Textures textures;
 
+    ActorBackground actorBackground;
+
     ActorTextKey menuStart;
     ActorTextKey menuSkin;
     ActorTextKey menuVolume;
     ActorTextKey menuHelp;
     ActorTextKey menuShadow;
+
     ActorLittleText actorLittleText;
+    ActorTextureStatic actorTextureStatic;
 
     public MenuStage(GameScreen gameScreen, Setup setup, Viewport viewport, OrthographicCamera camera, Textures textures, Sound sound) {
         super(gameScreen, setup, sound, viewport, camera);
@@ -34,14 +38,15 @@ public class MenuStage extends StageParent implements ReturnKey, InputProcessor 
         resize((int) viewport.getWorldWidth(), (int) viewport.getWorldHeight());
         Balls.log(getClass().getName(), "" + viewport.getWorldWidth() + " " + viewport.getWorldHeight());
 
-        ActorBackground actorBackground = new ActorBackground(textures.getBackground(), 3);
+        actorBackground = new ActorBackground(textures.getBackground(), 3);
         addActor(actorBackground);
 
         int startX = 96;
         int startY = (int) (viewport.getWorldHeight() / 2 * 0.7f);
         int lineHeight = 75;
 
-        addActor(new ActorTextureStatic(0, 50, 512, 256, textures.getNasharik()));
+        actorTextureStatic = new ActorTextureStatic(0, 50, 512, 256, textures.getNasharik());
+        addActor(actorTextureStatic);
 
         menuStart = new ActorTextKey(this, Font.play_regular_14px, "Играть",
                 textures.getMenuStartGame(),
@@ -108,6 +113,9 @@ public class MenuStage extends StageParent implements ReturnKey, InputProcessor 
                 setup.incSkin();
                 actorLittleText.setMsg(setup.getMessageSkin());
                 menuSkin.setMsg(setup.getSkinStr());
+                gameScreen.newTextures();
+                textures = gameScreen.getTextures();
+                refreshTexture();
                 break;
             case MENU_VOLUME:
                 int vol = setup.getVolume();
@@ -126,5 +134,15 @@ public class MenuStage extends StageParent implements ReturnKey, InputProcessor 
                 break;
         }
         sound.play(Sound.SOUND.CLICK_MENU);
+    }
+
+    private void refreshTexture() {
+        actorBackground.setSkin(textures.getBackground());
+        actorTextureStatic.setRegion(textures.getNasharik());
+        menuStart.setIco(textures.getMenuStartGame());
+        menuShadow.setIco(textures.getMenuShadow());
+        menuHelp.setIco(textures.getMenuHelp());
+        menuSkin.setIco(textures.getMenuSkin());
+        menuVolume.setIco(textures.getMenuVolume());
     }
 }

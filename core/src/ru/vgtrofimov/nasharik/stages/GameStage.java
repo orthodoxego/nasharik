@@ -253,7 +253,8 @@ public class GameStage extends StageParent implements InputProcessor{
             if (ash.isEnabled() && ash.isCollision(actorBall)) {
                 if (score.checkShape(ash.getNumber_shape())) {
                     score.addScore(1);
-                    actorBall.addScalle(actorBall.getScaleX() + 0.4f / score.getTask().length);
+                    // actorBall.addScalle(actorBall.getScaleX() + 0.4f / score.getTask().length);
+                    actorBall.addScalle(actorBall.getScaleX() + 0.1f);
 
                     // Добавит взрыв
                     /*actorStarsGrab.add(new ActorFrames(textures.getExplosion(),
@@ -296,6 +297,7 @@ public class GameStage extends StageParent implements InputProcessor{
 
         for (ActorTeleport at : actorTeleport) {
             if (at.isEnabled() && at.isCollision(actorBall) && !at.isProcessing_teleport()) {
+                sound.play(Sound.SOUND.TELEPORT);
                 at.setProcessing_teleport(true);
                 at.setScale(0f, 0f);
                 actorBall.setX(at.getX());

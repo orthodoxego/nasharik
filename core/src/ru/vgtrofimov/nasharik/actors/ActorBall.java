@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.Actor;
 
 import java.util.Vector;
 
+import ru.vgtrofimov.nasharik.services.Font;
 import ru.vgtrofimov.nasharik.services.XY;
 import ru.vgtrofimov.nasharik.settings.GameConstant;
 import ru.vgtrofimov.nasharik.settings.Setup;
@@ -59,6 +60,7 @@ public class ActorBall extends Actor {
 
     public void addScalle(float sc) {
         newScale = sc;
+        if (newScale > 1.2f) newScale = 1.2f;
     }
 
     @Override
@@ -103,7 +105,7 @@ public class ActorBall extends Actor {
         batch.draw(skin, getX() - correctX, getY() - correctY, getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
         batch.draw(shadow, getX() - correctX, getY() - correctY, getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), 0);
 
-        //Font.play_regular_14px.draw(batch, "" + (int) getY(), 0, getY());
+        // Font.play_regular_14px.draw(batch, "" + (int) getY(), 0, getY());
 
     }
 
@@ -112,11 +114,7 @@ public class ActorBall extends Actor {
         setSpeedY(getSpeedY() + (velocity + massa * gravity) / 4 * getScaleX());
         setSpeedX(getSpeedX() * 0.998f);
 
-        // if (getY() + getHeight() > world_height - skin.getRegionHeight()) {
         if (getY() + getHeight() / 2 > actorRacquet.getY() - actorRacquet.getPressed_energy() - actorRacquet.getY_correct_to_fire() * 3) {
-            // setY(world_height - getHeight() - skin.getRegionHeight() - getHeight() / 2);
-            // setY(actorRacquet.getY() - getHeight() / 2 - actorRacquet.getPressed_energy() - actorRacquet.getY_correct_to_fire() * 3);
-            // setY(actorRacquet.getY() - getHeight() / 2);
             setSpeedY(Math.min(-256, (float) (-getSpeedY() * Math.sqrt(elastic) / massa)));
             velocity = default_velocity;
 

@@ -65,7 +65,7 @@ public class GameScreen implements Screen {
 
     public void setGameStage() {
         setup.setScore(0);
-        setup.setLevel(2);
+        setup.setLevel(0);
         currentStage = null;
         currentStage = new GameStage(this, setup, viewport, camera, textures, sound);
         Gdx.input.setInputProcessor(currentStage);
@@ -129,5 +129,13 @@ public class GameScreen implements Screen {
 
     public void setInputListener() {
         Gdx.input.setInputProcessor(currentStage);
+    }
+
+    public Textures getTextures() {
+        return textures;
+    }
+
+    public void newTextures() {
+        textures = new Textures(setup);
     }
 }

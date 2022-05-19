@@ -60,4 +60,8 @@ public class ActorTextKey extends Actor {
     public void setMsg(String msg) {
         this.msg = msg;
     }
+
+    public void setIco(TextureRegion ico) {
+        this.ico = ico;
+    }
 }

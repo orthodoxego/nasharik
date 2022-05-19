@@ -34,4 +34,8 @@ public class ActorBackground extends Actor {
             batch.draw(skin, getX(), getY() + i * getWidth(), getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
         }
     }
+
+    public void setSkin(TextureRegion skin) {
+        this.skin = skin;
+    }
 }

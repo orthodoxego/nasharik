@@ -7,7 +7,7 @@ import ru.vgtrofimov.nasharik.settings.Setup;
 
 public class Textures {
 
-    String [] dir = {"base", "frolov"};
+    String [] dir = {"base", "stone"};
 
     TextureRegion background;
     TextureRegion timer[];
@@ -31,10 +31,10 @@ public class Textures {
 
     TextureRegion menuStartGame, menuSkin, menuVolume, menuHelp, menuShadow;
 
-    public Textures() {
+    public Textures(Setup setup) {
         Texture load;
 
-        load = new Texture("png/" + dir[Setup.theme] + "/explosion.png");
+        load = new Texture("png/" + dir[setup.getSkin()] + "/explosion.png");
         explosion = new TextureRegion[8];
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 4; j++) {
@@ -42,13 +42,13 @@ public class Textures {
         }
 
 
-        load = new Texture("png/" + dir[Setup.theme] + "/background.png");
+        load = new Texture("png/" + dir[setup.getSkin()] + "/background.png");
         background = getTextureRegionFromMap(0, 0, load.getWidth(), load.getHeight(), false, true, load);
 
-        load = new Texture("png/" + dir[Setup.theme] + "/nasharik.png");
+        load = new Texture("png/" + dir[setup.getSkin()] + "/nasharik.png");
         nasharik = getTextureRegionFromMap(0, 0, load.getWidth(), load.getHeight(), false, true, load);
 
-        load = new Texture("png/" + dir[Setup.theme] + "/pack.png");
+        load = new Texture("png/" + dir[setup.getSkin()] + "/pack.png");
 
         menuStartGame = getTextureRegionFromMap(256, 386, 64, 64, false, true, load);
         menuSkin = getTextureRegionFromMap(256, 448, 64, 64, false, true, load);
