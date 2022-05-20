@@ -11,7 +11,8 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import ru.vgtrofimov.nasharik.Balls;
 import ru.vgtrofimov.nasharik.settings.Setup;
 import ru.vgtrofimov.nasharik.settings.Sound;
-import ru.vgtrofimov.nasharik.stages.EndStage;
+import ru.vgtrofimov.nasharik.stages.EndGameStage;
+import ru.vgtrofimov.nasharik.stages.LoseStage;
 import ru.vgtrofimov.nasharik.stages.GameStage;
 import ru.vgtrofimov.nasharik.stages.MenuStage;
 import ru.vgtrofimov.nasharik.stages.SelectLevelStage;
@@ -49,16 +50,24 @@ public class GameScreen implements Screen {
         camera.position.set(camera.viewportWidth / 2,camera.viewportHeight / 2, 0);
         camera.update();
 
-        setGameStage();
+        // setEndGameStage();
+        // setGameStage();
         // setEndStage();
-        // setMenuStage();
+        setMenuStage();
     }
 
     public void setGameStage() {
         setup.setScore(0);
-        setup.setLevel(14);
+        // setup.setLevel(14);
         currentStage = null;
         currentStage = new GameStage(this, setup, viewport, camera, textures, sound);
+        Gdx.input.setInputProcessor(currentStage);
+        Gdx.input.setCatchKey(Input.Keys.BACK, true);
+    }
+
+    public void setEndGameStage() {
+        currentStage = null;
+        currentStage = new EndGameStage(this, setup, viewport, camera, textures, sound);
         Gdx.input.setInputProcessor(currentStage);
         Gdx.input.setCatchKey(Input.Keys.BACK, true);
     }
@@ -79,7 +88,7 @@ public class GameScreen implements Screen {
 
     public void setEndStage() {
         currentStage = null;
-        currentStage = new EndStage(this, setup, viewport, camera, textures, sound);
+        currentStage = new LoseStage(this, setup, viewport, camera, textures, sound);
         Gdx.input.setInputProcessor(currentStage);
         Gdx.input.setCatchKey(Input.Keys.BACK, true);
     }

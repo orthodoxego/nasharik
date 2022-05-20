@@ -68,6 +68,9 @@ public class Levels {
         vpos.add(getLevel15());
         grabber.add(getGrabber15());
 
+        vpos.add(getLevel01());
+        grabber.add(getGrabber01());
+
         /*
         Линия
         level.add(new PositionUnit(75, 6400, GameConstant.MINE));
@@ -80,16 +83,18 @@ public class Levels {
 
     }
 
+    public int getCountAllLevel() {
+        return vpos.size();
+    }
+
     public Vector<PositionUnit> getLevel(int level) {
+        if (level >= vpos.size()) level = 0;
         return vpos.elementAt(level);
     }
 
     public Vector<Integer> getGrabber(int level) {
+        if (level >= vpos.size()) level = 0;
         return grabber.elementAt(level);
-    }
-
-    public Vector<PositionUnit> getTech(int level) {
-        return tech.elementAt(level);
     }
 
     public Vector<PositionUnit> getLevel01() {
@@ -279,10 +284,10 @@ public class Levels {
         level.add(new PositionUnit(255, 5000, GameConstant.CIRCLE));
         level.add(new PositionUnit(255, 4500, GameConstant.CIRCLE));
 
-        level.add(new PositionUnit(255, 3500, GameConstant.PENTAGON));
-        level.add(new PositionUnit(255, 3500, GameConstant.SQUARE));
-        level.add(new PositionUnit(255, 3000, GameConstant.SQUARE));
-        level.add(new PositionUnit(255, 3000, GameConstant.SQUARE));
+        level.add(new PositionUnit(245, 3500, GameConstant.PENTAGON));
+        level.add(new PositionUnit(265, 3500, GameConstant.SQUARE));
+        level.add(new PositionUnit(245, 3000, GameConstant.SQUARE));
+        level.add(new PositionUnit(265, 3000, GameConstant.SQUARE));
 
         level.add(new PositionUnit(75, 4000, GameConstant.MINE));
         level.add(new PositionUnit(150, 4000, GameConstant.MINE));

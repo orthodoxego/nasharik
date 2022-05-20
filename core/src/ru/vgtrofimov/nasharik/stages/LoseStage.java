@@ -17,11 +17,11 @@ import ru.vgtrofimov.nasharik.settings.Setup;
 import ru.vgtrofimov.nasharik.settings.Sound;
 import ru.vgtrofimov.nasharik.textures.Textures;
 
-public class EndStage extends StageParent implements ReturnKey, InputProcessor {
+public class LoseStage extends StageParent implements ReturnKey, InputProcessor {
 
     Textures textures;
 
-    public EndStage(GameScreen gameScreen, Setup setup, Viewport viewport, OrthographicCamera camera, Textures textures, Sound sound) {
+    public LoseStage(GameScreen gameScreen, Setup setup, Viewport viewport, OrthographicCamera camera, Textures textures, Sound sound) {
         super(gameScreen, setup, sound, viewport, camera);
         this.textures = textures;
 

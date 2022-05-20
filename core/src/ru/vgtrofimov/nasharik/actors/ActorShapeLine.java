@@ -66,6 +66,6 @@ public class ActorShapeLine extends Actor {
         Font.play_regular_14px.draw(batch, "Уровень: " + score.getLevel(), getX() + 305, getY() + 20);
 
         Font.play_regular_14px.draw(batch, "Рекорд: " + score.getRecordScore(), getX() + 30, getY() + viewportHeight - 40);
-        Font.play_regular_14px.draw(batch, "Попытки: " + score.getLives(), getX() + 305, getY() + viewportHeight - 40);
+        Font.play_regular_14px.draw(batch, "Попытки: " + Math.max(0, score.getLives()), getX() + 305, getY() + viewportHeight - 40);
     }
 }

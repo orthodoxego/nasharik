@@ -86,11 +86,11 @@ public class GameStage extends StageParent implements InputProcessor{
     }
 
     private void softReset() {
+
         if (actorBall != null) actorBall.remove();
         for (Actor act : getActors()) {
             act.remove();
         }
-
         actorBall = null;
         actorRightHand = null;
         actorLeftHand = null;
@@ -100,6 +100,11 @@ public class GameStage extends StageParent implements InputProcessor{
         move_cam = true;
         pause = false;
         correct_camera_y = 128;
+
+        if (score.getLevel() >= new Levels().getCountAllLevel()) {
+            gameScreen.setMenuStage();
+        }
+
         addActors();
     }
 

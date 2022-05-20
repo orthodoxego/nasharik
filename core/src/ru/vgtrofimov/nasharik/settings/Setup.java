@@ -19,6 +19,7 @@ public class Setup {
     int skin;
     String[] skinName;
     boolean help;
+    boolean openAllLevel;
 
     public static boolean shadow;
     public static int theme;
@@ -34,12 +35,13 @@ public class Setup {
     public void loadPrefs() {
         Preferences prefs = Gdx.app.getPreferences(APP_ID);
         recordScore = prefs.getInteger("ajg6256ghjb3hg134j", 0);
-        shadow = prefs.getBoolean("kj828u2hjb3897y2h1", false);
+        shadow = prefs.getBoolean("kj828u2hjb3897y2h1", true);
         help = prefs.getBoolean("bbnwjhjushuh2jqpoj", false);
         theme = prefs.getInteger("hjn2jbg1hjbHhvhUGB", 0);
         volume = prefs.getInteger("jkoqopwoii919287iq", 30);
         skin = prefs.getInteger("jqywopwoii919287iq", 0);
         max_level = prefs.getInteger("jqywomwoiir1928wiq", 0);
+        openAllLevel = prefs.getBoolean("jqywomqattr1928wiq", false);
     }
 
     public void savePrefs() {
@@ -47,6 +49,7 @@ public class Setup {
         prefs.putInteger("ajg6256ghjb3hg134j", recordScore);
         prefs.putBoolean("kj828u2hjb3897y2h1", shadow);
         prefs.putBoolean("bbnwjhjushuh2jqpoj", help);
+        prefs.putBoolean("jqywomqattr1928wiq", openAllLevel);
         prefs.putInteger("hjn2jbg1hjbHhvhUGB", theme);
         prefs.putInteger("jkoqopwoii919287iq", volume);
         prefs.putInteger("jqywopwoii919287iq", skin);
@@ -153,5 +156,13 @@ public class Setup {
 
     public int getMax_level() {
         return max_level;
+    }
+
+    public void setOpenAllLevel(boolean b) {
+        this.openAllLevel = b;
+    }
+
+    public boolean isOpenAllLevel() {
+        return this.openAllLevel;
     }
 }
