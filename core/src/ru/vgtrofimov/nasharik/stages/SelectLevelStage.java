@@ -87,7 +87,7 @@ public class SelectLevelStage extends StageParent implements ReturnKey, InputPro
 
     @Override
     public boolean keyDown(int keyCode) {
-        if (keyCode == Input.Keys.BACK) {
+        if (keyCode == Input.Keys.BACK || keyCode == Input.Keys.ESCAPE) {
             sound.play(Sound.SOUND.CLICK_MENU);
             gameScreen.setMenuStage();
         }

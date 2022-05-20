@@ -136,7 +136,7 @@ public class GameStage extends StageParent implements InputProcessor{
 
         addActor(actorBall);
 
-        actorShapeLine = new ActorShapeLine(textures.getShapes(), score, (int) camera.viewportHeight);
+        actorShapeLine = new ActorShapeLine(textures.getShapes(), textures.getWinHole(), score, (int) camera.viewportHeight);
         addActor(actorShapeLine);
     }
 
@@ -347,7 +347,8 @@ public class GameStage extends StageParent implements InputProcessor{
         }
 
         for (ActorWizard aw : actorWizard) {
-            if (aw.isEnabled() && aw.isCollision(actorBall)) {
+            if (aw.getScaleX() == 1 && aw.isEnabled() && aw.isCollision(actorBall)) {
+                aw.setScale(0, 0);
                 if (vectorMoveShapes == null) {
                     vectorMoveShapes = new VectorMoveShapes(actorShape);
                     sound.play(Sound.SOUND.WIZARD);

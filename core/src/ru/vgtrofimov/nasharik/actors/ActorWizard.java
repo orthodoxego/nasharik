@@ -11,7 +11,10 @@ public class ActorWizard extends ActorShape {
     public void act(float delta) {
         super.act(delta);
 
-        if (getScaleX() > 1) setScale(getScaleX() * 0.95f, getScaleX() * 0.95f);
+        if (getScaleX() < 1) {
+            setScale(getScaleX() + delta / 2, getScaleY() + delta / 2);
+            if (getScaleX() > 1) setScale(1, 1);
+        }
 
     }
 }

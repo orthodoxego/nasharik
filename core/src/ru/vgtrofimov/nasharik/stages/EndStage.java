@@ -113,7 +113,7 @@ public class EndStage extends StageParent implements ReturnKey, InputProcessor {
 
     @Override
     public boolean keyDown(int keyCode) {
-        if (keyCode == Input.Keys.BACK) {
+        if (keyCode == Input.Keys.BACK || keyCode == Input.Keys.ESCAPE) {
             sound.play(Sound.SOUND.CLICK_MENU);
             gameScreen.setMenuStage();
         }

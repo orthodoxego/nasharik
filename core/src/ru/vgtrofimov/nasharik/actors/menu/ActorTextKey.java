@@ -33,7 +33,7 @@ public class ActorTextKey extends Actor {
         setWidth(ico.getRegionWidth() + gl.width);
         setHeight(ico.getRegionHeight() + gl.height);
         icoCenterY = (int) (getY() + (16 - gl.height) / 2);
-        setBounds(x, y, getWidth() + ico.getRegionWidth(), getHeight());
+        setBounds(x, y, 512, getHeight());
 
         setTouchable(Touchable.enabled);
         addListener(new InputListener() {
