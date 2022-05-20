@@ -7,11 +7,13 @@ public class Setup {
 
     public static final String APP_ID = "NASHARIK";
     public static final String FONT_CHARS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
+    public static final int level_in_game = 45;
 
     // Сколько раз повторяется текстура (высота игрового мира)
     public static int count_background = 15;
     int recordScore;
     int score;
+    int max_level;
     int level;
     int volume;
     int skin;
@@ -37,6 +39,7 @@ public class Setup {
         theme = prefs.getInteger("hjn2jbg1hjbHhvhUGB", 0);
         volume = prefs.getInteger("jkoqopwoii919287iq", 30);
         skin = prefs.getInteger("jqywopwoii919287iq", 0);
+        max_level = prefs.getInteger("jqywomwoiir1928wiq", 0);
     }
 
     public void savePrefs() {
@@ -47,6 +50,8 @@ public class Setup {
         prefs.putInteger("hjn2jbg1hjbHhvhUGB", theme);
         prefs.putInteger("jkoqopwoii919287iq", volume);
         prefs.putInteger("jqywopwoii919287iq", skin);
+        prefs.putInteger("jqywomwoiir1928wiq", max_level);
+
         prefs.flush();
     }
 
@@ -63,6 +68,7 @@ public class Setup {
     }
 
     public void setLevel(int level) {
+        if (level - 1 > max_level) max_level = level - 1;
         this.level = level;
     }
 
@@ -143,5 +149,9 @@ public class Setup {
         if (shadow)
             return "Эффекты: есть";
         return "Эффекты: нет";
+    }
+
+    public int getMax_level() {
+        return max_level;
     }
 }

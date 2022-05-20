@@ -107,7 +107,7 @@ public class MenuStage extends StageParent implements ReturnKey, InputProcessor 
     public void pressKey(KEY_NAME key_name) {
         switch (key_name) {
             case MENU_START_GAME:
-                gameScreen.setGameStage();
+                gameScreen.setSelectLevelStage();
                 break;
             case MENU_SELECT_SKIN:
                 setup.incSkin();
@@ -134,6 +134,11 @@ public class MenuStage extends StageParent implements ReturnKey, InputProcessor 
                 break;
         }
         sound.play(Sound.SOUND.CLICK_MENU);
+    }
+
+    @Override
+    public void pressKey(int key_number) {
+
     }
 
     private void refreshTexture() {

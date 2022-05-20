@@ -1,6 +1,7 @@
 package ru.vgtrofimov.nasharik.stages;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -104,5 +105,17 @@ public class EndStage extends StageParent implements ReturnKey, InputProcessor {
         sound.play(Sound.SOUND.CLICK_MENU);
     }
 
+    @Override
+    public void pressKey(int key_number) {
 
+    }
+
+    @Override
+    public boolean keyDown(int keyCode) {
+        if (keyCode == Input.Keys.BACK) {
+            sound.play(Sound.SOUND.CLICK_MENU);
+            gameScreen.setMenuStage();
+        }
+        return true;
+    }
 }

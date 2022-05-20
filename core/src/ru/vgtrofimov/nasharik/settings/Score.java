@@ -18,6 +18,7 @@ public class Score {
 
     public void nextLevel() {
         setup.setLevel(setup.getLevel() + 1);
+        setup.savePrefs();
         lives = 3;
     }
 

@@ -1,6 +1,7 @@
 package ru.vgtrofimov.nasharik.screens;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
@@ -13,6 +14,7 @@ import ru.vgtrofimov.nasharik.settings.Sound;
 import ru.vgtrofimov.nasharik.stages.EndStage;
 import ru.vgtrofimov.nasharik.stages.GameStage;
 import ru.vgtrofimov.nasharik.stages.MenuStage;
+import ru.vgtrofimov.nasharik.stages.SelectLevelStage;
 import ru.vgtrofimov.nasharik.stages.StageParent;
 import ru.vgtrofimov.nasharik.textures.Textures;
 
@@ -57,24 +59,34 @@ public class GameScreen implements Screen {
         setMenuStage();
     }
 
+    public void setSelectLevelStage() {
+        currentStage = null;
+        currentStage = new SelectLevelStage(this, setup, viewport, camera, textures, sound);
+        Gdx.input.setInputProcessor(currentStage);
+        Gdx.input.setCatchKey(Input.Keys.BACK, true);
+    }
+
     public void setMenuStage() {
         currentStage = null;
         currentStage = new MenuStage(this, setup, viewport, camera, textures, sound);
         Gdx.input.setInputProcessor(currentStage);
+        Gdx.input.setCatchKey(Input.Keys.BACK, false);
     }
 
     public void setGameStage() {
         setup.setScore(0);
-        setup.setLevel(8);
+        // setup.setLevel(0);
         currentStage = null;
         currentStage = new GameStage(this, setup, viewport, camera, textures, sound);
         Gdx.input.setInputProcessor(currentStage);
+        Gdx.input.setCatchKey(Input.Keys.BACK, true);
     }
 
     public void setEndStage() {
         currentStage = null;
         currentStage = new EndStage(this, setup, viewport, camera, textures, sound);
         Gdx.input.setInputProcessor(currentStage);
+        Gdx.input.setCatchKey(Input.Keys.BACK, true);
     }
 
     @Override

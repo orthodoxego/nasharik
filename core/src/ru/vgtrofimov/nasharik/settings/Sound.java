@@ -11,7 +11,8 @@ public class Sound {
         GOOD_RESULT,
         SPRING,
         RACQUET_SPRING,
-        TELEPORT
+        TELEPORT,
+        START_LEVEL
     };
 
 
@@ -37,6 +38,7 @@ public class Sound {
         soundMelody[5] = Gdx.audio.newSound(Gdx.files.internal("sound/spring.ogg"));
         soundMelody[6] = Gdx.audio.newSound(Gdx.files.internal("sound/racquet_spring.ogg"));
         soundMelody[7] = Gdx.audio.newSound(Gdx.files.internal("sound/teleport.ogg"));
+        soundMelody[8] = Gdx.audio.newSound(Gdx.files.internal("sound/startlevel.ogg"));
 
     }
 
@@ -76,6 +78,10 @@ public class Sound {
             case TELEPORT:
                 soundMelody[7].stop();
                 soundMelody[7].play(((0.01f * setup.getVolume()) * 0.5f));
+                break;
+            case START_LEVEL:
+                soundMelody[8].stop();
+                soundMelody[8].play(((0.01f * setup.getVolume()) * 0.5f));
                 break;
         }
 

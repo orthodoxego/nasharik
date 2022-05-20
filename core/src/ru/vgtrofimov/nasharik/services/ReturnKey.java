@@ -6,4 +6,6 @@ public interface ReturnKey {
 
     public void pressKey(KEY_NAME key_name);
 
+    public void pressKey(int key_number);
+
 }

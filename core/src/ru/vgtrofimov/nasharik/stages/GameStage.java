@@ -477,7 +477,7 @@ public class GameStage extends StageParent implements InputProcessor{
             actorTextMoveYtoY = new ActorTextMoveYtoY(textures.getBlackHole(),
                     camera.position.y + 200,
                     camera.position.y - 100,
-                    "НИЧЕГО, ПОПРОБУЙ ЕЩЁ!", (int) camera.viewportWidth, (int) camera.viewportHeight,
+                    "УПС... ПОПРОБУЙ ЕЩЁ!", (int) camera.viewportWidth, (int) camera.viewportHeight,
                     (int) (camera.position.x - camera.viewportWidth / 2),
                     (int) (camera.position.y - camera.viewportHeight / 2));
         }
@@ -513,7 +513,10 @@ public class GameStage extends StageParent implements InputProcessor{
     @Override
     public boolean keyDown(int keycode) {
         if (keycode == Input.Keys.MINUS) score.setLives(score.getLives() - 10);
-        if (keycode == Input.Keys.ESCAPE) gameScreen.setEndStage();
+        if (keycode == Input.Keys.ESCAPE || keycode == Input.Keys.BACK) {
+            sound.play(Sound.SOUND.CLICK_MENU);
+            gameScreen.setEndStage();
+        }
         if (keycode == Input.Keys.NUM_1) isCollision = !isCollision;
         if (keycode == Input.Keys.P) {
             pause = !pause;
