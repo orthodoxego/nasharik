@@ -12,7 +12,8 @@ public class Sound {
         SPRING,
         RACQUET_SPRING,
         TELEPORT,
-        START_LEVEL
+        START_LEVEL,
+        WIZARD
     };
 
 
@@ -39,6 +40,7 @@ public class Sound {
         soundMelody[6] = Gdx.audio.newSound(Gdx.files.internal("sound/racquet_spring.ogg"));
         soundMelody[7] = Gdx.audio.newSound(Gdx.files.internal("sound/teleport.ogg"));
         soundMelody[8] = Gdx.audio.newSound(Gdx.files.internal("sound/startlevel.ogg"));
+        soundMelody[9] = Gdx.audio.newSound(Gdx.files.internal("sound/wizard.ogg"));
 
     }
 
@@ -69,19 +71,23 @@ public class Sound {
                 break;
             case SPRING:
                 soundMelody[5].stop();
-                soundMelody[5].play(((0.01f * setup.getVolume()) * 0.8f));
+                soundMelody[5].play(((0.01f * setup.getVolume()) * 0.7f));
                 break;
             case RACQUET_SPRING:
                 soundMelody[6].stop();
-                soundMelody[6].play(((0.01f * setup.getVolume()) * 0.5f));
+                soundMelody[6].play(((0.01f * setup.getVolume()) * 0.3f));
                 break;
             case TELEPORT:
                 soundMelody[7].stop();
-                soundMelody[7].play(((0.01f * setup.getVolume()) * 0.5f));
+                soundMelody[7].play(((0.01f * setup.getVolume()) * 0.6f));
                 break;
             case START_LEVEL:
                 soundMelody[8].stop();
-                soundMelody[8].play(((0.01f * setup.getVolume()) * 0.5f));
+                soundMelody[8].play(((0.01f * setup.getVolume()) * 0.7f));
+                break;
+            case WIZARD:
+                soundMelody[9].stop();
+                soundMelody[9].play(((0.01f * setup.getVolume()) * 0.3f));
                 break;
         }
 

@@ -72,7 +72,7 @@ public class Textures {
             shapes[i] = getTextureRegionFromMap(64 + i * 64, 128, 64, 64, false, true, load);
         }
 
-        techobject = new TextureRegion[10];
+        techobject = new TextureRegion[4];
         for (int i = 0; i < techobject.length; i++) {
             techobject[i] = getTextureRegionFromMap(i * 64, 192, 64, 64, false, true, load);
         }

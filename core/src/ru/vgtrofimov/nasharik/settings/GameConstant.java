@@ -8,6 +8,7 @@ public class GameConstant {
     public static final int CORRECT_TECH = 25;
     public static final int MINE = 25;
     public static final int TELEPORT = 26;
+    public static final int WIZARD = 27;
 
     public static final float TIME_TO_STEP_BALL = 0.01f;
 

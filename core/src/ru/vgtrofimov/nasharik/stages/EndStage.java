@@ -99,6 +99,7 @@ public class EndStage extends StageParent implements ReturnKey, InputProcessor {
                 gameScreen.setMenuStage();
                 break;
             case RESTART:
+                setup.setLevel(setup.getLevel() - 1);
                 gameScreen.setGameStage();
                 break;
         }

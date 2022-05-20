@@ -41,11 +41,6 @@ public class GameScreen implements Screen {
         this.manager = manager;
         this.textures = textures;
 
-
-        // ОБЯЗАТЕЛЬНО В КАЖДЫЙ РЕСАЙЦ!
-
-        // Balls.log("RESIZE EndGS " + width + " " + height);
-
         int game_world_width = 512;
         int game_world_height = textures.getBackground().getRegionHeight() * Setup.count_background;
 
@@ -54,9 +49,18 @@ public class GameScreen implements Screen {
         camera.position.set(camera.viewportWidth / 2,camera.viewportHeight / 2, 0);
         camera.update();
 
-        // setGameStage();
+        setGameStage();
         // setEndStage();
-        setMenuStage();
+        // setMenuStage();
+    }
+
+    public void setGameStage() {
+        setup.setScore(0);
+        // setup.setLevel(9);
+        currentStage = null;
+        currentStage = new GameStage(this, setup, viewport, camera, textures, sound);
+        Gdx.input.setInputProcessor(currentStage);
+        Gdx.input.setCatchKey(Input.Keys.BACK, true);
     }
 
     public void setSelectLevelStage() {
@@ -71,15 +75,6 @@ public class GameScreen implements Screen {
         currentStage = new MenuStage(this, setup, viewport, camera, textures, sound);
         Gdx.input.setInputProcessor(currentStage);
         Gdx.input.setCatchKey(Input.Keys.BACK, false);
-    }
-
-    public void setGameStage() {
-        setup.setScore(0);
-        // setup.setLevel(0);
-        currentStage = null;
-        currentStage = new GameStage(this, setup, viewport, camera, textures, sound);
-        Gdx.input.setInputProcessor(currentStage);
-        Gdx.input.setCatchKey(Input.Keys.BACK, true);
     }
 
     public void setEndStage() {

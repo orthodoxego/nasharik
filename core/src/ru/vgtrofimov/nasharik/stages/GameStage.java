@@ -22,7 +22,9 @@ import ru.vgtrofimov.nasharik.actors.ActorRightHand;
 import ru.vgtrofimov.nasharik.actors.ActorShapeLine;
 import ru.vgtrofimov.nasharik.actors.ActorTeleport;
 import ru.vgtrofimov.nasharik.actors.ActorTextMoveYtoY;
+import ru.vgtrofimov.nasharik.actors.ActorWizard;
 import ru.vgtrofimov.nasharik.screens.GameScreen;
+import ru.vgtrofimov.nasharik.services.VectorMoveShapes;
 import ru.vgtrofimov.nasharik.settings.GameConstant;
 import ru.vgtrofimov.nasharik.settings.Levels;
 import ru.vgtrofimov.nasharik.services.PositionUnit;
@@ -54,6 +56,8 @@ public class GameStage extends StageParent implements InputProcessor{
     Vector<ActorShape> actorShape;
     Vector<ActorSpring> actorSprings;
     Vector<ActorTeleport> actorTeleport;
+    Vector<ActorWizard> actorWizard;
+    VectorMoveShapes vectorMoveShapes;
     Vector<ActorCircleEffect> actorStarsGrab;
 
     ActorRightHand actorRightHand;
@@ -140,6 +144,7 @@ public class GameStage extends StageParent implements InputProcessor{
         Vector<PositionUnit> tech = lev.getTech(setup.getLevel() - 1);
         actorSprings = new Vector<>();
         actorTeleport = new Vector<>();
+        actorWizard = new Vector<>();
 
         int[] speed = {-1, -2, -3, 3, 2, 1};
         for (PositionUnit pu : tech) {
@@ -164,6 +169,13 @@ public class GameStage extends StageParent implements InputProcessor{
                     actorTeleport.lastElement().setActorBall(actorBall);
                     addActor(actorTeleport.lastElement());
                     break;
+                case GameConstant.WIZARD:
+                    actorWizard.add(new ActorWizard(textures.getTechobject()[pu.code - GameConstant.CORRECT_TECH], pu.code,
+                            pu.x, pu.y,
+                            0, 0,
+                            0, 0,
+                            game_world_width, game_world_height));
+                    addActor(actorWizard.lastElement());
                 default:
                     break;
             }
@@ -174,6 +186,7 @@ public class GameStage extends StageParent implements InputProcessor{
 
         Vector<PositionUnit> level = lev.getLevel(setup.getLevel() - 1);
         Vector<Integer> shapes = lev.getGrabber(setup.getLevel() - 1);
+        vectorMoveShapes = null;
 
         int[] speed = {-10, -20, -30, 30, 20, 10};
         int number = 15;
@@ -184,8 +197,8 @@ public class GameStage extends StageParent implements InputProcessor{
         for (PositionUnit pu : level) {
             actorShape.add(new ActorShape(textures.getShapes()[pu.code], pu.code,
                     pu.x, pu.y,
-                    speed[(int) (Math.random() * speed.length)], speed[(int) (Math.random() * speed.length)],
-                    5 + (int) (Math.random() * 100), 5 + (int) (Math.random() * 50),
+                    speed[(int) (Math.random() * speed.length)] * 0.5f, speed[(int) (Math.random() * speed.length)] * 0.5f,
+                    5 + (int) (Math.random() * 130), 5 + (int) (Math.random() * 50),
                     game_world_width, game_world_height)
             );
             addActor(actorShape.lastElement());
@@ -241,6 +254,12 @@ public class GameStage extends StageParent implements InputProcessor{
             if (actorShapeLine != null) {
                 actorShapeLine.setX(camera.position.x - camera.viewportWidth / 2);
                 actorShapeLine.setY(camera.position.y - camera.viewportHeight * 0.5f);
+            }
+
+            if (vectorMoveShapes != null) {
+                vectorMoveShapes.act(actorShape, delta);
+                if (vectorMoveShapes.isFinalMoving())
+                    vectorMoveShapes = null;
             }
 
         }
@@ -324,6 +343,17 @@ public class GameStage extends StageParent implements InputProcessor{
                 actorBall.setY(objTeleport.getTeleportToY());
                 actorBall.setSpeedX(0);
                 actorBall.setSpeedY(0);
+            }
+        }
+
+        for (ActorWizard aw : actorWizard) {
+            if (aw.isEnabled() && aw.isCollision(actorBall)) {
+                if (vectorMoveShapes == null) {
+                    vectorMoveShapes = new VectorMoveShapes(actorShape);
+                    sound.play(Sound.SOUND.WIZARD);
+                }
+
+                // aw.setEnabled(false);
             }
         }
 
