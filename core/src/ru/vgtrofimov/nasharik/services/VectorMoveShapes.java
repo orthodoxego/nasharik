@@ -27,7 +27,7 @@ public class VectorMoveShapes {
         }
 
         public void act(float x, float y) {
-            if (Math.abs(x - toX) < Math.abs(speedX) / 10)
+            if (Math.abs(x - toX) < Math.abs(speedX) / 10 || speedX == 0)
                 moveX = false;
             else if (speedX < 0 && x < toX)
                 moveX = false;
@@ -35,7 +35,7 @@ public class VectorMoveShapes {
                 moveX = false;
 
 
-            if (Math.abs(y - toY) < Math.abs(speedX) / 10)
+            if (Math.abs(y - toY) < Math.abs(speedX) / 10 || speedY == 0)
                 moveY = false;
             else if (speedY > 0 && y > toY)
                 moveY = false;

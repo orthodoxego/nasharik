@@ -136,12 +136,12 @@ public class GameStage extends StageParent implements InputProcessor{
 
         addActor(actorBall);
 
-        actorShapeLine = new ActorShapeLine(textures.getShapes(), textures.getWinHole(), score, (int) camera.viewportHeight);
+        actorShapeLine = new ActorShapeLine(textures.getShapes(), textures.getBlackHole(), score, (int) camera.viewportHeight);
         addActor(actorShapeLine);
     }
 
     private void addTech(Levels lev) {
-        Vector<PositionUnit> tech = lev.getTech(setup.getLevel() - 1);
+        Vector<PositionUnit> tech = lev.getLevel(setup.getLevel() - 1);
         actorSprings = new Vector<>();
         actorTeleport = new Vector<>();
         actorWizard = new Vector<>();
@@ -152,8 +152,8 @@ public class GameStage extends StageParent implements InputProcessor{
                 case GameConstant.MINE:
                     actorSprings.add(new ActorSpring(textures.getTechobject()[pu.code - GameConstant.CORRECT_TECH], pu.code,
                             pu.x, pu.y,
-                            speed[(int) (Math.random() * speed.length)], speed[(int) (Math.random() * speed.length)],
-                            5 + (int) (Math.random() * 20), 5 + (int) (Math.random() * 20),
+                            0, 0, // speed[(int) (Math.random() * speed.length)], speed[(int) (Math.random() * speed.length)],
+                            0, 0, // 5 + (int) (Math.random() * 20), 5 + (int) (Math.random() * 20),
                             game_world_width, game_world_height)
                     );
                     addActor(actorSprings.lastElement());
@@ -195,13 +195,15 @@ public class GameStage extends StageParent implements InputProcessor{
         actorShape = new Vector<>();
 
         for (PositionUnit pu : level) {
-            actorShape.add(new ActorShape(textures.getShapes()[pu.code], pu.code,
-                    pu.x, pu.y,
-                    speed[(int) (Math.random() * speed.length)] * 0.5f, speed[(int) (Math.random() * speed.length)] * 0.5f,
-                    5 + (int) (Math.random() * 130), 5 + (int) (Math.random() * 50),
-                    game_world_width, game_world_height)
-            );
-            addActor(actorShape.lastElement());
+            if (pu.code <= 6) {
+                actorShape.add(new ActorShape(textures.getShapes()[pu.code], pu.code,
+                        pu.x, pu.y,
+                        0, 0,//speed[(int) (Math.random() * speed.length)] * 0.5f, speed[(int) (Math.random() * speed.length)] * 0.5f,
+                        0, 0,//  + (int) (Math.random() * 130), 5 + (int) (Math.random() * 50),
+                        game_world_width, game_world_height)
+                );
+                addActor(actorShape.lastElement());
+            }
         }
         // Collections.shuffle(shapes);
         score.createTask(shapes);
@@ -222,7 +224,7 @@ public class GameStage extends StageParent implements InputProcessor{
                 checkHand();
 
                 if (isCollision) {
-                    check_collision_player_and_shape();
+                    if (vectorMoveShapes == null) check_collision_player_and_shape();
                     check_collision_player_and_tech();
                 }
             } else {
@@ -346,18 +348,15 @@ public class GameStage extends StageParent implements InputProcessor{
             }
         }
 
-        for (ActorWizard aw : actorWizard) {
-            if (aw.getScaleX() == 1 && aw.isEnabled() && aw.isCollision(actorBall)) {
-                aw.setScale(0, 0);
-                if (vectorMoveShapes == null) {
+        if (vectorMoveShapes == null) {
+            for (ActorWizard aw : actorWizard) {
+                if (aw.getScaleX() == 1 && aw.isEnabled() && aw.isCollision(actorBall)) {
+                    aw.setScale(0, 0);
                     vectorMoveShapes = new VectorMoveShapes(actorShape);
                     sound.play(Sound.SOUND.WIZARD);
                 }
-
-                // aw.setEnabled(false);
             }
         }
-
     }
 
     private void checkHand() {
@@ -506,8 +505,8 @@ public class GameStage extends StageParent implements InputProcessor{
                     (int) (camera.position.y - camera.viewportHeight / 2));
         } else {
             actorTextMoveYtoY = new ActorTextMoveYtoY(textures.getBlackHole(),
-                    camera.position.y + 200,
-                    camera.position.y - 100,
+                    camera.position.y + 300,
+                    camera.position.y,
                     "УПС... ПОПРОБУЙ ЕЩЁ!", (int) camera.viewportWidth, (int) camera.viewportHeight,
                     (int) (camera.position.x - camera.viewportWidth / 2),
                     (int) (camera.position.y - camera.viewportHeight / 2));
@@ -531,8 +530,8 @@ public class GameStage extends StageParent implements InputProcessor{
         Gdx.input.setInputProcessor(null);
 
         actorTextMoveYtoY = new ActorTextMoveYtoY(textures.getWinHole(),
-                camera.position.y + 200,
-                camera.position.y - 100,
+                camera.position.y + 300,
+                camera.position.y,
                 "УСПЕШНО! УРОВЕНЬ " + (score.getLevel() + 1), (int) camera.viewportWidth, (int) camera.viewportHeight,
                 (int) (camera.position.x - camera.viewportWidth / 2),
                 (int) (camera.position.y - camera.viewportHeight / 2));

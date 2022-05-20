@@ -42,6 +42,7 @@ public class ActorShapeLine extends Actor {
 
         batch.setColor(1, 1, 1, 0.5f);
         batch.draw(blackField, getX(), getY(), 0, 0, 512, 130, 1, 1, 0);
+        batch.draw(blackField, getX(), getY() + viewportHeight - 60, 0, 0, 512, 60, 1, 1, 0);
 
 
         batch.setColor(1, 1, 1, 1);

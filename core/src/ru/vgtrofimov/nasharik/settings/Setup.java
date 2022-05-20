@@ -7,7 +7,7 @@ public class Setup {
 
     public static final String APP_ID = "NASHARIK";
     public static final String FONT_CHARS = "абвгдеёжзийклмнопрстуфхцчшщъыьэюяabcdefghijklmnopqrstuvwxyzАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789][_!$%#@|\\/?-+=()*&.;:,{}\"´`'<>";
-    public static final int level_in_game = 45;
+    public static final int level_in_game = 20;
 
     // Сколько раз повторяется текстура (высота игрового мира)
     public static int count_background = 15;

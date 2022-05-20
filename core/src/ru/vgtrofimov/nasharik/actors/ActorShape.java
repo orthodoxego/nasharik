@@ -44,7 +44,8 @@ public class ActorShape extends Actor {
         setOrigin(getWidth() / 2, getHeight() / 2);
         setRotation(angle);
         correctX = (int) (getWidth() / 2); correctY = (int) (getHeight() / 2);
-        angle = (float) (-max_angle + (Math.random() * max_angle * 2));
+        angle = 0;
+        while (angle == 0) angle = (float) (-max_angle + (Math.random() * max_angle * 2));
 
         shadow_ball = new Vector<>();
         shadow_ball.add(new XY(getX(), getY(), getScaleX(), getRotation()));
