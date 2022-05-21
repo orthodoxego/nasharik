@@ -12,8 +12,8 @@ import java.util.Vector;
 import ru.vgtrofimov.nasharik.Balls;
 import ru.vgtrofimov.nasharik.actors.ActorBackground;
 import ru.vgtrofimov.nasharik.actors.ActorBall;
+import ru.vgtrofimov.nasharik.actors.ActorCat;
 import ru.vgtrofimov.nasharik.actors.ActorCircleEffect;
-import ru.vgtrofimov.nasharik.actors.ActorFrames;
 import ru.vgtrofimov.nasharik.actors.ActorSpring;
 import ru.vgtrofimov.nasharik.actors.ActorShape;
 import ru.vgtrofimov.nasharik.actors.ActorLeftHand;
@@ -23,6 +23,7 @@ import ru.vgtrofimov.nasharik.actors.ActorShapeLine;
 import ru.vgtrofimov.nasharik.actors.ActorTeleport;
 import ru.vgtrofimov.nasharik.actors.ActorTextMoveYtoY;
 import ru.vgtrofimov.nasharik.actors.ActorWizard;
+import ru.vgtrofimov.nasharik.actors.help.ActorHelpStaticTime;
 import ru.vgtrofimov.nasharik.screens.GameScreen;
 import ru.vgtrofimov.nasharik.services.VectorMoveShapes;
 import ru.vgtrofimov.nasharik.settings.GameConstant;
@@ -50,6 +51,7 @@ public class GameStage extends StageParent implements InputProcessor{
     int cam_move_to_Y = -1;
     float cam_step_move_to = -1;
     ActorTeleport objTeleport = null;
+    ActorCat actorCat;
 
     public static boolean isCollision = true;
 
@@ -64,9 +66,12 @@ public class GameStage extends StageParent implements InputProcessor{
     ActorLeftHand actorLeftHand;
     // ActorTimer actorTimer;
 
+    int countSpring; // Количество ударов о пружину
+
     public GameStage(GameScreen gameScreen, Setup setup, Viewport viewport, OrthographicCamera camera, Textures textures, Sound sound) {
         super(gameScreen, setup, sound, viewport, camera);
 
+        countSpring = 0;
         this.textures = textures;
 
         // resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -85,9 +90,14 @@ public class GameStage extends StageParent implements InputProcessor{
         softReset();
     }
 
-    private void softReset() {
+    public void softReset() {
 
         if (actorBall != null) actorBall.remove();
+        if (actorCat != null) {
+            actorCat.remove();
+            actorCat = null;
+        }
+
         for (Actor act : getActors()) {
             act.remove();
         }
@@ -102,7 +112,7 @@ public class GameStage extends StageParent implements InputProcessor{
         correct_camera_y = 128;
 
         if (score.getLevel() >= new Levels().getCountAllLevel()) {
-            gameScreen.setMenuStage();
+            gameScreen.setEndGameStage();
         }
 
         addActors();
@@ -143,6 +153,7 @@ public class GameStage extends StageParent implements InputProcessor{
 
         actorShapeLine = new ActorShapeLine(textures.getShapes(), textures.getBlackHole(), score, (int) camera.viewportHeight);
         addActor(actorShapeLine);
+
     }
 
     private void addTech(Levels lev) {
@@ -187,18 +198,12 @@ public class GameStage extends StageParent implements InputProcessor{
         }
     }
 
-    private void addShapes(Levels lev) {
+    public void addShapes(Levels lev) {
 
         Vector<PositionUnit> level = lev.getLevel(setup.getLevel() - 1);
         Vector<Integer> shapes = lev.getGrabber(setup.getLevel() - 1);
         vectorMoveShapes = null;
-
-        int[] speed = {-10, -20, -30, 30, 20, 10};
-        int number = 15;
-
-        int line = (int) ((game_world_height * 0.9f) / number);
         actorShape = new Vector<>();
-
         for (PositionUnit pu : level) {
             if (pu.code <= 6) {
                 actorShape.add(new ActorShape(textures.getShapes()[pu.code], pu.code,
@@ -210,8 +215,18 @@ public class GameStage extends StageParent implements InputProcessor{
                 addActor(actorShape.lastElement());
             }
         }
-        // Collections.shuffle(shapes);
         score.createTask(shapes);
+    }
+
+    private void addCat() {
+        if (actorCat == null) {
+            actorCat = new ActorCat(textures.getCat(), sound,
+                    50,
+                    (int) camera.position.y,
+                    128, 128);
+            addActor(actorCat);
+        }
+        if (actorShapeLine != null) actorShapeLine.toFront();
     }
 
     @Override
@@ -245,7 +260,7 @@ public class GameStage extends StageParent implements InputProcessor{
                         actorTextMoveYtoY.remove();
                         // КОНЕЦ ИГРЫ
                         if (score.getLives() < 0) {
-                            gameScreen.setEndStage();
+                            gameScreen.setLoseStage();
                         }
                         // СЛЕДУЮЩИЙ УРОВЕНЬ
                         if (score.getCurrentShape() == GameConstant.WIN) {
@@ -257,6 +272,20 @@ public class GameStage extends StageParent implements InputProcessor{
             }
 
             removeActorFrames();
+
+            if (actorCat != null) {
+                actorCat.setX(32);
+                actorCat.setY(camera.position.y + camera.viewportHeight / 2);
+                if (!actorCat.isEnabled()) {
+                    actorCat.remove();
+                    actorCat = null;
+                }
+            } else if (countSpring >= 3) {
+                if (Math.random() * 100 < 30) {
+                    addCat();
+                }
+                countSpring = 0;
+            }
 
             if (actorShapeLine != null) {
                 actorShapeLine.setX(camera.position.x - camera.viewportWidth / 2);
@@ -293,7 +322,7 @@ public class GameStage extends StageParent implements InputProcessor{
                 if (score.checkShape(ash.getNumber_shape())) {
                     score.addScore(1);
                     // actorBall.addScalle(actorBall.getScaleX() + 0.4f / score.getTask().length);
-                    actorBall.addScalle(actorBall.getScaleX() + 0.1f);
+                    actorBall.addScalle(actorBall.getScaleX() + 0.03f);
 
                     // Добавит взрыв
                     /*actorStarsGrab.add(new ActorFrames(textures.getExplosion(),
@@ -326,8 +355,9 @@ public class GameStage extends StageParent implements InputProcessor{
                 // am.setEnabled(false);
                 // am.remove();
                 am.setScale(2.5f, 2.5f);
-                actorBall.setSpeedX(-actorBall.getSpeedX() * 3);
-                actorBall.setSpeedY(-actorBall.getSpeedY() * 3);
+                countSpring += 1;
+                actorBall.setSpeedX(-actorBall.getSpeedX() * 4);
+                actorBall.setSpeedY(-actorBall.getSpeedY() * 4);
                 actorBall.check_move_balls(Gdx.graphics.getDeltaTime());
                 actorBall.check_move_balls(Gdx.graphics.getDeltaTime());
                 sound.play(Sound.SOUND.SPRING);
@@ -550,7 +580,7 @@ public class GameStage extends StageParent implements InputProcessor{
         if (keycode == Input.Keys.MINUS) score.setLives(score.getLives() - 10);
         if (keycode == Input.Keys.ESCAPE || keycode == Input.Keys.BACK) {
             sound.play(Sound.SOUND.CLICK_MENU);
-            gameScreen.setEndStage();
+            gameScreen.setLoseStage();
         }
         if (keycode == Input.Keys.NUM_1) isCollision = !isCollision;
         if (keycode == Input.Keys.P) {

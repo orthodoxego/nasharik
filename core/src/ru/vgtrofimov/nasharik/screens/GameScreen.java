@@ -12,6 +12,7 @@ import ru.vgtrofimov.nasharik.Balls;
 import ru.vgtrofimov.nasharik.settings.Setup;
 import ru.vgtrofimov.nasharik.settings.Sound;
 import ru.vgtrofimov.nasharik.stages.EndGameStage;
+import ru.vgtrofimov.nasharik.stages.GameHelpStage;
 import ru.vgtrofimov.nasharik.stages.LoseStage;
 import ru.vgtrofimov.nasharik.stages.GameStage;
 import ru.vgtrofimov.nasharik.stages.MenuStage;
@@ -51,16 +52,20 @@ public class GameScreen implements Screen {
         camera.update();
 
         // setEndGameStage();
-        // setGameStage();
+        setGameStage();
         // setEndStage();
-        setMenuStage();
+        // setMenuStage();
     }
 
     public void setGameStage() {
         setup.setScore(0);
-        // setup.setLevel(14);
+        setup.setLevel(8);
         currentStage = null;
-        currentStage = new GameStage(this, setup, viewport, camera, textures, sound);
+        if (setup.isHelp()) {
+            currentStage = new GameHelpStage(this, setup, viewport, camera, textures, sound);
+        } else {
+            currentStage = new GameStage(this, setup, viewport, camera, textures, sound);
+        }
         Gdx.input.setInputProcessor(currentStage);
         Gdx.input.setCatchKey(Input.Keys.BACK, true);
     }
@@ -86,7 +91,7 @@ public class GameScreen implements Screen {
         Gdx.input.setCatchKey(Input.Keys.BACK, false);
     }
 
-    public void setEndStage() {
+    public void setLoseStage() {
         currentStage = null;
         currentStage = new LoseStage(this, setup, viewport, camera, textures, sound);
         Gdx.input.setInputProcessor(currentStage);

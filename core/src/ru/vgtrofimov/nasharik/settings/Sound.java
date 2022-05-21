@@ -13,13 +13,14 @@ public class Sound {
         RACQUET_SPRING,
         TELEPORT,
         START_LEVEL,
-        WIZARD
+        WIZARD,
+        CAT
     };
 
 
     Setup setup;
     boolean isSound;
-    int maxSound = 10;
+    int maxSound = 11;
     public com.badlogic.gdx.audio.Sound[] soundMelody;
 
     // Music music;
@@ -41,6 +42,7 @@ public class Sound {
         soundMelody[7] = Gdx.audio.newSound(Gdx.files.internal("sound/teleport.ogg"));
         soundMelody[8] = Gdx.audio.newSound(Gdx.files.internal("sound/startlevel.ogg"));
         soundMelody[9] = Gdx.audio.newSound(Gdx.files.internal("sound/wizard.ogg"));
+        soundMelody[10] = Gdx.audio.newSound(Gdx.files.internal("sound/cat.ogg"));
 
     }
 
@@ -88,6 +90,10 @@ public class Sound {
             case WIZARD:
                 soundMelody[9].stop();
                 soundMelody[9].play(((0.01f * setup.getVolume()) * 0.3f));
+                break;
+            case CAT:
+                soundMelody[10].stop();
+                soundMelody[10].play(((0.01f * setup.getVolume())));
                 break;
         }
 

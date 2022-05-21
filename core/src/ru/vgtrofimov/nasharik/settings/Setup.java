@@ -165,4 +165,12 @@ public class Setup {
     public boolean isOpenAllLevel() {
         return this.openAllLevel;
     }
+
+    public boolean isHelp() {
+        return help;
+    }
+
+    public void setHelp(boolean help) {
+        this.help = help;
+    }
 }

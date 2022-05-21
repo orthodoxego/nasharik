@@ -8,10 +8,11 @@ public class Score {
     int score;
     int lives;
     int currentShape;
-    Task[] task;
+    Vector<Task> task;
 
     public Score(Setup setup) {
         this.setup = setup;
+        lives = 3;
         nextLevel();
         restart();
     }
@@ -19,7 +20,6 @@ public class Score {
     public void nextLevel() {
         setup.setLevel(setup.getLevel() + 1);
         setup.savePrefs();
-        lives = 3;
     }
 
     public void restart() {
@@ -27,14 +27,15 @@ public class Score {
     }
 
     /** В момент добавления фигур на сцену создаётся случайная последовательность. **/
-    public void setTask(int num, int shape) {
-        task[num] = new Task(shape, false);
-    }
+    // public void setTask(int num, int shape) {
+    //    task[num] = new Task(shape, false);
+    // }
 
     public void createTask(Vector<Integer> sh) {
-        task = new Task[sh.size()];
+        task = new Vector<>();
         for (int i = 0; i < sh.size(); i++) {
-            setTask(i, sh.elementAt(i));
+            // setTask(i, sh.elementAt(i));
+            task.add(new Task(sh.elementAt(i), false));
         }
     }
 
@@ -46,12 +47,8 @@ public class Score {
         this.score = score;
     }
 
-    public Task[] getTask() {
+    public Vector<Task> getTask() {
         return task;
-    }
-
-    public void setTask(Task[] task) {
-        this.task = task;
     }
 
     public int getLives() {
@@ -64,6 +61,7 @@ public class Score {
 
     public boolean checkShape(int number_shape) {
         if (currentShape == GameConstant.WIN) return true;
+        /*
         if (number_shape == task[currentShape].number_shape) {
             task[currentShape].setGrabbed(true);
             currentShape += 1;
@@ -72,6 +70,17 @@ public class Score {
             }
             return true;
         }
+        */
+
+        if (number_shape == task.get(0).number_shape) {
+            task.elementAt(0).setGrabbed(true);
+            task.remove(0);
+            if (task.size() == 0) {
+                currentShape = GameConstant.WIN;
+            }
+            return true;
+        }
+
         return false;
     }
     public void addScore(int i) {

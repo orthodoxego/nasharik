@@ -22,6 +22,7 @@ public class Textures {
     TextureRegion techobject[];
     TextureRegion explosion[];
     TextureRegion stars;
+    TextureRegion cat;
 
     TextureRegion ball;
     TextureRegion ball_shadow;
@@ -31,8 +32,15 @@ public class Textures {
 
     TextureRegion menuStartGame, menuSkin, menuVolume, menuHelp, menuShadow;
 
+    TextureRegion help01, help02, help03;
+
     public Textures(Setup setup) {
         Texture load;
+
+        load = new Texture("png/help.png");
+        help01 = getTextureRegionFromMap(0, 0, 512, 192, false, true, load);
+        help02 = getTextureRegionFromMap(0, 192, 512, 256, false, true, load);
+        help03 = getTextureRegionFromMap(0, 448, 512, 64, false, true, load);
 
         load = new Texture("png/" + dir[setup.getSkin()] + "/explosion.png");
         explosion = new TextureRegion[8];
@@ -55,6 +63,8 @@ public class Textures {
         menuVolume = getTextureRegionFromMap(320, 386, 64, 64, false, true, load);
         menuHelp = getTextureRegionFromMap(320, 448, 64, 64, false, true, load);
         menuShadow = getTextureRegionFromMap(256, 320, 64, 64, false, true, load);
+
+        cat = getTextureRegionFromMap(384, 192, 128, 128, false, true, load);
 
         keyRestart = getTextureRegionFromMap(0, 256, 64, 64, false, true, load);
         keyMenu = getTextureRegionFromMap(64, 256, 64, 64, false, true, load);
@@ -186,5 +196,21 @@ public class Textures {
 
     public TextureRegion getMenuShadow() {
         return menuShadow;
+    }
+
+    public TextureRegion getHelp01() {
+        return help01;
+    }
+
+    public TextureRegion getHelp02() {
+        return help02;
+    }
+
+    public TextureRegion getHelp03() {
+        return help03;
+    }
+
+    public TextureRegion getCat() {
+        return cat;
     }
 }
