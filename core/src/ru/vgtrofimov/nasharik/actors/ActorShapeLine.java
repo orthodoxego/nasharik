@@ -89,7 +89,7 @@ public class ActorShapeLine extends Actor {
         if (score.getLives() > 0) {
             Font.play_regular_14px.draw(batch, "Попытки: " + Math.max(0, score.getLives()), getX() + 305, getY() + viewportHeight - 40);
         } else {
-            Font.play_regular_14px.draw(batch, "Последняя попытка", getX() + 205, getY() + viewportHeight - 40);
+            Font.play_regular_14px.draw(batch, "Последний шанс!", getX() + 245, getY() + viewportHeight - 40);
         }
     }
 }

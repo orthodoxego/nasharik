@@ -130,7 +130,7 @@ public class Setup {
         String[] ret = new String[3];;
         if (skin == 0) {
             ret[0] = "";
-            ret[1] = "Анимация: Андрей Фролов";
+            ret[1] = "";
             ret[2] = "(c) 2022 Виктор Трофимов";
         } else if (skin == 1) {
             ret[0] = "";

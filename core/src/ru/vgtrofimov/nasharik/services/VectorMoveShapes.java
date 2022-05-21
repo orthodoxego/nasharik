@@ -64,7 +64,7 @@ public class VectorMoveShapes {
     }
 
     public void act(Vector<ActorShape> actorShape, float delta) {
-        for (int i = 0; i < actorShape.size(); i++) {
+        for (int i = 0; i < moves.size(); i++) {
             if (moves.elementAt(i).moving) {
 
                 moves.elementAt(i).act(actorShape.elementAt(i).getX(), actorShape.elementAt(i).getY());

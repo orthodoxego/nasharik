@@ -54,6 +54,8 @@ public class GameStage extends StageParent implements InputProcessor{
     ActorCat actorCat;
 
     public static boolean isCollision = true;
+    public static boolean isGrabShape = true;
+    public static boolean isMouseGlue = false;
 
     Vector<ActorShape> actorShape;
     Vector<ActorSpring> actorSprings;
@@ -243,6 +245,11 @@ public class GameStage extends StageParent implements InputProcessor{
 
                 checkHand();
 
+                if (GameStage.isMouseGlue) {
+                    actorBall.setX(Gdx.input.getX());
+                    actorBall.setY(camera.position.y - this.getViewport().getWorldHeight() + Gdx.input.getY());
+                }
+
                 if (isCollision) {
                     if (vectorMoveShapes == null) check_collision_player_and_shape();
                     check_collision_player_and_tech();
@@ -317,24 +324,26 @@ public class GameStage extends StageParent implements InputProcessor{
 //            asg.setY(actorBall.getY() - 64);
 //        }
 
-        for (ActorShape ash : actorShape) {
-            if (ash.isEnabled() && ash.isCollision(actorBall)) {
-                if (score.checkShape(ash.getNumber_shape())) {
-                    score.addScore(1);
-                    actorBall.addScalle(actorBall.getScaleX() + 0.03f);
-                    actorStarsGrab.add(new ActorCircleEffect(textures.getStars(),
-                            (int) ash.getX() - 64, (int) ash.getY() - 64));
+        if (isGrabShape) {
+            for (ActorShape ash : actorShape) {
+                if (ash.isEnabled() && ash.isCollision(actorBall)) {
+                    if (score.checkShape(ash.getNumber_shape())) {
+                        score.addScore(1);
+                        actorBall.addScalle(actorBall.getScaleX() + 0.03f);
+                        actorStarsGrab.add(new ActorCircleEffect(textures.getStars(),
+                                (int) ash.getX() - 64, (int) ash.getY() - 64));
 
-                    addActor(actorStarsGrab.lastElement());
-                    sound.play(Sound.SOUND.GRAB_FIGURE);
+                        addActor(actorStarsGrab.lastElement());
+                        sound.play(Sound.SOUND.GRAB_FIGURE);
 
-                    if (score.getCurrentShape() == GameConstant.WIN) {
-                        nextLevel(); // Следующий уровень
+                        if (score.getCurrentShape() == GameConstant.WIN) {
+                            nextLevel(); // Следующий уровень
+                        }
+                    } else {
+                        nextTry(); // Новая попытка
                     }
-                } else {
-                    nextTry(); // Новая попытка
+                    ash.setEnabled(false);
                 }
-                ash.setEnabled(false);
             }
         }
     }
@@ -571,7 +580,16 @@ public class GameStage extends StageParent implements InputProcessor{
 
     @Override
     public boolean keyDown(int keycode) {
+
+        if (keycode == Input.Keys.NUM_4) {
+            isMouseGlue = !isMouseGlue;
+        }
+
         if (keycode == Input.Keys.NUM_2) {
+            isGrabShape = !isGrabShape;
+        }
+
+        if (keycode == Input.Keys.NUM_3) {
             int num = 0;
             while (!actorShape.elementAt(num).isEnabled()
                     || actorShape.elementAt(num).getNumber_shape() != score.getTask().elementAt(0).getNumber_shape()) {

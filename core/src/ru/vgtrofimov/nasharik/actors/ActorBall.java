@@ -1,5 +1,6 @@
 package ru.vgtrofimov.nasharik.actors;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Batch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Actor;
@@ -89,6 +90,7 @@ public class ActorBall extends Actor {
         //Balls.log("" + getSpeedY());
 
         check_move_balls(delta);
+
     }
 
     @Override
@@ -106,8 +108,10 @@ public class ActorBall extends Actor {
         batch.draw(skin, getX() - correctX, getY() - correctY, getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
         batch.draw(shadow, getX() - correctX, getY() - correctY, getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), 0);
 
-//         Font.play_regular_little.draw(batch, "" + (int) getY(), 10, getY());
-//         if (GameStage.isCollision) Font.play_regular_little.draw(batch, "Столкновения", 10, getY() + 20);
+         Font.play_regular_little.draw(batch, "" + (int) getY(), 10, getY());
+         if (GameStage.isCollision) Font.play_regular_little.draw(batch, "+ объекты", 10, getY() + 20);
+         if (GameStage.isGrabShape)  Font.play_regular_little.draw(batch, "+ шары", 10, getY() + 40);
+         if (GameStage.isMouseGlue)  Font.play_regular_little.draw(batch, "+ мышь", 10, getY() + 60);
 
     }
 
