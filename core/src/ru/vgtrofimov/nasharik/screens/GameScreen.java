@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ru.vgtrofimov.nasharik.Balls;
+import ru.vgtrofimov.nasharik.settings.Levels;
 import ru.vgtrofimov.nasharik.settings.Setup;
 import ru.vgtrofimov.nasharik.settings.Sound;
 import ru.vgtrofimov.nasharik.stages.EndGameStage;
@@ -51,23 +52,28 @@ public class GameScreen implements Screen {
         camera.position.set(camera.viewportWidth / 2,camera.viewportHeight / 2, 0);
         camera.update();
 
-        // setEndGameStage();
-        setGameStage();
-        // setEndStage();
-        // setMenuStage();
+        setMenuStage();
+        // setGameStage();
+        // setLoseStage();
+
     }
 
     public void setGameStage() {
         setup.setScore(0);
-        setup.setLevel(8);
-        currentStage = null;
-        if (setup.isHelp()) {
-            currentStage = new GameHelpStage(this, setup, viewport, camera, textures, sound);
+        // setup.setLevel(14);
+
+        if (setup.getLevel() + 1 >= new Levels().getCountAllLevel()) {
+            setEndGameStage();
         } else {
-            currentStage = new GameStage(this, setup, viewport, camera, textures, sound);
+            currentStage = null;
+            if (setup.isHelp()) {
+                currentStage = new GameHelpStage(this, setup, viewport, camera, textures, sound);
+            } else {
+                currentStage = new GameStage(this, setup, viewport, camera, textures, sound);
+            }
+            Gdx.input.setInputProcessor(currentStage);
+            Gdx.input.setCatchKey(Input.Keys.BACK, true);
         }
-        Gdx.input.setInputProcessor(currentStage);
-        Gdx.input.setCatchKey(Input.Keys.BACK, true);
     }
 
     public void setEndGameStage() {

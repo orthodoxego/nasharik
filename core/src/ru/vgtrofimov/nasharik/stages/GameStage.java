@@ -111,10 +111,6 @@ public class GameStage extends StageParent implements InputProcessor{
         pause = false;
         correct_camera_y = 128;
 
-        if (score.getLevel() >= new Levels().getCountAllLevel()) {
-            gameScreen.setEndGameStage();
-        }
-
         addActors();
     }
 
@@ -216,6 +212,9 @@ public class GameStage extends StageParent implements InputProcessor{
             }
         }
         score.createTask(shapes);
+        if (score.getLevel() >= new Levels().getCountAllLevel()) {
+            gameScreen.setEndGameStage();
+        }
     }
 
     private void addCat() {
@@ -233,6 +232,7 @@ public class GameStage extends StageParent implements InputProcessor{
     public void act(float delta) {
         if (!pause) {
             super.act(delta);
+
             if (move_cam) {
                 // РАСЧЁТЫ В МОМЕНТ ИГРЫ И ПЕРЕМЕЩЕНИЯ КАМЕРЫ
                 if (objTeleport == null && cam_move_to_Y == -1) {
@@ -321,17 +321,7 @@ public class GameStage extends StageParent implements InputProcessor{
             if (ash.isEnabled() && ash.isCollision(actorBall)) {
                 if (score.checkShape(ash.getNumber_shape())) {
                     score.addScore(1);
-                    // actorBall.addScalle(actorBall.getScaleX() + 0.4f / score.getTask().length);
                     actorBall.addScalle(actorBall.getScaleX() + 0.03f);
-
-                    // Добавит взрыв
-                    /*actorStarsGrab.add(new ActorFrames(textures.getExplosion(),
-                            0, 32,
-                            1,
-                            (int) actorBall.getX() - 64, (int) actorBall.getY() - 64));*/
-//                    actorStarsGrab.add(new ActorCircleEffect(textures.getStars(),
-//                            (int) actorBall.getX(), (int) actorBall.getY()));
-
                     actorStarsGrab.add(new ActorCircleEffect(textures.getStars(),
                             (int) ash.getX() - 64, (int) ash.getY() - 64));
 
@@ -351,7 +341,7 @@ public class GameStage extends StageParent implements InputProcessor{
 
     private void check_collision_player_and_tech() {
         for (ActorSpring am : actorSprings) {
-            if (am.isEnabled() && am.isCollision(actorBall)) {
+            if (am.isEnabled() && am.getScaleX() == 1 && am.isCollision(actorBall)) {
                 // am.setEnabled(false);
                 // am.remove();
                 am.setScale(2.5f, 2.5f);
@@ -564,19 +554,34 @@ public class GameStage extends StageParent implements InputProcessor{
 
         Gdx.input.setInputProcessor(null);
 
-        actorTextMoveYtoY = new ActorTextMoveYtoY(textures.getWinHole(),
-                camera.position.y + 300,
-                camera.position.y,
-                "УСПЕШНО! УРОВЕНЬ " + (score.getLevel() + 1), (int) camera.viewportWidth, (int) camera.viewportHeight,
-                (int) (camera.position.x - camera.viewportWidth / 2),
-                (int) (camera.position.y - camera.viewportHeight / 2));
+        if (score.getLevel() + 1 >= new Levels().getCountAllLevel()) {
+            gameScreen.setEndGameStage();
+        } else {
+            actorTextMoveYtoY = new ActorTextMoveYtoY(textures.getWinHole(),
+                    camera.position.y + 300,
+                    camera.position.y,
+                    "УСПЕШНО! НОВЫЙ УРОВЕНЬ: " + (score.getLevel() + 1), (int) camera.viewportWidth, (int) camera.viewportHeight,
+                    (int) (camera.position.x - camera.viewportWidth / 2),
+                    (int) (camera.position.y - camera.viewportHeight / 2));
 
-        addActor(actorTextMoveYtoY);
-        actorShapeLine.toFront();
+            addActor(actorTextMoveYtoY);
+            actorShapeLine.toFront();
+        }
     }
 
     @Override
     public boolean keyDown(int keycode) {
+        if (keycode == Input.Keys.NUM_2) {
+            int num = 0;
+            while (!actorShape.elementAt(num).isEnabled()
+                    || actorShape.elementAt(num).getNumber_shape() != score.getTask().elementAt(0).getNumber_shape()) {
+                num += 1;
+            }
+            actorBall.setX(actorShape.elementAt(num).getX());
+            actorBall.setY(actorShape.elementAt(num).getY());
+            actorBall.setSpeedX(0);
+            actorBall.setSpeedY(0);
+        }
         if (keycode == Input.Keys.MINUS) score.setLives(score.getLives() - 10);
         if (keycode == Input.Keys.ESCAPE || keycode == Input.Keys.BACK) {
             sound.play(Sound.SOUND.CLICK_MENU);
@@ -614,10 +619,6 @@ public class GameStage extends StageParent implements InputProcessor{
 
     @Override
     public boolean touchDown(int screenX, int screenY, int pointer, int button) {
-//                if (actorTimer != null) {
-//                    actorTimer.setRandomFrame();
-//                    actorTimer.setPressed(true);
-//                } else {
         if (actorBall.getY() > camera.viewportHeight / 3 && !pause && objTeleport == null) {
             if (actorRightHand == null && actorLeftHand == null && screenX > Gdx.graphics.getWidth() / 2) {
                 actorRightHand = new ActorRightHand(actorBall, textures.getRightHand(), (int) actorBall.getX(), (int) actorBall.getY());
@@ -631,7 +632,6 @@ public class GameStage extends StageParent implements InputProcessor{
                 addActor(actorLeftHand);
             }
         }
-//                }
         return false;
     }
 

@@ -72,7 +72,7 @@ public class Score {
         }
         */
 
-        if (number_shape == task.get(0).number_shape) {
+        if (number_shape == task.elementAt(0).number_shape) {
             task.elementAt(0).setGrabbed(true);
             task.remove(0);
             if (task.size() == 0) {

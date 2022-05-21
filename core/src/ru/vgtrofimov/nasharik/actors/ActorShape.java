@@ -17,7 +17,7 @@ public class ActorShape extends Actor {
     int score;
     boolean enabled = true;
     boolean scored = true;
-    float angle = 0, max_angle = 45, count_angle = 66;
+    float angle = 0, max_angle = 75, count_angle = 66;
     float speedX, speedY;
     int correctX, correctY;
     int centerX, centerY, maxX, maxY;
@@ -44,8 +44,9 @@ public class ActorShape extends Actor {
         setOrigin(getWidth() / 2, getHeight() / 2);
         setRotation(angle);
         correctX = (int) (getWidth() / 2); correctY = (int) (getHeight() / 2);
-        angle = 0;
-        while (angle == 0) angle = (float) (-max_angle + (Math.random() * max_angle * 2));
+
+        int[] angl = {2, 10, 15, 20, 25, 30};
+        angle = angl[(int) (Math.random() * angl.length)];
 
         shadow_ball = new Vector<>();
         shadow_ball.add(new XY(getX(), getY(), getScaleX(), getRotation()));

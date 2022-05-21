@@ -11,7 +11,11 @@ public class ActorSpring extends ActorShape {
     public void act(float delta) {
         super.act(delta);
 
-        if (getScaleX() > 1) setScale(getScaleX() * 0.95f, getScaleX() * 0.95f);
+        if (getScaleX() > 1) {
+            setScale(getScaleX() * 0.98f, getScaleX() * 0.95f);
+        } else {
+            setScale(1, 1);
+        }
 
     }
 }

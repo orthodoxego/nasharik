@@ -5,8 +5,11 @@ import com.badlogic.gdx.InputProcessor;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.util.TimerTask;
+
 import ru.vgtrofimov.nasharik.Balls;
 import ru.vgtrofimov.nasharik.actors.ActorBackground;
+import ru.vgtrofimov.nasharik.actors.ActorCat;
 import ru.vgtrofimov.nasharik.actors.endgame.ActorKey;
 import ru.vgtrofimov.nasharik.actors.endgame.ActorText;
 import ru.vgtrofimov.nasharik.screens.GameScreen;
@@ -19,6 +22,7 @@ import ru.vgtrofimov.nasharik.textures.Textures;
 public class EndGameStage extends StageParent implements ReturnKey, InputProcessor {
 
     Textures textures;
+    float timer = 0;
 
     public EndGameStage(GameScreen gameScreen, Setup setup, Viewport viewport, OrthographicCamera camera, Textures textures, Sound sound) {
         super(gameScreen, setup, sound, viewport, camera);
@@ -56,35 +60,47 @@ public class EndGameStage extends StageParent implements ReturnKey, InputProcess
         startY += text04.getHeightText() * 5f;
         text04.setY(startY);
 
-        ActorText text05 = new ActorText(Font.play_regular_little, "что время не потрачено зря. Если хотите новых",
+        ActorText text05 = new ActorText(Font.play_regular_little, "что время не потрачено зря. Возможно, игра Вам",
                 ActorText.ADJUST.CENTER,
                 (int) camera.viewportWidth);
         startY += text05.getHeightText() * 2.2f;
         text05.setY(startY);
 
-        ActorText text06 = new ActorText(Font.play_regular_little, "уровней, то, пожалуйста, поставьте хорошую",
+        ActorText text06 = new ActorText(Font.play_regular_little, "понравилась и неплохо было бы добавить уровней.",
                 ActorText.ADJUST.CENTER,
                 (int) camera.viewportWidth);
         startY += text06.getHeightText() * 2.2f;
         text06.setY(startY);
 
-        ActorText text07 = new ActorText(Font.play_regular_little, "оценку в маркете и напишите, что понравилось",
+        ActorText text07 = new ActorText(Font.play_regular_little, "Пожалуйста, поставьте хорошую оценку в маркете",
                 ActorText.ADJUST.CENTER,
                 (int) camera.viewportWidth);
         startY += text07.getHeightText() * 2.2f;
         text07.setY(startY);
 
-        ActorText text08 = new ActorText(Font.play_regular_little, "больше всего! Счастья Вам и Вашим близким!",
+        ActorText text08 = new ActorText(Font.play_regular_little, "и напишите отзыв, это подтолкнёт меня к",
                 ActorText.ADJUST.CENTER,
                 (int) camera.viewportWidth);
         startY += text08.getHeightText() * 2.2f;
         text08.setY(startY);
 
-        ActorText text09 = new ActorText(Font.play_regular_little, "Виктор Трофимов",
+        ActorText text09 = new ActorText(Font.play_regular_little, "созданию новых карт. И вообще.",
+                ActorText.ADJUST.CENTER,
+                (int) camera.viewportWidth);
+        startY += text09.getHeightText() * 2.2f;
+        text09.setY(startY);
+
+        ActorText text10 = new ActorText(Font.play_regular_14px, "Счастья вам и успехов!",
+                ActorText.ADJUST.CENTER,
+                (int) camera.viewportWidth);
+        startY += text10.getHeightText() * 3.2f;
+        text10.setY(startY);
+
+        ActorText text15 = new ActorText(Font.play_regular_little, "Автор",
                 ActorText.ADJUST.RIGHT,
                 (int) camera.viewportWidth);
-        startY += text09.getHeightText() * 4.2f;
-        text09.setY(startY);
+        startY += text15.getHeightText() * 6.2f;
+        text15.setY(startY);
 
         addActor(text01);
         addActor(text02);
@@ -95,6 +111,8 @@ public class EndGameStage extends StageParent implements ReturnKey, InputProcess
         addActor(text07);
         addActor(text08);
         addActor(text09);
+        addActor(text10);
+        addActor(text15);
 
         startY += text02.getHeightText() * 4;
 
@@ -112,7 +130,11 @@ public class EndGameStage extends StageParent implements ReturnKey, InputProcess
         addActor(keyMenu);
 
         setup.setOpenAllLevel(true);
+
+        sound.play(Sound.SOUND.WINGAME);
     }
+
+
 
     @Override
     public void resize(int width, int height) {
@@ -127,15 +149,29 @@ public class EndGameStage extends StageParent implements ReturnKey, InputProcess
     @Override
     public void act(float delta) {
         super.act(delta);
+
+        if (timer < 4) {
+            timer += delta;
+        } else if ((int) timer == 4){
+            ActorCat actorCat = new ActorCat(textures.getCat(), sound,
+                    50,
+                    (int) (camera.position.y + camera.viewportHeight / 2),
+                    128, 128);
+            addActor(actorCat);
+            timer = 5;
+        }
+
     }
 
     @Override
     public void pressKey(KEY_NAME key_name) {
         switch (key_name) {
             case MENU:
+                sound.stop(Sound.SOUND.WINGAME);
                 gameScreen.setMenuStage();
                 break;
             case RESTART:
+                sound.stop(Sound.SOUND.WINGAME);
                 setup.setLevel(setup.getLevel() - 1);
                 gameScreen.setSelectLevelStage();
                 break;
@@ -151,6 +187,7 @@ public class EndGameStage extends StageParent implements ReturnKey, InputProcess
     @Override
     public boolean keyDown(int keyCode) {
         if (keyCode == Input.Keys.BACK || keyCode == Input.Keys.ESCAPE) {
+            sound.stop(Sound.SOUND.WINGAME);
             sound.play(Sound.SOUND.CLICK_MENU);
             gameScreen.setMenuStage();
         }

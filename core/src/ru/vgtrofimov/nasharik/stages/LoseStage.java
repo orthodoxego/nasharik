@@ -62,6 +62,8 @@ public class LoseStage extends StageParent implements ReturnKey, InputProcessor 
 
         addActor(keyRestart);
         addActor(keyMenu);
+
+        sound.play(Sound.SOUND.LOSEGAME);
     }
 
     @Override
@@ -96,10 +98,12 @@ public class LoseStage extends StageParent implements ReturnKey, InputProcessor 
     public void pressKey(KEY_NAME key_name) {
         switch (key_name) {
             case MENU:
+                sound.stop(Sound.SOUND.LOSEGAME);
                 gameScreen.setMenuStage();
                 break;
             case RESTART:
-                setup.setLevel(setup.getLevel() - 1);
+                sound.stop(Sound.SOUND.LOSEGAME);
+                setup.setLevel(Math.max(0, setup.getLevel() - 1));
                 gameScreen.setGameStage();
                 break;
         }
@@ -114,6 +118,7 @@ public class LoseStage extends StageParent implements ReturnKey, InputProcessor 
     @Override
     public boolean keyDown(int keyCode) {
         if (keyCode == Input.Keys.BACK || keyCode == Input.Keys.ESCAPE) {
+            sound.stop(Sound.SOUND.LOSEGAME);
             sound.play(Sound.SOUND.CLICK_MENU);
             gameScreen.setMenuStage();
         }

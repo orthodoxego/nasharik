@@ -14,13 +14,15 @@ public class Sound {
         TELEPORT,
         START_LEVEL,
         WIZARD,
-        CAT
+        CAT,
+        WINGAME,
+        LOSEGAME
     };
 
 
     Setup setup;
     boolean isSound;
-    int maxSound = 11;
+    int maxSound = 13;
     public com.badlogic.gdx.audio.Sound[] soundMelody;
 
     // Music music;
@@ -43,6 +45,8 @@ public class Sound {
         soundMelody[8] = Gdx.audio.newSound(Gdx.files.internal("sound/startlevel.ogg"));
         soundMelody[9] = Gdx.audio.newSound(Gdx.files.internal("sound/wizard.ogg"));
         soundMelody[10] = Gdx.audio.newSound(Gdx.files.internal("sound/cat.ogg"));
+        soundMelody[11] = Gdx.audio.newSound(Gdx.files.internal("sound/wingame.ogg"));
+        soundMelody[12] = Gdx.audio.newSound(Gdx.files.internal("sound/lose.ogg"));
 
     }
 
@@ -95,8 +99,65 @@ public class Sound {
                 soundMelody[10].stop();
                 soundMelody[10].play(((0.01f * setup.getVolume())));
                 break;
+            case WINGAME:
+                soundMelody[11].stop();
+                soundMelody[11].play(((0.01f * setup.getVolume())));
+                break;
+            case LOSEGAME:
+                soundMelody[12].stop();
+                soundMelody[12].play(((0.01f * setup.getVolume()) * 0.8f));
+                break;
         }
 
+
+        return true;
+    }
+
+    public boolean stop(SOUND sound) {
+        isSound = setup.getVolume() > 0;
+        if (!isSound) return false;
+
+        switch (sound) {
+            case CLICK_MENU:
+                soundMelody[0].stop();
+                break;
+            case HAND:
+                soundMelody[1].stop();
+                break;
+            case GRAB_FIGURE:
+                soundMelody[2].stop();
+                break;
+            case BAD_RESULT:
+                soundMelody[3].stop();
+                break;
+            case GOOD_RESULT:
+                soundMelody[4].stop();
+                break;
+            case SPRING:
+                soundMelody[5].stop();
+                break;
+            case RACQUET_SPRING:
+                soundMelody[6].stop();
+                break;
+            case TELEPORT:
+                soundMelody[7].stop();
+                break;
+            case START_LEVEL:
+                soundMelody[8].stop();
+                break;
+            case WIZARD:
+                soundMelody[9].stop();
+                break;
+            case CAT:
+                soundMelody[10].stop();
+                break;
+            case WINGAME:
+                soundMelody[11].stop();
+                break;
+            case LOSEGAME:
+                soundMelody[12].stop();
+                break;
+        }
 
         return true;
     }
