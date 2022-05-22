@@ -6,19 +6,22 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ru.vgtrofimov.nasharik.screens.GameScreen;
+import ru.vgtrofimov.nasharik.services.Font;
 import ru.vgtrofimov.nasharik.settings.Setup;
 import ru.vgtrofimov.nasharik.settings.Sound;
 
 public class StageParent extends Stage {
-    Setup setup;
-    Sound sound;
     GameScreen gameScreen;
+    Setup setup;
+    Font font;
+    Sound sound;
     OrthographicCamera camera;
     boolean pause;
 
-    public StageParent(GameScreen gameScreen, Setup setup, Sound sound, Viewport viewport, OrthographicCamera camera) {
+    public StageParent(GameScreen gameScreen, Setup setup, Font font, Sound sound, Viewport viewport, OrthographicCamera camera) {
         this.gameScreen = gameScreen;
         this.setup = setup;
+        this.font = font;
         this.sound = sound;
         this.setViewport(viewport);
         this.camera = camera;

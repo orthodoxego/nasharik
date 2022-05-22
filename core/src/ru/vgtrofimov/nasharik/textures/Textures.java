@@ -7,8 +7,6 @@ import ru.vgtrofimov.nasharik.settings.Setup;
 
 public class Textures {
 
-    String [] dir = {"base", "stone", "sea"};
-
     TextureRegion background;
     TextureRegion timer[];
     TextureRegion blank_timer;
@@ -20,7 +18,7 @@ public class Textures {
 
     TextureRegion shapes[];
     TextureRegion techobject[];
-    TextureRegion explosion[];
+    // TextureRegion explosion[];
     TextureRegion stars;
     TextureRegion cat;
 
@@ -37,18 +35,21 @@ public class Textures {
     public Textures(Setup setup) {
         Texture load;
 
+        String[] dir = setup.getDir();
+
         load = new Texture("png/help.png");
         help01 = getTextureRegionFromMap(0, 0, 512, 192, false, true, load);
         help02 = getTextureRegionFromMap(0, 192, 512, 256, false, true, load);
         help03 = getTextureRegionFromMap(0, 448, 512, 64, false, true, load);
 
+        /*
         load = new Texture("png/" + dir[setup.getSkin()] + "/explosion.png");
         explosion = new TextureRegion[8];
         for (int i = 0; i < 2; i++) {
             for (int j = 0; j < 4; j++) {
                 explosion[(i * 4 + j)] = getTextureRegionFromMap(j * 128, i * 128, 128, 128, false, true, load);            }
         }
-
+        */
 
         load = new Texture("png/" + dir[setup.getSkin()] + "/background.png");
         background = getTextureRegionFromMap(0, 0, load.getWidth(), load.getHeight(), false, true, load);
@@ -154,20 +155,12 @@ public class Textures {
         return techobject;
     }
 
-    public TextureRegion[] getExplosion() {
-        return explosion;
-    }
-
     public TextureRegion getKeyRestart() {
         return keyRestart;
     }
 
     public TextureRegion getKeyMenu() {
         return keyMenu;
-    }
-
-    public String[] getDir() {
-        return dir;
     }
 
     public TextureRegion getMenuStartGame() {

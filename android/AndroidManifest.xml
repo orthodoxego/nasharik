@@ -3,24 +3,27 @@
     xmlns:tools="http://schemas.android.com/tools"
     package="ru.vgtrofimov.nasharik">
 
-    <uses-feature android:glEsVersion="0x00020000" android:required="true" />
+    <uses-feature
+        android:glEsVersion="0x00020000"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
+        android:appCategory="game"
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
         android:isGame="true"
-        android:appCategory="game"
         android:label="@string/app_name"
         tools:ignore="UnusedAttribute">
         <activity
-            android:name="ru.vgtrofimov.nasharik.AndroidLauncher"
-            android:label="@string/app_name" 
-            android:screenOrientation="portrait"
+            android:name=".AndroidLauncher"
             android:configChanges="keyboard|keyboardHidden|navigation|screenLayout"
-            android:exported="true">
+            android:exported="true"
+            android:label="@string/app_name"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

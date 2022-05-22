@@ -18,6 +18,7 @@ public class ActorBall extends Actor {
 
     TextureRegion skin;
     TextureRegion shadow;
+    Font font;
     Sound sound;
     int correctX, correctY;
     float speedX, speedY, default_speed_x, default_speed_y;
@@ -31,9 +32,10 @@ public class ActorBall extends Actor {
     Vector<XY> shadow_ball;
     float lifetime_for_shadow = 0;
 
-    public ActorBall(TextureRegion skin, TextureRegion shadow, Sound sound, int x, int y, int speedX, int speedY, int world_width, int world_height) {
+    public ActorBall(TextureRegion skin, TextureRegion shadow, Font font, Sound sound, int x, int y, int speedX, int speedY, int world_width, int world_height) {
         this.skin = skin;
         this.shadow = shadow;
+        this.font = font;
         this.sound = sound;
         setWidth(skin.getRegionWidth());
         setHeight(skin.getRegionWidth());
@@ -108,10 +110,11 @@ public class ActorBall extends Actor {
         batch.draw(skin, getX() - correctX, getY() - correctY, getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
         batch.draw(shadow, getX() - correctX, getY() - correctY, getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), 0);
 
-         Font.play_regular_little.draw(batch, "" + (int) getY(), 10, getY());
-         if (GameStage.isCollision) Font.play_regular_little.draw(batch, "+ объекты", 10, getY() + 20);
-         if (GameStage.isGrabShape)  Font.play_regular_little.draw(batch, "+ шары", 10, getY() + 40);
-         if (GameStage.isMouseGlue)  Font.play_regular_little.draw(batch, "+ мышь", 10, getY() + 60);
+//        font.play_regular_little.draw(batch, "" + (int) getY(), 10, getY());
+//         if (GameStage.isCollision) font.play_regular_little.draw(batch, "+ объекты", 10, getY() + 20);
+//         if (GameStage.isGrabShape)  font.play_regular_little.draw(batch, "+ шары", 10, getY() + 40);
+//         if (GameStage.isMouseGlue)  font.play_regular_little.draw(batch, "+ мышь", 10, getY() + 60);
+//         font.play_regular_little.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 10, getY() + 80);
 
     }
 
@@ -180,7 +183,7 @@ public class ActorBall extends Actor {
         if (speedY < 0) modifier = -1;
 
         if (Math.abs(speedY) > GameStage.game_world_height / 10) {
-            speedY = GameStage.game_world_height / 10 * modifier;
+            speedY = GameStage.game_world_height / 10.0f * modifier;
         }
 
         this.speedY = speedY;

@@ -21,8 +21,8 @@ public class LoseStage extends StageParent implements ReturnKey, InputProcessor 
 
     Textures textures;
 
-    public LoseStage(GameScreen gameScreen, Setup setup, Viewport viewport, OrthographicCamera camera, Textures textures, Sound sound) {
-        super(gameScreen, setup, sound, viewport, camera);
+    public LoseStage(GameScreen gameScreen, Setup setup, Font font, Viewport viewport, OrthographicCamera camera, Textures textures, Sound sound) {
+        super(gameScreen, setup, font, sound, viewport, camera);
         this.textures = textures;
 
         // resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -34,12 +34,12 @@ public class LoseStage extends StageParent implements ReturnKey, InputProcessor 
 
         int startY = (int) (camera.viewportHeight * 0.75f / 2);
 
-        ActorText text01 = new ActorText(Font.play_bold_big, "" + setup.getScore(),
+        ActorText text01 = new ActorText(font.play_bold_big, "" + setup.getScore(),
                 ActorText.ADJUST.CENTER,
                 (int) camera.viewportWidth);
         text01.setY(startY);
 
-        ActorText text02 = new ActorText(Font.play_bold_14px, "Рекорд: " + setup.getRecordScore(),
+        ActorText text02 = new ActorText(font.play_bold_14px, "Рекорд: " + setup.getRecordScore(),
                 ActorText.ADJUST.CENTER,
                 (int) camera.viewportWidth);
         startY += text01.getHeightText() * 1.2f;

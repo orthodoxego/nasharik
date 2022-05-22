@@ -31,8 +31,8 @@ public class MenuStage extends StageParent implements ReturnKey, InputProcessor 
     ActorLittleText actorLittleText;
     ActorTextureStatic actorTextureStatic;
 
-    public MenuStage(GameScreen gameScreen, Setup setup, Viewport viewport, OrthographicCamera camera, Textures textures, Sound sound) {
-        super(gameScreen, setup, sound, viewport, camera);
+    public MenuStage(GameScreen gameScreen, Setup setup, Font font, Viewport viewport, OrthographicCamera camera, Textures textures, Sound sound) {
+        super(gameScreen, setup, font, sound, viewport, camera);
         this.textures = textures;
 
         resize((int) viewport.getWorldWidth(), (int) viewport.getWorldHeight());
@@ -48,32 +48,32 @@ public class MenuStage extends StageParent implements ReturnKey, InputProcessor 
         actorTextureStatic = new ActorTextureStatic(0, 50, 512, 256, textures.getNasharik());
         addActor(actorTextureStatic);
 
-        menuStart = new ActorTextKey(this, Font.play_regular_14px, "Играть",
+        menuStart = new ActorTextKey(this, font.play_regular_14px, "Играть",
                 textures.getMenuStartGame(),
                 startX, startY,
                 KEY_NAME.MENU_START_GAME);
 
-        menuSkin = new ActorTextKey(this, Font.play_regular_14px, setup.getSkinStr(),
+        menuSkin = new ActorTextKey(this, font.play_regular_14px, setup.getSkinStr(),
                 textures.getMenuSkin(),
                 startX, startY + lineHeight,
                 KEY_NAME.MENU_SELECT_SKIN);
 
-        menuVolume = new ActorTextKey(this, Font.play_regular_14px, "Громкость: " + setup.getVolume(),
+        menuVolume = new ActorTextKey(this, font.play_regular_14px, "Громкость: " + setup.getVolume(),
                 textures.getMenuVolume(),
                 startX, startY + lineHeight * 2,
                 KEY_NAME.MENU_VOLUME);
 
-        menuShadow = new ActorTextKey(this, Font.play_regular_14px, setup.getShadowStr(),
+        menuShadow = new ActorTextKey(this, font.play_regular_14px, setup.getShadowStr(),
                 textures.getMenuShadow(),
                 startX, startY + lineHeight * 3,
                 KEY_NAME.MENU_SHADOW);
 
-        menuHelp = new ActorTextKey(this, Font.play_regular_14px, setup.getHelpStr(),
+        menuHelp = new ActorTextKey(this, font.play_regular_14px, setup.getHelpStr(),
                 textures.getMenuHelp(),
                 startX, startY + lineHeight * 4,
                 KEY_NAME.MENU_HELP);
 
-        actorLittleText = new ActorLittleText(Font.play_regular_little, setup.getMessageSkin(),
+        actorLittleText = new ActorLittleText(font.play_regular_little, setup.getMessageSkin(),
                 startX,
                 (int) (viewport.getWorldHeight() - 85));
 
@@ -142,6 +142,10 @@ public class MenuStage extends StageParent implements ReturnKey, InputProcessor 
     }
 
     private void refreshTexture() {
+
+        font = new Font(setup.getSkin());
+        gameScreen.setFont(font);
+
         actorBackground.setSkin(textures.getBackground());
         actorTextureStatic.setRegion(textures.getNasharik());
         menuStart.setIco(textures.getMenuStartGame());
@@ -149,5 +153,13 @@ public class MenuStage extends StageParent implements ReturnKey, InputProcessor 
         menuHelp.setIco(textures.getMenuHelp());
         menuSkin.setIco(textures.getMenuSkin());
         menuVolume.setIco(textures.getMenuVolume());
+
+        menuStart.setBitmapFont(font.play_regular_14px);
+        menuShadow.setBitmapFont(font.play_regular_14px);
+        menuHelp.setBitmapFont(font.play_regular_14px);
+        menuSkin.setBitmapFont(font.play_regular_14px);
+        menuVolume.setBitmapFont(font.play_regular_14px);
+        actorLittleText.setBitmapFont(font.play_regular_little);
+
     }
 }

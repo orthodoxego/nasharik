@@ -9,6 +9,7 @@ import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import ru.vgtrofimov.nasharik.Balls;
+import ru.vgtrofimov.nasharik.services.Font;
 import ru.vgtrofimov.nasharik.settings.Levels;
 import ru.vgtrofimov.nasharik.settings.Setup;
 import ru.vgtrofimov.nasharik.settings.Sound;
@@ -25,6 +26,7 @@ public class GameScreen implements Screen {
 
     Balls balls;
     Setup setup;
+    Font font;
     Sound sound;
     Viewport viewport;
     OrthographicCamera camera;
@@ -35,8 +37,9 @@ public class GameScreen implements Screen {
 
     int score = 0;
 
-    public GameScreen(Balls balls, Setup setup, Sound sound, Viewport viewport, OrthographicCamera camera, AssetManager manager, Textures textures) {
+    public GameScreen(Balls balls, Setup setup, Font font, Sound sound, Viewport viewport, OrthographicCamera camera, AssetManager manager, Textures textures) {
         this.balls = balls;
+        this.font = font;
         this.setup = setup;
         this.sound = sound;
         this.viewport = viewport;
@@ -52,24 +55,24 @@ public class GameScreen implements Screen {
         camera.position.set(camera.viewportWidth / 2,camera.viewportHeight / 2, 0);
         camera.update();
 
-        // setMenuStage();
-        setGameStage();
+        setMenuStage();
+        // setGameStage();
         // setLoseStage();
 
     }
 
     public void setGameStage() {
         setup.setScore(0);
-        setup.setLevel(17);
+        // setup.setLevel(8);
 
         if (setup.getLevel() + 1 >= new Levels().getCountAllLevel()) {
             setEndGameStage();
         } else {
             currentStage = null;
             if (setup.isHelp()) {
-                currentStage = new GameHelpStage(this, setup, viewport, camera, textures, sound);
+                currentStage = new GameHelpStage(this, setup, font, viewport, camera, textures, sound);
             } else {
-                currentStage = new GameStage(this, setup, viewport, camera, textures, sound);
+                currentStage = new GameStage(this, setup, font, viewport, camera, textures, sound);
             }
             Gdx.input.setInputProcessor(currentStage);
             Gdx.input.setCatchKey(Input.Keys.BACK, true);
@@ -78,28 +81,28 @@ public class GameScreen implements Screen {
 
     public void setEndGameStage() {
         currentStage = null;
-        currentStage = new EndGameStage(this, setup, viewport, camera, textures, sound);
+        currentStage = new EndGameStage(this, setup, font, viewport, camera, textures, sound);
         Gdx.input.setInputProcessor(currentStage);
         Gdx.input.setCatchKey(Input.Keys.BACK, true);
     }
 
     public void setSelectLevelStage() {
         currentStage = null;
-        currentStage = new SelectLevelStage(this, setup, viewport, camera, textures, sound);
+        currentStage = new SelectLevelStage(this, setup, font, viewport, camera, textures, sound);
         Gdx.input.setInputProcessor(currentStage);
         Gdx.input.setCatchKey(Input.Keys.BACK, true);
     }
 
     public void setMenuStage() {
         currentStage = null;
-        currentStage = new MenuStage(this, setup, viewport, camera, textures, sound);
+        currentStage = new MenuStage(this, setup, font, viewport, camera, textures, sound);
         Gdx.input.setInputProcessor(currentStage);
         Gdx.input.setCatchKey(Input.Keys.BACK, false);
     }
 
     public void setLoseStage() {
         currentStage = null;
-        currentStage = new LoseStage(this, setup, viewport, camera, textures, sound);
+        currentStage = new LoseStage(this, setup, font, viewport, camera, textures, sound);
         Gdx.input.setInputProcessor(currentStage);
         Gdx.input.setCatchKey(Input.Keys.BACK, true);
     }
@@ -165,4 +168,9 @@ public class GameScreen implements Screen {
     public void newTextures() {
         textures = new Textures(setup);
     }
+
+    public void setFont(Font font) {
+        this.font = font;
+    }
+
 }

@@ -10,13 +10,15 @@ import ru.vgtrofimov.nasharik.settings.Score;
 public class ActorShapeLine extends Actor {
 
     TextureRegion[] shapes;
+    Font font;
     TextureRegion blackField;
     Score score;
     float[] rotation_array_to_elements;
     int viewportHeight;
 
-    public ActorShapeLine(TextureRegion[] shapes, TextureRegion blackField, Score score, int viewportHeight) {
+    public ActorShapeLine(TextureRegion[] shapes, TextureRegion blackField, Font font, Score score, int viewportHeight) {
         this.shapes = shapes;
+        this.font = font;
         this.blackField = blackField;
         this.score = score;
         this.viewportHeight = viewportHeight;
@@ -81,15 +83,15 @@ public class ActorShapeLine extends Actor {
         */
 
 
-        Font.play_regular_14px.draw(batch, "Очки: " + score.getScore(), getX() + 30, getY() + 20);
-        Font.play_regular_14px.draw(batch, "Уровень: " + score.getLevel(), getX() + 305, getY() + 20);
+        font.play_regular_14px.draw(batch, "Очки: " + score.getScore(), getX() + 30, getY() + 20);
+        font.play_regular_14px.draw(batch, "Уровень: " + score.getLevel(), getX() + 305, getY() + 20);
 
-        Font.play_regular_14px.draw(batch, "Рекорд: " + score.getRecordScore(), getX() + 30, getY() + viewportHeight - 40);
+        font.play_regular_14px.draw(batch, "Рекорд: " + score.getRecordScore(), getX() + 30, getY() + viewportHeight - 40);
 
         if (score.getLives() > 0) {
-            Font.play_regular_14px.draw(batch, "Попытки: " + Math.max(0, score.getLives()), getX() + 305, getY() + viewportHeight - 40);
+            font.play_regular_14px.draw(batch, "Попытки: " + Math.max(0, score.getLives()), getX() + 305, getY() + viewportHeight - 40);
         } else {
-            Font.play_regular_14px.draw(batch, "Последний шанс!", getX() + 245, getY() + viewportHeight - 40);
+            font.play_regular_14px.draw(batch, "Последний шанс!", getX() + 245, getY() + viewportHeight - 40);
         }
     }
 }

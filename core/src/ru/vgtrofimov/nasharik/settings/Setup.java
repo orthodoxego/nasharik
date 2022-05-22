@@ -36,7 +36,7 @@ public class Setup {
         Preferences prefs = Gdx.app.getPreferences(APP_ID);
         recordScore = prefs.getInteger("ajg6256ghjb3hg134j", 0);
         shadow = prefs.getBoolean("kj828u2hjb3897y2h1", true);
-        help = prefs.getBoolean("bbnwjhjushuh2jqpoj", false);
+        help = prefs.getBoolean("bbnwjhjushuh2jqpoj", true);
         theme = prefs.getInteger("hjn2jbg1hjbHhvhUGB", 0);
         volume = prefs.getInteger("jkoqopwoii919287iq", 30);
         skin = prefs.getInteger("jqywopwoii919287iq", 0);
@@ -123,7 +123,11 @@ public class Setup {
     }
 
     private String[] getSkinName() {
-        return new String[]{"базовый", "самоцветы", "море"};
+        return new String[]{"самоцветы", "море", "8 бит", "геометрия"};
+    }
+
+    public String[] getDir() {
+        return new String[] {"stone", "sea", "pixel", "base"};
     }
 
     public String[] getMessageSkin() {
@@ -137,6 +141,10 @@ public class Setup {
             ret[1] = "";
             ret[2] = "(c) 2022 Виктор Трофимов";
         } else if (skin == 2) {
+            ret[0] = "";
+            ret[1] = "";
+            ret[2] = "(c) 2022 Виктор Трофимов";
+        } else if (skin == 3) {
             ret[0] = "";
             ret[1] = "";
             ret[2] = "(c) 2022 Виктор Трофимов";

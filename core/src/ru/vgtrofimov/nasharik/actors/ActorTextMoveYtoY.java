@@ -11,6 +11,7 @@ import ru.vgtrofimov.nasharik.stages.GameStage;
 public class ActorTextMoveYtoY extends Actor {
     float alpha_channel;
     TextureRegion blackHole;
+    Font font;
     int fromY;
     int toY;
     String text;
@@ -21,8 +22,9 @@ public class ActorTextMoveYtoY extends Actor {
     int screenWidth, screenHeight;
     float lifetime;
 
-    public ActorTextMoveYtoY(TextureRegion blackHole, float fromY, float toY, String text, int screenWidth, int screenHeight, int nulX, int nulY) {
+    public ActorTextMoveYtoY(TextureRegion blackHole, Font font, float fromY, float toY, String text, int screenWidth, int screenHeight, int nulX, int nulY) {
         this.blackHole = blackHole;
+        this.font = font;
         alpha_channel = 0.0f;
         setY(fromY);
         this.fromY = (int) fromY;
@@ -40,7 +42,7 @@ public class ActorTextMoveYtoY extends Actor {
         if (fromY > toY) speed *= -1;
 
         GlyphLayout gl = Font.getGlyphLayout();
-        gl.setText(Font.play_bold_14px, text);
+        gl.setText(font.play_bold_14px, text);
         widthText = (int) gl.width;
         setX((GameStage.game_world_width - widthText) >> 1);
 
@@ -66,7 +68,7 @@ public class ActorTextMoveYtoY extends Actor {
         batch.draw(blackHole, nulX, nulY, 0, 0, screenWidth, screenHeight, 1, 1, 0);
         batch.setColor(1, 1, 1, 1);
 
-        Font.play_bold_14px.draw(batch, text, getX(), getY());
+        font.play_bold_14px.draw(batch, text, getX(), getY());
 
     }
 

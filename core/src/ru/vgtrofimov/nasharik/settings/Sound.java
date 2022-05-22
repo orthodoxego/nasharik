@@ -22,7 +22,7 @@ public class Sound {
 
     Setup setup;
     boolean isSound;
-    int maxSound = 13;
+    int maxSound = 15;
     public com.badlogic.gdx.audio.Sound[] soundMelody;
 
     // Music music;
@@ -60,8 +60,9 @@ public class Sound {
                 soundMelody[0].play(((0.01f * setup.getVolume()) * 0.9f));
                 break;
             case HAND:
-                soundMelody[1].stop();
-                soundMelody[1].play(((0.01f * setup.getVolume()) * 0.4f));
+                // СТОП тормозил всю графику и создавал лаги
+                //soundMelody[1].stop();
+                soundMelody[1].play(((0.01f * setup.getVolume()) * 0.5f));
                 break;
             case GRAB_FIGURE:
                 soundMelody[2].stop();

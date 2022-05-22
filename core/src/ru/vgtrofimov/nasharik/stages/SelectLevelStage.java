@@ -28,8 +28,8 @@ public class SelectLevelStage extends StageParent implements ReturnKey, InputPro
     Vector<ActorSelectLevel> actorSelectLevels;
 
 
-    public SelectLevelStage(GameScreen gameScreen, Setup setup, Viewport viewport, OrthographicCamera camera, Textures textures, Sound sound) {
-        super(gameScreen, setup, sound, viewport, camera);
+    public SelectLevelStage(GameScreen gameScreen, Setup setup, Font font, Viewport viewport, OrthographicCamera camera, Textures textures, Sound sound) {
+        super(gameScreen, setup, font, sound, viewport, camera);
         this.textures = textures;
 
         resize((int) viewport.getWorldWidth(), (int) viewport.getWorldHeight());
@@ -44,8 +44,8 @@ public class SelectLevelStage extends StageParent implements ReturnKey, InputPro
         for (int i = 0; i < Setup.level_in_game / count_in_line; i++) {
             for (int j = 0; j < count_in_line; j++) {
                 actorSelectLevels.add(new ActorSelectLevel(this, setup, sound,
-                        Font.play_regular_little,
-                        Font.play_bold_14px,
+                        font.play_regular_little,
+                        font.play_bold_14px,
                         "Уровень",
                         textures.getBall(),
                         28 + j * 96, startY + i * 100,

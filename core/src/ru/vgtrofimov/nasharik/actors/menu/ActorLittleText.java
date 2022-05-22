@@ -28,4 +28,8 @@ public class ActorLittleText extends Actor {
     public void setMsg(String[] msg) {
         this.msg = msg;
     }
+
+    public void setBitmapFont(BitmapFont bitmapFont) {
+        this.bitmapFont = bitmapFont;
+    }
 }

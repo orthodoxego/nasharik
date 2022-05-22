@@ -13,6 +13,8 @@ public class AndroidLauncher extends AndroidApplication {
 		super.onCreate(savedInstanceState);
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 
+		// setContentView(R.layout.launcher);
+
 		// Запрет на гашение экрана
 		getWindow().addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -25,8 +27,23 @@ public class AndroidLauncher extends AndroidApplication {
 		config.useImmersiveMode = false;
 
 		// Сглаживание
-		config.numSamples = 2;
+		config.numSamples = 8;
+
+
+//		new Runnable() {
+//			@Override
+//			public void run() {
+//				try {
+//					Thread.sleep(500);
+//				} catch (InterruptedException e) {
+//					e.printStackTrace();
+//				}
+//				initialize(new Balls(), config);
+//			}
+//		}.run();
 
 		initialize(new Balls(), config);
+
 	}
+
 }

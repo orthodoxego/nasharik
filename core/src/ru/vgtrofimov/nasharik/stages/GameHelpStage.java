@@ -10,6 +10,7 @@ import ru.vgtrofimov.nasharik.actors.ActorShapeLine;
 import ru.vgtrofimov.nasharik.actors.help.ActorHelpStaticTime;
 import ru.vgtrofimov.nasharik.actors.menu.ActorTextureStatic;
 import ru.vgtrofimov.nasharik.screens.GameScreen;
+import ru.vgtrofimov.nasharik.services.Font;
 import ru.vgtrofimov.nasharik.settings.Levels;
 import ru.vgtrofimov.nasharik.settings.Setup;
 import ru.vgtrofimov.nasharik.settings.Sound;
@@ -19,8 +20,8 @@ public class GameHelpStage extends GameStage {
 
     ActorHelpStaticTime helpTexture;
 
-    public GameHelpStage(GameScreen gameScreen, Setup setup, Viewport viewport, OrthographicCamera camera, Textures textures, Sound sound) {
-        super(gameScreen, setup, viewport, camera, textures, sound);
+    public GameHelpStage(GameScreen gameScreen, Setup setup, Font font, Viewport viewport, OrthographicCamera camera, Textures textures, Sound sound) {
+        super(gameScreen, setup, font, viewport, camera, textures, sound);
     }
 
     @Override

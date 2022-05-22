@@ -4,6 +4,9 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.assets.AssetManager;
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.Batch;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FillViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
@@ -29,10 +32,13 @@ public class Balls extends ApplicationAdapter {
 	// Игровые классы
 	GameScreen gameScreen;
 	Textures textures;
+	SpriteBatch batch;
+	Texture texture;
 
 	// Пауза
 	boolean pause = false;
-	public static Font font;
+	Font font;
+	boolean loading = true;
 	
 	@Override
 	public void create () {
@@ -43,17 +49,32 @@ public class Balls extends ApplicationAdapter {
 		// viewport = new FillViewport(GdxViewport.WORLD_WIDTH, GdxViewport.WORLD_HEIGHT, camera);
 		viewport = new FillViewport(GdxViewport.WORLD_WIDTH, GdxViewport.WORLD_WIDTH * ((float) Gdx.graphics.getHeight() / Gdx.graphics.getWidth()), camera);
 
+		texture = new Texture(Gdx.files.internal("png/ico512-512.png"));
+		batch = new SpriteBatch();
+
 		setup = new Setup();
 		sound = new Sound(setup);
 
 		manager = new AssetManager();
 		textures = new Textures(setup);
 
-		font = new Font();
+		font = new Font(setup.getSkin());
 
-		gameScreen = new GameScreen(this, setup, sound, viewport, camera, manager, textures);
+		Gdx.app.postRunnable(new Runnable() {
+			@Override
+			public void run() {
 
+			}
+		});
+
+		loading = false;
+		gameScreen = new GameScreen(this, setup, font, sound, viewport, camera, manager, textures);
 	}
+
+	private void offRun() {
+	}
+
+
 
 	public static Balls self() {
 		/* Возвращает главный класс игры из любого места. */
@@ -70,9 +91,17 @@ public class Balls extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-		ScreenUtils.clear(0, 0, 0, 1);
-		if (!pause) {
-			gameScreen.render(Gdx.graphics.getDeltaTime());
+		if (!loading) {
+			if (!pause) {
+				ScreenUtils.clear(0, 0, 0, 1);
+				gameScreen.render(Gdx.graphics.getDeltaTime());
+			}
+		} else {
+			ScreenUtils.clear(0, 0f, 0, 1);
+			batch.setColor(1,0, 1, 1);
+			batch.begin();
+			batch.draw(texture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+			batch.end();
 		}
 	}
 
@@ -97,8 +126,6 @@ public class Balls extends ApplicationAdapter {
 		pause = false;
 		gameScreen.resume();
 	}
-
-
 
 	@Override
 	public void dispose () {

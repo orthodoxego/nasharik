@@ -64,4 +64,8 @@ public class ActorTextKey extends Actor {
     public void setIco(TextureRegion ico) {
         this.ico = ico;
     }
+
+    public void setBitmapFont(BitmapFont bitmapFont) {
+        this.bitmapFont = bitmapFont;
+    }
 }

@@ -25,6 +25,7 @@ import ru.vgtrofimov.nasharik.actors.ActorTextMoveYtoY;
 import ru.vgtrofimov.nasharik.actors.ActorWizard;
 import ru.vgtrofimov.nasharik.actors.help.ActorHelpStaticTime;
 import ru.vgtrofimov.nasharik.screens.GameScreen;
+import ru.vgtrofimov.nasharik.services.Font;
 import ru.vgtrofimov.nasharik.services.VectorMoveShapes;
 import ru.vgtrofimov.nasharik.settings.GameConstant;
 import ru.vgtrofimov.nasharik.settings.Levels;
@@ -47,9 +48,11 @@ public class GameStage extends StageParent implements InputProcessor{
     ActorBall actorBall;
     ActorRacquet actorRacquet;
     ActorShapeLine actorShapeLine;
-    int correct_camera_y;
+
+    float correct_camera_y;
     int cam_move_to_Y = -1;
     float cam_step_move_to = -1;
+
     ActorTeleport objTeleport = null;
     ActorCat actorCat;
 
@@ -65,14 +68,15 @@ public class GameStage extends StageParent implements InputProcessor{
     VectorMoveShapes vectorMoveShapes;
     Vector<ActorCircleEffect> actorStarsGrab;
 
+
     ActorRightHand actorRightHand;
     ActorLeftHand actorLeftHand;
     // ActorTimer actorTimer;
 
     int countSpring; // Количество ударов о пружину
 
-    public GameStage(GameScreen gameScreen, Setup setup, Viewport viewport, OrthographicCamera camera, Textures textures, Sound sound) {
-        super(gameScreen, setup, sound, viewport, camera);
+    public GameStage(GameScreen gameScreen, Setup setup, Font font, Viewport viewport, OrthographicCamera camera, Textures textures, Sound sound) {
+        super(gameScreen, setup, font, sound, viewport, camera);
 
         countSpring = 0;
         this.textures = textures;
@@ -112,7 +116,7 @@ public class GameStage extends StageParent implements InputProcessor{
         score.restart();
         move_cam = true;
         pause = false;
-        correct_camera_y = 128;
+        correct_camera_y = 0;
 
         addActors();
     }
@@ -125,7 +129,7 @@ public class GameStage extends StageParent implements InputProcessor{
         ActorBackground actorBackground = new ActorBackground(textures.getBackground(), Setup.count_background);
         int sx = 100 + (int) (Math.random() * 200);
         if (Math.random() < 0.5) sx *= -1;
-        actorBall = new ActorBall(textures.getBall(), textures.getBall_shadow(), sound,
+        actorBall = new ActorBall(textures.getBall(), textures.getBall_shadow(), font, sound,
                 game_world_width / 2,
                 (int) (game_world_height * 0.95f), // (int) (camera.viewportHeight / 2),
                 sx,
@@ -150,7 +154,7 @@ public class GameStage extends StageParent implements InputProcessor{
 
         addActor(actorBall);
 
-        actorShapeLine = new ActorShapeLine(textures.getShapes(), textures.getBlackHole(), score, (int) camera.viewportHeight);
+        actorShapeLine = new ActorShapeLine(textures.getShapes(), textures.getBlackHole(), font, score, (int) camera.viewportHeight);
         addActor(actorShapeLine);
 
     }
@@ -443,11 +447,12 @@ public class GameStage extends StageParent implements InputProcessor{
             if (actorBall.getSpeedY() <= 0) correct_camera_y = 0;
         }
 
-        if (actorBall.getSpeedY() > 50) {
+
+        if (actorBall.getSpeedY() > 150) {
             correct_camera_y += camera.viewportHeight / 4 * delta;
         }
 
-        if (actorBall.getSpeedY() < -50 && actorBall.getY() < game_world_height - camera.viewportHeight * 0.75f) {
+        if (actorBall.getSpeedY() < -150 && actorBall.getY() < game_world_height - camera.viewportHeight * 0.75f) {
             correct_camera_y -= camera.viewportHeight / 4 * delta;
         }
 
@@ -457,9 +462,11 @@ public class GameStage extends StageParent implements InputProcessor{
 
         if (cam_pos_y + correct_camera_y > game_world_height - camera.viewportHeight / 2) {
             correct_camera_y = (int) (game_world_height - camera.viewportHeight / 2 - cam_pos_y);
+            // correct_camera_y -= 10 * delta;
         }
 
         if (correct_camera_y > camera.viewportHeight / 3) correct_camera_y = (int) (camera.viewportHeight / 3);
+
         if (correct_camera_y < -camera.viewportHeight / 3) correct_camera_y = (int) -(camera.viewportHeight / 3);
 
         camera.position.set(cam_pos_x,cam_pos_y + correct_camera_y, 0);
@@ -538,14 +545,14 @@ public class GameStage extends StageParent implements InputProcessor{
         Gdx.input.setInputProcessor(null);
 
         if (score.getLives() < 0) {
-            actorTextMoveYtoY = new ActorTextMoveYtoY(textures.getBlackHole(),
+            actorTextMoveYtoY = new ActorTextMoveYtoY(textures.getBlackHole(), font,
                     camera.position.y + 200,
                     camera.position.y - 100,
                     "ЭТО КОНЕЦ", (int) camera.viewportWidth, (int) camera.viewportHeight,
                     (int) (camera.position.x - camera.viewportWidth / 2),
                     (int) (camera.position.y - camera.viewportHeight / 2));
         } else {
-            actorTextMoveYtoY = new ActorTextMoveYtoY(textures.getBlackHole(),
+            actorTextMoveYtoY = new ActorTextMoveYtoY(textures.getBlackHole(), font,
                     camera.position.y + 300,
                     camera.position.y,
                     "УПС... ПОПРОБУЙ ЕЩЁ!", (int) camera.viewportWidth, (int) camera.viewportHeight,
@@ -573,7 +580,7 @@ public class GameStage extends StageParent implements InputProcessor{
         if (score.getLevel() + 1 >= new Levels().getCountAllLevel()) {
             gameScreen.setEndGameStage();
         } else {
-            actorTextMoveYtoY = new ActorTextMoveYtoY(textures.getWinHole(),
+            actorTextMoveYtoY = new ActorTextMoveYtoY(textures.getWinHole(), font,
                     camera.position.y + 300,
                     camera.position.y,
                     "УСПЕШНО! НОВЫЙ УРОВЕНЬ: " + (score.getLevel() + 1), (int) camera.viewportWidth, (int) camera.viewportHeight,
@@ -608,7 +615,8 @@ public class GameStage extends StageParent implements InputProcessor{
             actorBall.setSpeedX(0);
             actorBall.setSpeedY(0);
         }
-        if (keycode == Input.Keys.MINUS) score.setLives(score.getLives() - 10);
+        if (keycode == Input.Keys.MINUS) score.setLives(0);
+
         if (keycode == Input.Keys.ESCAPE || keycode == Input.Keys.BACK) {
             sound.play(Sound.SOUND.CLICK_MENU);
             gameScreen.setLoseStage();
@@ -620,7 +628,7 @@ public class GameStage extends StageParent implements InputProcessor{
 
         // Добавит актёра экрана паузы
         if (pause) {
-            actorPause = new ActorTextMoveYtoY(textures.getBlackHole(),
+            actorPause = new ActorTextMoveYtoY(textures.getBlackHole(), font,
                     camera.position.y,
                     camera.position.y,
                     "П А У З А", (int) camera.viewportWidth, (int) camera.viewportHeight,

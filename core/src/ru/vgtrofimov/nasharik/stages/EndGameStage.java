@@ -24,8 +24,8 @@ public class EndGameStage extends StageParent implements ReturnKey, InputProcess
     Textures textures;
     float timer = 0;
 
-    public EndGameStage(GameScreen gameScreen, Setup setup, Viewport viewport, OrthographicCamera camera, Textures textures, Sound sound) {
-        super(gameScreen, setup, sound, viewport, camera);
+    public EndGameStage(GameScreen gameScreen, Setup setup, Font font, Viewport viewport, OrthographicCamera camera, Textures textures, Sound sound) {
+        super(gameScreen, setup, font, sound, viewport, camera);
         this.textures = textures;
 
         // resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
@@ -37,66 +37,66 @@ public class EndGameStage extends StageParent implements ReturnKey, InputProcess
 
         int startY = (int) (camera.viewportHeight * 0.15f);
 
-        ActorText text01 = new ActorText(Font.play_bold_big, "" + setup.getScore(),
+        ActorText text01 = new ActorText(font.play_bold_big, "" + setup.getScore(),
                 ActorText.ADJUST.CENTER,
                 (int) camera.viewportWidth);
         text01.setY(startY);
 
-        ActorText text02 = new ActorText(Font.play_bold_14px, "Рекорд: " + setup.getRecordScore(),
+        ActorText text02 = new ActorText(font.play_bold_14px, "Рекорд: " + setup.getRecordScore(),
                 ActorText.ADJUST.CENTER,
                 (int) camera.viewportWidth);
         startY += text01.getHeightText() * 1.2f;
         text02.setY(startY);
 
-        ActorText text03 = new ActorText(Font.play_regular_14px, "ПРИМИТЕ ПОЗДРАВЛЕНИЯ!",
+        ActorText text03 = new ActorText(font.play_regular_14px, "ПРИМИТЕ ПОЗДРАВЛЕНИЯ!",
                 ActorText.ADJUST.CENTER,
                 (int) camera.viewportWidth);
         startY += text03.getHeightText() * 5.2f;
         text03.setY(startY);
 
-        ActorText text04 = new ActorText(Font.play_regular_little, "Все уровни пройдены, игра сыграна. Надеюсь,",
+        ActorText text04 = new ActorText(font.play_regular_little, "Все уровни пройдены, игра сыграна. Надеюсь,",
                 ActorText.ADJUST.CENTER,
                 (int) camera.viewportWidth);
         startY += text04.getHeightText() * 5f;
         text04.setY(startY);
 
-        ActorText text05 = new ActorText(Font.play_regular_little, "что время не потрачено зря. Возможно, игра Вам",
+        ActorText text05 = new ActorText(font.play_regular_little, "что время не потрачено зря. Возможно, игра Вам",
                 ActorText.ADJUST.CENTER,
                 (int) camera.viewportWidth);
         startY += text05.getHeightText() * 2.2f;
         text05.setY(startY);
 
-        ActorText text06 = new ActorText(Font.play_regular_little, "понравилась и неплохо было бы добавить уровней.",
+        ActorText text06 = new ActorText(font.play_regular_little, "понравилась и неплохо было бы добавить уровней.",
                 ActorText.ADJUST.CENTER,
                 (int) camera.viewportWidth);
         startY += text06.getHeightText() * 2.2f;
         text06.setY(startY);
 
-        ActorText text07 = new ActorText(Font.play_regular_little, "Пожалуйста, поставьте хорошую оценку в маркете",
+        ActorText text07 = new ActorText(font.play_regular_little, "Пожалуйста, поставьте хорошую оценку в маркете",
                 ActorText.ADJUST.CENTER,
                 (int) camera.viewportWidth);
         startY += text07.getHeightText() * 2.2f;
         text07.setY(startY);
 
-        ActorText text08 = new ActorText(Font.play_regular_little, "и напишите отзыв, это подтолкнёт меня к",
+        ActorText text08 = new ActorText(font.play_regular_little, "и напишите отзыв, это подтолкнёт меня к",
                 ActorText.ADJUST.CENTER,
                 (int) camera.viewportWidth);
         startY += text08.getHeightText() * 2.2f;
         text08.setY(startY);
 
-        ActorText text09 = new ActorText(Font.play_regular_little, "созданию новых карт. И вообще.",
+        ActorText text09 = new ActorText(font.play_regular_little, "созданию новых карт. И вообще.",
                 ActorText.ADJUST.CENTER,
                 (int) camera.viewportWidth);
         startY += text09.getHeightText() * 2.2f;
         text09.setY(startY);
 
-        ActorText text10 = new ActorText(Font.play_regular_14px, "Счастья вам и успехов!",
+        ActorText text10 = new ActorText(font.play_regular_14px, "Счастья вам и успехов!",
                 ActorText.ADJUST.CENTER,
                 (int) camera.viewportWidth);
         startY += text10.getHeightText() * 3.2f;
         text10.setY(startY);
 
-        ActorText text15 = new ActorText(Font.play_regular_little, "Автор",
+        ActorText text15 = new ActorText(font.play_regular_little, "Автор",
                 ActorText.ADJUST.RIGHT,
                 (int) camera.viewportWidth);
         startY += text15.getHeightText() * 6.2f;
