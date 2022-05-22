@@ -40,8 +40,8 @@ public class ActorTeleport extends ActorShape {
         super.draw(batch, parentAlpha);
 
         if (enabled) {
-            batch.setColor(1, 1, 1, 0.3f);
-            batch.draw(skin, teleportToX - correctX, teleportToY - correctY, getOriginX(), getOriginY(), getWidth(), getHeight(), 0.5f, 0.5f, 90);
+            batch.setColor(0.5f, 0.7f, 1, 1f);
+            batch.draw(skin, teleportToX - correctX, teleportToY - correctY, getOriginX(), getOriginY(), getWidth(), getHeight(), 0.8f, 0.8f, 0);
         }
 
         batch.setColor(1, 1, 1, 1);

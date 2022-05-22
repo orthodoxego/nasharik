@@ -56,6 +56,7 @@ public class GameStage extends StageParent implements InputProcessor{
     public static boolean isCollision = true;
     public static boolean isGrabShape = true;
     public static boolean isMouseGlue = false;
+    public static int correct_mouse_Y = 0;
 
     Vector<ActorShape> actorShape;
     Vector<ActorSpring> actorSprings;
@@ -246,8 +247,14 @@ public class GameStage extends StageParent implements InputProcessor{
                 checkHand();
 
                 if (GameStage.isMouseGlue) {
+                    actorBall.setSpeedX(0);
+                    actorBall.setSpeedY(0);
                     actorBall.setX(Gdx.input.getX());
-                    actorBall.setY(camera.position.y - this.getViewport().getWorldHeight() + Gdx.input.getY());
+                    actorBall.setY(correct_mouse_Y + Gdx.input.getY());
+
+                    if (Gdx.input.getY() < 100) correct_mouse_Y -= Gdx.graphics.getHeight() * delta;
+                    if (Gdx.input.getY() > Gdx.graphics.getHeight() * 0.9f) correct_mouse_Y += Gdx.graphics.getHeight() * delta;
+
                 }
 
                 if (isCollision) {
@@ -583,6 +590,7 @@ public class GameStage extends StageParent implements InputProcessor{
 
         if (keycode == Input.Keys.NUM_4) {
             isMouseGlue = !isMouseGlue;
+            correct_mouse_Y = (int) (camera.position.y - Gdx.graphics.getHeight() / 2);
         }
 
         if (keycode == Input.Keys.NUM_2) {

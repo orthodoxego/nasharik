@@ -20,7 +20,7 @@ public class ActorShapeLine extends Actor {
         this.blackField = blackField;
         this.score = score;
         this.viewportHeight = viewportHeight;
-        rotation_array_to_elements = new float[30];
+        rotation_array_to_elements = new float[50];
         for (int i = 0; i < score.getTask().size(); i++) {
             rotation_array_to_elements[i] = i * (360.0f / rotation_array_to_elements.length);
         }
