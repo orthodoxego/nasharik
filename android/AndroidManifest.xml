@@ -13,10 +13,14 @@
         android:fullBackupContent="true"
         android:icon="@mipmap/ic_launcher"
         android:isGame="true"
+        android:theme="@style/Theme.AppCompat.NoActionBar"
         android:label="@string/app_name"
         tools:ignore="UnusedAttribute">
         <activity
             android:name=".AndroidLauncher"
+            android:exported="false" />
+        <activity
+            android:name=".PlayNasharik"
             android:configChanges="keyboard|keyboardHidden|navigation|screenLayout"
             android:exported="true"
             android:label="@string/app_name"

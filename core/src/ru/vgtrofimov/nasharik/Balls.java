@@ -59,14 +59,6 @@ public class Balls extends ApplicationAdapter {
 		textures = new Textures(setup);
 
 		font = new Font(setup.getSkin());
-
-		Gdx.app.postRunnable(new Runnable() {
-			@Override
-			public void run() {
-
-			}
-		});
-
 		loading = false;
 		gameScreen = new GameScreen(this, setup, font, sound, viewport, camera, manager, textures);
 	}

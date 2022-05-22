@@ -29,19 +29,6 @@ public class AndroidLauncher extends AndroidApplication {
 		// Сглаживание
 		config.numSamples = 8;
 
-
-//		new Runnable() {
-//			@Override
-//			public void run() {
-//				try {
-//					Thread.sleep(500);
-//				} catch (InterruptedException e) {
-//					e.printStackTrace();
-//				}
-//				initialize(new Balls(), config);
-//			}
-//		}.run();
-
 		initialize(new Balls(), config);
 
 	}
