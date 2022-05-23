@@ -68,10 +68,12 @@ public class MenuStage extends StageParent implements ReturnKey, InputProcessor 
                 startX, startY + lineHeight * 3,
                 KEY_NAME.MENU_SHADOW);
 
-        menuHelp = new ActorTextKey(this, font.play_regular_14px, setup.getHelpStr(),
-                textures.getMenuHelp(),
-                startX, startY + lineHeight * 4,
-                KEY_NAME.MENU_HELP);
+        if (setup.isViewHelp()) {
+            menuHelp = new ActorTextKey(this, font.play_regular_14px, setup.getHelpStr(),
+                    textures.getMenuHelp(),
+                    startX, startY + lineHeight * 4,
+                    KEY_NAME.MENU_HELP);
+        }
 
         actorLittleText = new ActorLittleText(font.play_regular_little, setup.getMessageSkin(),
                 startX,
@@ -82,7 +84,7 @@ public class MenuStage extends StageParent implements ReturnKey, InputProcessor 
         addActor(menuSkin);
         addActor(menuVolume);
         addActor(menuShadow);
-        addActor(menuHelp);
+        if (setup.isViewHelp()) addActor(menuHelp);
         addActor(actorLittleText);
 
     }

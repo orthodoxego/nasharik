@@ -19,7 +19,7 @@ public class PlayNasharik extends AppCompatActivity {
         Intent intent = new Intent(this, AndroidLauncher.class);
         PlayNasharik pl = this;
 
-        new CountDownTimer(1000, 1000) {
+        new CountDownTimer(500, 500) {
 
             @Override
             public void onTick(long millisUntilFinished) {

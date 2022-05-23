@@ -49,8 +49,17 @@ public class Balls extends ApplicationAdapter {
 		// viewport = new FillViewport(GdxViewport.WORLD_WIDTH, GdxViewport.WORLD_HEIGHT, camera);
 		viewport = new FillViewport(GdxViewport.WORLD_WIDTH, GdxViewport.WORLD_WIDTH * ((float) Gdx.graphics.getHeight() / Gdx.graphics.getWidth()), camera);
 
-		texture = new Texture(Gdx.files.internal("png/ico512-512.png"));
-		batch = new SpriteBatch();
+//		Gdx.app.postRunnable(new Runnable() {
+//
+//			@Override
+//			public void run() {
+//				try {
+//					Thread.sleep(1000);
+//				} catch (InterruptedException e) {
+//					e.printStackTrace();
+//				}
+//			}
+//		});
 
 		setup = new Setup();
 		sound = new Sound(setup);
@@ -83,17 +92,9 @@ public class Balls extends ApplicationAdapter {
 
 	@Override
 	public void render () {
-		if (!loading) {
-			if (!pause) {
-				ScreenUtils.clear(0, 0, 0, 1);
-				gameScreen.render(Gdx.graphics.getDeltaTime());
-			}
-		} else {
-			ScreenUtils.clear(0, 0f, 0, 1);
-			batch.setColor(1,0, 1, 1);
-			batch.begin();
-			batch.draw(texture, 0, 0, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-			batch.end();
+		if (!pause) {
+			ScreenUtils.clear(0, 0, 0, 1);
+			gameScreen.render(Gdx.graphics.getDeltaTime());
 		}
 	}
 

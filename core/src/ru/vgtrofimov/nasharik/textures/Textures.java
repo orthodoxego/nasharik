@@ -30,7 +30,8 @@ public class Textures {
 
     TextureRegion menuStartGame, menuSkin, menuVolume, menuHelp, menuShadow;
 
-    TextureRegion help01, help02, help03;
+    TextureRegion helpKeyPrevious, helpKeyStop, helpKeyNext;
+    TextureRegion[] helpScreens;
 
     public Textures(Setup setup) {
         Texture load;
@@ -38,9 +39,14 @@ public class Textures {
         String[] dir = setup.getDir();
 
         load = new Texture("png/help.png");
-        help01 = getTextureRegionFromMap(0, 0, 512, 192, false, true, load);
-        help02 = getTextureRegionFromMap(0, 192, 512, 256, false, true, load);
-        help03 = getTextureRegionFromMap(0, 448, 512, 64, false, true, load);
+        helpKeyPrevious = getTextureRegionFromMap(0, 0, 64, 64, false, true, load);
+        helpKeyStop = getTextureRegionFromMap(64, 0, 64, 64, false, true, load);
+        helpKeyNext = getTextureRegionFromMap(128, 0, 64, 64, false, true, load);
+
+        helpScreens = new TextureRegion[3];
+        for (int i = 0; i < helpScreens.length; i++) {
+            helpScreens[i] = getTextureRegionFromMap(i * 128, 64, 128, 192, false, true, load);
+        }
 
         /*
         load = new Texture("png/" + dir[setup.getSkin()] + "/explosion.png");
@@ -191,19 +197,23 @@ public class Textures {
         return menuShadow;
     }
 
-    public TextureRegion getHelp01() {
-        return help01;
-    }
-
-    public TextureRegion getHelp02() {
-        return help02;
-    }
-
-    public TextureRegion getHelp03() {
-        return help03;
-    }
-
     public TextureRegion getCat() {
         return cat;
+    }
+
+    public TextureRegion getHelpKeyPrevious() {
+        return helpKeyPrevious;
+    }
+
+    public TextureRegion getHelpKeyStop() {
+        return helpKeyStop;
+    }
+
+    public TextureRegion getHelpKeyNext() {
+        return helpKeyNext;
+    }
+
+    public TextureRegion[] getHelpScreens() {
+        return helpScreens;
     }
 }

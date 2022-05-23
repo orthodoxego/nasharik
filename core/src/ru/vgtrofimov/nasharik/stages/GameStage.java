@@ -23,7 +23,6 @@ import ru.vgtrofimov.nasharik.actors.ActorShapeLine;
 import ru.vgtrofimov.nasharik.actors.ActorTeleport;
 import ru.vgtrofimov.nasharik.actors.ActorTextMoveYtoY;
 import ru.vgtrofimov.nasharik.actors.ActorWizard;
-import ru.vgtrofimov.nasharik.actors.help.ActorHelpStaticTime;
 import ru.vgtrofimov.nasharik.screens.GameScreen;
 import ru.vgtrofimov.nasharik.services.Font;
 import ru.vgtrofimov.nasharik.services.VectorMoveShapes;

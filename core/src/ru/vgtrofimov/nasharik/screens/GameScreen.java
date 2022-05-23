@@ -14,7 +14,7 @@ import ru.vgtrofimov.nasharik.settings.Levels;
 import ru.vgtrofimov.nasharik.settings.Setup;
 import ru.vgtrofimov.nasharik.settings.Sound;
 import ru.vgtrofimov.nasharik.stages.EndGameStage;
-import ru.vgtrofimov.nasharik.stages.GameHelpStage;
+import ru.vgtrofimov.nasharik.stages.HelpStage;
 import ru.vgtrofimov.nasharik.stages.LoseStage;
 import ru.vgtrofimov.nasharik.stages.GameStage;
 import ru.vgtrofimov.nasharik.stages.MenuStage;
@@ -55,8 +55,8 @@ public class GameScreen implements Screen {
         camera.position.set(camera.viewportWidth / 2,camera.viewportHeight / 2, 0);
         camera.update();
 
-        setMenuStage();
-        // setGameStage();
+        // setMenuStage();
+        setGameStage();
         // setLoseStage();
 
     }
@@ -70,7 +70,8 @@ public class GameScreen implements Screen {
         } else {
             currentStage = null;
             if (setup.isHelp()) {
-                currentStage = new GameHelpStage(this, setup, font, viewport, camera, textures, sound);
+                currentStage = new HelpStage(this, setup, font, viewport, camera, textures, sound);
+                // currentStage = new GameStage(this, setup, font, viewport, camera, textures, sound);
             } else {
                 currentStage = new GameStage(this, setup, font, viewport, camera, textures, sound);
             }

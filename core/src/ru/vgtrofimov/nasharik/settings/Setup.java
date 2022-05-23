@@ -18,7 +18,7 @@ public class Setup {
     int volume;
     int skin;
     String[] skinName;
-    boolean help;
+    boolean help, viewHelp;
     boolean openAllLevel;
 
     public static boolean shadow;
@@ -37,6 +37,7 @@ public class Setup {
         recordScore = prefs.getInteger("ajg6256ghjb3hg134j", 0);
         shadow = prefs.getBoolean("kj828u2hjb3897y2h1", true);
         help = prefs.getBoolean("bbnwjhjushuh2jqpoj", true);
+        viewHelp = prefs.getBoolean("bbnbjhjushuh3jqpoj", false);
         theme = prefs.getInteger("hjn2jbg1hjbHhvhUGB", 0);
         volume = prefs.getInteger("jkoqopwoii919287iq", 30);
         skin = prefs.getInteger("jqywopwoii919287iq", 0);
@@ -180,5 +181,13 @@ public class Setup {
 
     public void setHelp(boolean help) {
         this.help = help;
+    }
+
+    public boolean isViewHelp() {
+        return viewHelp;
+    }
+
+    public void setViewHelp(boolean viewHelp) {
+        this.viewHelp = viewHelp;
     }
 }
