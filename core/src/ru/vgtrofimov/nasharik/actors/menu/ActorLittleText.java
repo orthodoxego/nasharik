@@ -21,7 +21,7 @@ public class ActorLittleText extends Actor {
         super.draw(batch, parentAlpha);
 
         for (int i = 0; i < msg.length; i++) {
-            bitmapFont.draw(batch, msg[i], getX(), getY() + i * 23);
+            bitmapFont.draw(batch, msg[i], getX(), getY() + i * 35);
         }
     }
 

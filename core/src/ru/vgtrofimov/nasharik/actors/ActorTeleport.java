@@ -13,6 +13,7 @@ public class ActorTeleport extends ActorShape {
         super(skin, number_shape, x, y, speedX, speedY, maxX, maxY, widthScreen, heightScreen);
         this.teleportToX = teleportToX;
         this.teleportToY = teleportToY;
+        this.max_angle = 360;
     }
 
     @Override

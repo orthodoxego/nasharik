@@ -52,7 +52,7 @@ public class Font {
             parameter.color = Color.valueOf("edd970");
             play_bold_big = play_bold.generateFont(parameter);
 
-            parameter.size = (int) (GdxViewport.FIXED_BLOCK * 1.2f);
+            parameter.size = (int) (GdxViewport.FIXED_BLOCK * 1.5f);
             parameter.color = Color.valueOf("f9b182");
             play_regular_little = play_regular.generateFont(parameter);
 

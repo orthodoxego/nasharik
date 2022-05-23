@@ -77,7 +77,7 @@ public class MenuStage extends StageParent implements ReturnKey, InputProcessor 
 
         actorLittleText = new ActorLittleText(font.play_regular_little, setup.getMessageSkin(),
                 startX,
-                (int) (viewport.getWorldHeight() - 85));
+                (int) (viewport.getWorldHeight() - 100));
 
 
         addActor(menuStart);
@@ -152,13 +152,13 @@ public class MenuStage extends StageParent implements ReturnKey, InputProcessor 
         actorTextureStatic.setRegion(textures.getNasharik());
         menuStart.setIco(textures.getMenuStartGame());
         menuShadow.setIco(textures.getMenuShadow());
-        menuHelp.setIco(textures.getMenuHelp());
+        if (menuHelp != null) menuHelp.setIco(textures.getMenuHelp());
         menuSkin.setIco(textures.getMenuSkin());
         menuVolume.setIco(textures.getMenuVolume());
 
         menuStart.setBitmapFont(font.play_regular_14px);
         menuShadow.setBitmapFont(font.play_regular_14px);
-        menuHelp.setBitmapFont(font.play_regular_14px);
+        if (menuHelp != null) menuHelp.setBitmapFont(font.play_regular_14px);
         menuSkin.setBitmapFont(font.play_regular_14px);
         menuVolume.setBitmapFont(font.play_regular_14px);
         actorLittleText.setBitmapFont(font.play_regular_little);

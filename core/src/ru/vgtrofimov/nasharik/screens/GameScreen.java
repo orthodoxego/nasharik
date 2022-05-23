@@ -63,15 +63,14 @@ public class GameScreen implements Screen {
 
     public void setGameStage() {
         setup.setScore(0);
-        // setup.setLevel(8);
+        setup.setLevel(16);
 
         if (setup.getLevel() + 1 >= new Levels().getCountAllLevel()) {
             setEndGameStage();
         } else {
             currentStage = null;
-            if (setup.isHelp()) {
+            if (setup.isHelp() || !setup.isViewHelp()) {
                 currentStage = new HelpStage(this, setup, font, viewport, camera, textures, sound);
-                // currentStage = new GameStage(this, setup, font, viewport, camera, textures, sound);
             } else {
                 currentStage = new GameStage(this, setup, font, viewport, camera, textures, sound);
             }

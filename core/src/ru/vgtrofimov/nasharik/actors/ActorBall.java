@@ -110,11 +110,11 @@ public class ActorBall extends Actor {
         batch.draw(skin, getX() - correctX, getY() - correctY, getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), getRotation());
         batch.draw(shadow, getX() - correctX, getY() - correctY, getOriginX(), getOriginY(), getWidth(), getHeight(), getScaleX(), getScaleY(), 0);
 
-//        font.play_regular_little.draw(batch, "" + (int) getY(), 10, getY());
-//         if (GameStage.isCollision) font.play_regular_little.draw(batch, "+ объекты", 10, getY() + 20);
-//         if (GameStage.isGrabShape)  font.play_regular_little.draw(batch, "+ шары", 10, getY() + 40);
-//         if (GameStage.isMouseGlue)  font.play_regular_little.draw(batch, "+ мышь", 10, getY() + 60);
-//         font.play_regular_little.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 10, getY() + 80);
+        font.play_regular_little.draw(batch, "" + (int) getY(), 10, getY());
+         if (GameStage.isCollision) font.play_regular_little.draw(batch, "+ объекты", 10, getY() + 20);
+         if (GameStage.isGrabShape)  font.play_regular_little.draw(batch, "+ шары", 10, getY() + 40);
+         if (GameStage.isMouseGlue)  font.play_regular_little.draw(batch, "+ мышь", 10, getY() + 60);
+         font.play_regular_little.draw(batch, "FPS: " + Gdx.graphics.getFramesPerSecond(), 10, getY() + 80);
 
     }
 

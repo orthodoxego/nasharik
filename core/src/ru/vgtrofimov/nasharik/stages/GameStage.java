@@ -582,7 +582,7 @@ public class GameStage extends StageParent implements InputProcessor{
             actorTextMoveYtoY = new ActorTextMoveYtoY(textures.getWinHole(), font,
                     camera.position.y + 300,
                     camera.position.y,
-                    "УСПЕШНО! НОВЫЙ УРОВЕНЬ: " + (score.getLevel() + 1), (int) camera.viewportWidth, (int) camera.viewportHeight,
+                    "УРА! НОВЫЙ УРОВЕНЬ: " + (score.getLevel() + 1), (int) camera.viewportWidth, (int) camera.viewportHeight,
                     (int) (camera.position.x - camera.viewportWidth / 2),
                     (int) (camera.position.y - camera.viewportHeight / 2));
 

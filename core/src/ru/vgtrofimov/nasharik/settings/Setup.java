@@ -50,6 +50,7 @@ public class Setup {
         prefs.putInteger("ajg6256ghjb3hg134j", recordScore);
         prefs.putBoolean("kj828u2hjb3897y2h1", shadow);
         prefs.putBoolean("bbnwjhjushuh2jqpoj", help);
+        prefs.putBoolean("bbnbjhjushuh3jqpoj", viewHelp);
         prefs.putBoolean("jqywomqattr1928wiq", openAllLevel);
         prefs.putInteger("hjn2jbg1hjbHhvhUGB", theme);
         prefs.putInteger("jkoqopwoii919287iq", volume);
@@ -102,8 +103,8 @@ public class Setup {
 
 
     public String getHelpStr() {
-        if (help) return "Инструкции вкл.";
-        return "Инструкции выкл.";
+        if (help) return "Инструкция: вкл.";
+        return "Инструкция: выкл.";
     }
 
     public String getSkinStr() {
@@ -135,19 +136,19 @@ public class Setup {
         String[] ret = new String[3];;
         if (skin == 0) {
             ret[0] = "";
-            ret[1] = "";
+            ret[1] = "Скин: Илон Маск, ТГ: @maskforever";
             ret[2] = "(c) 2022 Виктор Трофимов";
         } else if (skin == 1) {
             ret[0] = "";
-            ret[1] = "";
+            ret[1] = "Скин: Игорь Николаев, ТГ: @pyanstvo";
             ret[2] = "(c) 2022 Виктор Трофимов";
         } else if (skin == 2) {
             ret[0] = "";
-            ret[1] = "";
+            ret[1] = "Скин: Елена Малышева, ТГ: @right_pochka";
             ret[2] = "(c) 2022 Виктор Трофимов";
         } else if (skin == 3) {
             ret[0] = "";
-            ret[1] = "";
+            ret[1] = "Скин: Настюшка777, ТГ: @manyhead";
             ret[2] = "(c) 2022 Виктор Трофимов";
         }
         return ret;
