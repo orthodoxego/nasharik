@@ -594,33 +594,34 @@ public class GameStage extends StageParent implements InputProcessor{
     @Override
     public boolean keyDown(int keycode) {
 
-        if (keycode == Input.Keys.NUM_4) {
-            isMouseGlue = !isMouseGlue;
-            correct_mouse_Y = (int) (camera.position.y - Gdx.graphics.getHeight() / 2);
-        }
-
-        if (keycode == Input.Keys.NUM_2) {
-            isGrabShape = !isGrabShape;
-        }
-
-        if (keycode == Input.Keys.NUM_3) {
-            int num = 0;
-            while (!actorShape.elementAt(num).isEnabled()
-                    || actorShape.elementAt(num).getNumber_shape() != score.getTask().elementAt(0).getNumber_shape()) {
-                num += 1;
-            }
-            actorBall.setX(actorShape.elementAt(num).getX());
-            actorBall.setY(actorShape.elementAt(num).getY());
-            actorBall.setSpeedX(0);
-            actorBall.setSpeedY(0);
-        }
-        if (keycode == Input.Keys.MINUS) score.setLives(0);
+//        if (keycode == Input.Keys.NUM_4) {
+//            isMouseGlue = !isMouseGlue;
+//            correct_mouse_Y = (int) (camera.position.y - Gdx.graphics.getHeight() / 2);
+//        }
+//
+//        if (keycode == Input.Keys.NUM_2) {
+//            isGrabShape = !isGrabShape;
+//        }
+//
+//        if (keycode == Input.Keys.NUM_3) {
+//            int num = 0;
+//            while (!actorShape.elementAt(num).isEnabled()
+//                    || actorShape.elementAt(num).getNumber_shape() != score.getTask().elementAt(0).getNumber_shape()) {
+//                num += 1;
+//            }
+//            actorBall.setX(actorShape.elementAt(num).getX());
+//            actorBall.setY(actorShape.elementAt(num).getY());
+//            actorBall.setSpeedX(0);
+//            actorBall.setSpeedY(0);
+//        }
+//        if (keycode == Input.Keys.MINUS) score.setLives(0);
+//        if (keycode == Input.Keys.NUM_1) isCollision = !isCollision;
 
         if (keycode == Input.Keys.ESCAPE || keycode == Input.Keys.BACK) {
             sound.play(Sound.SOUND.CLICK_MENU);
             gameScreen.setLoseStage();
         }
-        if (keycode == Input.Keys.NUM_1) isCollision = !isCollision;
+
         if (keycode == Input.Keys.P) {
             pause = !pause;
         }

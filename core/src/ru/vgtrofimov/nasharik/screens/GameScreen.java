@@ -55,15 +55,15 @@ public class GameScreen implements Screen {
         camera.position.set(camera.viewportWidth / 2,camera.viewportHeight / 2, 0);
         camera.update();
 
-        // setMenuStage();
-        setGameStage();
+        setMenuStage();
+        // setGameStage();
         // setLoseStage();
 
     }
 
     public void setGameStage() {
         setup.setScore(0);
-        setup.setLevel(16);
+        // setup.setLevel(16);
 
         if (setup.getLevel() + 1 >= new Levels().getCountAllLevel()) {
             setEndGameStage();
