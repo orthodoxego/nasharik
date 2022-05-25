@@ -130,7 +130,7 @@ public class GameStage extends StageParent implements InputProcessor{
         if (Math.random() < 0.5) sx *= -1;
         actorBall = new ActorBall(textures.getBall(), textures.getBall_shadow(), font, sound,
                 game_world_width / 2,
-                (int) (game_world_height * 0.95f), // (int) (camera.viewportHeight / 2),
+                (int) (game_world_height * 0.95f),
                 sx,
                 50,
                 game_world_width,
@@ -423,6 +423,7 @@ public class GameStage extends StageParent implements InputProcessor{
         }
     }
 
+    /** Расчёт позиции камеры. */
     private void calc_camera_pos(float delta) {
         /** РАСЧЁТ ПОЗИЦИИ КАМЕРЫ */
 
@@ -447,11 +448,11 @@ public class GameStage extends StageParent implements InputProcessor{
         }
 
 
-        if (actorBall.getSpeedY() > 150) {
+        if (actorBall.getSpeedY() > 75) {
             correct_camera_y += camera.viewportHeight / 4 * delta;
         }
 
-        if (actorBall.getSpeedY() < -150 && actorBall.getY() < game_world_height - camera.viewportHeight * 0.75f) {
+        if (actorBall.getSpeedY() < -75 && actorBall.getY() < game_world_height - camera.viewportHeight * 0.75f) {
             correct_camera_y -= camera.viewportHeight / 4 * delta;
         }
 
@@ -547,14 +548,16 @@ public class GameStage extends StageParent implements InputProcessor{
             actorTextMoveYtoY = new ActorTextMoveYtoY(textures.getBlackHole(), font,
                     camera.position.y + 200,
                     camera.position.y - 100,
-                    "ЭТО КОНЕЦ", (int) camera.viewportWidth, (int) camera.viewportHeight,
+                    "",
+                    "ЭТО ФИАСКО...", (int) camera.viewportWidth, (int) camera.viewportHeight,
                     (int) (camera.position.x - camera.viewportWidth / 2),
                     (int) (camera.position.y - camera.viewportHeight / 2));
         } else {
             actorTextMoveYtoY = new ActorTextMoveYtoY(textures.getBlackHole(), font,
                     camera.position.y + 300,
                     camera.position.y,
-                    "УПС... ПОПРОБУЙ ЕЩЁ!", (int) camera.viewportWidth, (int) camera.viewportHeight,
+                    "УПС...",
+                    "ПОПЫТАЙСЯ ЕЩЁ!", (int) camera.viewportWidth, (int) camera.viewportHeight,
                     (int) (camera.position.x - camera.viewportWidth / 2),
                     (int) (camera.position.y - camera.viewportHeight / 2));
         }
@@ -582,7 +585,8 @@ public class GameStage extends StageParent implements InputProcessor{
             actorTextMoveYtoY = new ActorTextMoveYtoY(textures.getWinHole(), font,
                     camera.position.y + 300,
                     camera.position.y,
-                    "УРА! НОВЫЙ УРОВЕНЬ: " + (score.getLevel() + 1), (int) camera.viewportWidth, (int) camera.viewportHeight,
+                    "ПОЗДРАВЛЯЕМ!",
+                    "НОВЫЙ УРОВЕНЬ: " + (score.getLevel() + 1), (int) camera.viewportWidth, (int) camera.viewportHeight,
                     (int) (camera.position.x - camera.viewportWidth / 2),
                     (int) (camera.position.y - camera.viewportHeight / 2));
 
@@ -631,6 +635,7 @@ public class GameStage extends StageParent implements InputProcessor{
             actorPause = new ActorTextMoveYtoY(textures.getBlackHole(), font,
                     camera.position.y,
                     camera.position.y,
+                    "",
                     "П А У З А", (int) camera.viewportWidth, (int) camera.viewportHeight,
                     (int) (camera.position.x - camera.viewportWidth / 2),
                     (int) (camera.position.y - camera.viewportHeight / 2));

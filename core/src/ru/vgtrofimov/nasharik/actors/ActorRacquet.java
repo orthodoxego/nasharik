@@ -40,7 +40,7 @@ public class ActorRacquet extends Actor {
         if (Math.abs(y_correct_to_fire) > 0) {
             y_correct_to_fire *= 0.97f;
             if (y_correct_to_fire > 31 && y_correct_to_fire < 32) {
-                sound.play(Sound.SOUND.RACQUET_SPRING);
+                // sound.play(Sound.SOUND.RACQUET_SPRING);
                 y_correct_to_fire = 31;
             }
         }

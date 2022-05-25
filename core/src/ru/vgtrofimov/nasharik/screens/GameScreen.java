@@ -63,7 +63,7 @@ public class GameScreen implements Screen {
 
     public void setGameStage() {
         setup.setScore(0);
-        // setup.setLevel(16);
+        // setup.setLevel(0);
 
         if (setup.getLevel() + 1 >= new Levels().getCountAllLevel()) {
             setEndGameStage();

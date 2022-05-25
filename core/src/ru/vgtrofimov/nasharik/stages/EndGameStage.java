@@ -96,11 +96,12 @@ public class EndGameStage extends StageParent implements ReturnKey, InputProcess
         startY += text10.getHeightText() * 3.2f;
         text10.setY(startY);
 
-        ActorText text15 = new ActorText(font.play_regular_little, "Автор",
-                ActorText.ADJUST.RIGHT,
-                (int) camera.viewportWidth);
-        startY += text15.getHeightText() * 6.2f;
-        text15.setY(startY);
+//        ActorText text15 = new ActorText(font.play_regular_little, "Автор",
+//                ActorText.ADJUST.RIGHT,
+//                (int) camera.viewportWidth);
+//
+//        startY += text15.getHeightText() * 6.2f;
+//        text15.setY(startY);
 
         addActor(text01);
         addActor(text02);
@@ -112,7 +113,7 @@ public class EndGameStage extends StageParent implements ReturnKey, InputProcess
         addActor(text08);
         addActor(text09);
         addActor(text10);
-        addActor(text15);
+        // addActor(text15);
 
         startY += text02.getHeightText() * 4;
 

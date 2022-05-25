@@ -14,7 +14,8 @@ public class ActorTextMoveYtoY extends Actor {
     Font font;
     int fromY;
     int toY;
-    String text;
+    String msg0, msg1;
+    int msg0_x;
     int speed;
     boolean enabled;
     int widthText;
@@ -22,14 +23,15 @@ public class ActorTextMoveYtoY extends Actor {
     int screenWidth, screenHeight;
     float lifetime;
 
-    public ActorTextMoveYtoY(TextureRegion blackHole, Font font, float fromY, float toY, String text, int screenWidth, int screenHeight, int nulX, int nulY) {
+    public ActorTextMoveYtoY(TextureRegion blackHole, Font font, float fromY, float toY, String msg0, String msg1, int screenWidth, int screenHeight, int nulX, int nulY) {
         this.blackHole = blackHole;
         this.font = font;
         alpha_channel = 0.0f;
         setY(fromY);
         this.fromY = (int) fromY;
         this.toY = (int) toY;
-        this.text = text;
+        this.msg0 = msg0;
+        this.msg1 = msg1;
         enabled = true;
         this.nulX = nulX;
         this.nulY = nulY;
@@ -42,9 +44,13 @@ public class ActorTextMoveYtoY extends Actor {
         if (fromY > toY) speed *= -1;
 
         GlyphLayout gl = Font.getGlyphLayout();
-        gl.setText(font.play_bold_14px, text);
+        gl.setText(font.play_bold_14px, msg1);
         widthText = (int) gl.width;
         setX((GameStage.game_world_width - widthText) >> 1);
+
+        gl.setText(font.play_bold_14px, msg0);
+        widthText = (int) gl.width;
+        msg0_x = ((GameStage.game_world_width - widthText) >> 1);
 
     }
 
@@ -68,7 +74,8 @@ public class ActorTextMoveYtoY extends Actor {
         batch.draw(blackHole, nulX, nulY, 0, 0, screenWidth, screenHeight, 1, 1, 0);
         batch.setColor(1, 1, 1, 1);
 
-        font.play_bold_14px.draw(batch, text, getX(), getY());
+        font.play_bold_14px.draw(batch, msg1, getX(), getY());
+        font.play_bold_14px.draw(batch, msg0, msg0_x, getY() - 48);
 
     }
 

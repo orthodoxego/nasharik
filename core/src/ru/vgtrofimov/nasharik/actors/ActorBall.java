@@ -123,17 +123,20 @@ public class ActorBall extends Actor {
         setSpeedY(getSpeedY() + (velocity + massa * gravity) / 4 * getScaleX() * 0.75f);
         setSpeedX(getSpeedX() * 0.998f);
 
-        if (getY() + getHeight() / 2 > actorRacquet.getY() - actorRacquet.getPressed_energy() - actorRacquet.getY_correct_to_fire() * 3) {
-            setSpeedY(Math.min(-256, (float) (-getSpeedY() * Math.sqrt(elastic) / massa)));
-            velocity = default_velocity;
-
-            if (Math.abs(getSpeedY()) < world_height * 0.03f) setSpeedY(0);
-            actorRacquet.setY_correct_to_fire(getHeight() / 2);
-        }
-
+//        if (getY() + getHeight() / 2 > actorRacquet.getY() - actorRacquet.getPressed_energy() - actorRacquet.getY_correct_to_fire() * 3) {
+//            setSpeedY(Math.min(-256, (float) (-getSpeedY() * Math.sqrt(elastic) / massa)));
+//            velocity = default_velocity;
+//
+//            if (Math.abs(getSpeedY()) < world_height * 0.03f) setSpeedY(0);
+//            actorRacquet.setY_correct_to_fire(getHeight() / 2);
+//        }
+//
         if (getY() + getHeight() / 2 > actorRacquet.getY()) { // - actorRacquet.getPressed_energy()) { // - actorRacquet.getY_correct_to_fire() * 3) {
-            // setY(actorRacquet.getY() - actorRacquet.getPressed_energy() - actorRacquet.getY_correct_to_fire() * 3 - getHeight() / 2);
-            setY(actorRacquet.getY() - getHeight() * 2);
+            setSpeedY(-getSpeedY());
+            velocity = default_velocity;
+            setY(actorRacquet.getY() - getHeight() * 1.5f);
+            actorRacquet.setY_correct_to_fire(getHeight());
+            sound.play(Sound.SOUND.RACQUET_SPRING);
         }
 
         if (getY() < correctY) {
