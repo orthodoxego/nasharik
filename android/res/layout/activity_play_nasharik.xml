@@ -7,10 +7,34 @@
     android:layout_height="match_parent"
     tools:context=".PlayNasharik">
 
-    <ImageView
+    <!-- android:background="#e37800"-->
+
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_margin="16mm"
-        android:src="@drawable/ico"/>
+        android:layout_height="match_parent">
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="96dp"
+            android:layout_marginRight="96dp"
+            android:layout_marginBottom="128dp"
+            android:layout_alignParentTop="true"
+            android:src="@drawable/ico"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="32dp"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="64dp">
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/ic_vtrofimov_other"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
 
 </android.support.constraint.ConstraintLayout>

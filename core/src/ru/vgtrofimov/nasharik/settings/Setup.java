@@ -35,7 +35,7 @@ public class Setup {
     public void loadPrefs() {
         Preferences prefs = Gdx.app.getPreferences(APP_ID);
         recordScore = prefs.getInteger("ajg6256ghjb3hg134j", 0);
-        shadow = prefs.getBoolean("kj828u2hjb3897y2h1", true);
+        shadow = prefs.getBoolean("kj828u2hjb3897y2h1", false);
         help = prefs.getBoolean("bbnwjhjushuh2jqpoj", true);
         viewHelp = prefs.getBoolean("bbnbjhjushuh3jqpoj", false);
         theme = prefs.getInteger("hjn2jbg1hjbHhvhUGB", 0);
@@ -125,31 +125,40 @@ public class Setup {
     }
 
     private String[] getSkinName() {
-        return new String[]{"самоцветы", "море", "8 бит", "геометрия"};
+        return new String[]{"питомцы", "самоцветы", "море", "8 бит", "геометрия"};
     }
 
     public String[] getDir() {
-        return new String[] {"stone", "sea", "pixel", "base"};
+        return new String[] {"pets", "stone", "sea", "pixel", "base"};
+    }
+
+    public String getHref() {
+        String[] href = new String[] {"https://www.instagram.com/elwaaart/", "", "", "", ""};
+        return href[skin];
     }
 
     public String[] getMessageSkin() {
         String[] ret = new String[3];;
         if (skin == 0) {
             ret[0] = "";
-            ret[1] = "Скин: Илон Маск, ТГ: @maskforever";
-            ret[2] = "(c) 2022 Виктор Трофимов";
+            ret[1] = "Автор скина: Эля";
+            ret[2] = "Задизайнить? Instagram: @elwaaart";
         } else if (skin == 1) {
             ret[0] = "";
-            ret[1] = "Скин: Игорь Николаев, ТГ: @pyanstvo";
-            ret[2] = "(c) 2022 Виктор Трофимов";
+            ret[1] = "";
+            ret[2] = "";
         } else if (skin == 2) {
             ret[0] = "";
-            ret[1] = "Скин: Елена Малышева, ТГ: @right_pochka";
-            ret[2] = "(c) 2022 Виктор Трофимов";
+            ret[1] = "";
+            ret[2] = "";
         } else if (skin == 3) {
             ret[0] = "";
-            ret[1] = "Скин: Настюшка777, ТГ: @manyhead";
-            ret[2] = "(c) 2022 Виктор Трофимов";
+            ret[1] = "";
+            ret[2] = "";
+        } else if (skin == 4) {
+            ret[0] = "";
+            ret[1] = "";
+            ret[2] = "";
         }
         return ret;
     }

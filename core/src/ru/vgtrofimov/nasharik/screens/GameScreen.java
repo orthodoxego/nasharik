@@ -58,6 +58,7 @@ public class GameScreen implements Screen {
         setMenuStage();
         // setGameStage();
         // setLoseStage();
+        // setEndGameStage();
 
     }
 

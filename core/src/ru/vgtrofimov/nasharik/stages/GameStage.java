@@ -82,7 +82,7 @@ public class GameStage extends StageParent implements InputProcessor{
 
         // resize(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
         resize((int) viewport.getWorldWidth(), (int) viewport.getWorldHeight());
-        Balls.log(getClass().getName(), "" + viewport.getWorldWidth() + " " + viewport.getWorldHeight());
+        // Balls.log(getClass().getName(), "" + viewport.getWorldWidth() + " " + viewport.getWorldHeight());
 
         camera.position.x = 10;
         camera.position.y = 10;

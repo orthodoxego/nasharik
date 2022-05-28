@@ -32,8 +32,6 @@ public class Balls extends ApplicationAdapter {
 	// Игровые классы
 	GameScreen gameScreen;
 	Textures textures;
-	SpriteBatch batch;
-	Texture texture;
 
 	// Пауза
 	boolean pause = false;
