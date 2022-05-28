@@ -157,9 +157,13 @@ public class MenuStage extends StageParent implements ReturnKey, InputProcessor 
         actorTextureStatic.setRegion(textures.getNasharik());
         menuStart.setIco(textures.getMenuStartGame());
         menuShadow.setIco(textures.getMenuShadow());
+
         if (menuHelp != null) menuHelp.setIco(textures.getMenuHelp());
         menuSkin.setIco(textures.getMenuSkin());
+
+        menuStart.setMsg("Играть");
         menuVolume.setIco(textures.getMenuVolume());
+        menuVolume.setMsg("Громкость: " + setup.getVolume());
 
         menuStart.setBitmapFont(font.play_regular_14px);
         menuShadow.setBitmapFont(font.play_regular_14px);

@@ -125,15 +125,15 @@ public class Setup {
     }
 
     private String[] getSkinName() {
-        return new String[]{"питомцы", "самоцветы", "море", "8 бит", "геометрия"};
+        return new String[]{"питомцы", "cyberball", "самоцветы", "море", "8 бит", "геометрия"};
     }
 
     public String[] getDir() {
-        return new String[] {"pets", "stone", "sea", "pixel", "base"};
+        return new String[] {"pets", "cyberball", "stone", "sea", "pixel", "base"};
     }
 
     public String getHref() {
-        String[] href = new String[] {"https://www.instagram.com/elwaaart/", "", "", "", ""};
+        String[] href = new String[] {"https://www.instagram.com/elwaaart/", "https://instagram.com/ataman_cg/", "", "", "", ""};
         return href[skin];
     }
 
@@ -145,8 +145,8 @@ public class Setup {
             ret[2] = "Задизайнить? Instagram: @elwaaart";
         } else if (skin == 1) {
             ret[0] = "";
-            ret[1] = "";
-            ret[2] = "";
+            ret[1] = "Автор скина: Aliaksei Krachko";
+            ret[2] = "Обращайтесь в Instagram: @ataman_cg";
         } else if (skin == 2) {
             ret[0] = "";
             ret[1] = "";
@@ -159,6 +159,10 @@ public class Setup {
             ret[0] = "";
             ret[1] = "";
             ret[2] = "";
+        } else if (skin == 5) {
+            ret[0] = "";
+            ret[1] = "";
+            ret[2] = "";
         }
         return ret;
     }
@@ -168,8 +172,9 @@ public class Setup {
     }
 
     public String getShadowStr() {
-        if (shadow)
+        if (shadow) {
             return "Эффекты: есть";
+        }
         return "Эффекты: нет";
     }
 
