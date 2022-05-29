@@ -3,6 +3,8 @@ package ru.vgtrofimov.nasharik.settings;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 
+import ru.vgtrofimov.nasharik.Balls;
+
 public class Setup {
 
     public static final String APP_ID = "NASHARIK";
@@ -125,7 +127,7 @@ public class Setup {
     }
 
     private String[] getSkinName() {
-        return new String[]{"питомцы", "cyberball", "самоцветы", "море", "8 бит", "геометрия"};
+        return new String[]{"питомцы", "c_ball the cat", "самоцветы", "море", "8 бит", "геометрия"};
     }
 
     public String[] getDir() {
@@ -164,6 +166,11 @@ public class Setup {
             ret[1] = "";
             ret[2] = "";
         }
+
+        if (Math.max(0, getMax_level()) < getSkin() * 2 && !isOpenAllLevel()) {
+            ret[0] = "Вам нужно завершить уровень " + getSkin() * 2;
+        }
+
         return ret;
     }
 

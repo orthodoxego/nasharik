@@ -55,6 +55,7 @@ public class ActorLittleText extends Actor {
             inputListener = new InputListener() {
                 @Override
                 public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                    Balls.log("HREF: " + href);
                     sound.play(Sound.SOUND.GOOD_RESULT);
                     openUrl = 0.1f;
                     return true;
@@ -62,6 +63,7 @@ public class ActorLittleText extends Actor {
             };
             addListener(inputListener);
         } else {
+            setTouchable(Touchable.disabled);
             if (inputListener != null) {
                 removeListener(inputListener);
             }
@@ -95,7 +97,7 @@ public class ActorLittleText extends Actor {
             if (!(msg[i].equals(""))) {
                 batch.setColor(1, 1, 1, alphaBackground);
                 gl.setText(bitmapFont, msg[i]);
-                batch.draw(background, 0, yText + i * 25 - 1, 0, 0, 512, gl.height + 8, 1, 1, 0);
+                batch.draw(background, 0, yText + i * 25 - 3, 0, 0, 512, gl.height + 8, 1, 1, 0);
                 batch.setColor(1, 1, 1, 1);
             }
             bitmapFont.draw(batch, msg[i], xText, yText + i * 25);
@@ -113,5 +115,9 @@ public class ActorLittleText extends Actor {
 
     private float getAlphaBackground() {
         return 0.75f;
+    }
+
+    public void setBackground(TextureRegion background) {
+        this.background = background;
     }
 }

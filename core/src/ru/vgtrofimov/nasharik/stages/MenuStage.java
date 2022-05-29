@@ -48,31 +48,36 @@ public class MenuStage extends StageParent implements ReturnKey, InputProcessor 
         actorTextureStatic = new ActorTextureStatic(0, 50, 512, 256, textures.getNasharik());
         addActor(actorTextureStatic);
 
-        menuStart = new ActorTextKey(this, font.play_regular_14px, "Играть",
-                textures.getMenuStartGame(),
+        menuStart = new ActorTextKey(this, sound, font.play_regular_14px, "Играть",
+                textures.getMenuStartGame(), textures.getBlackHole(),
                 startX, startY,
-                KEY_NAME.MENU_START_GAME);
+                KEY_NAME.MENU_START_GAME,
+                Math.max(0, setup.getMax_level()) >= setup.getSkin() * 2 || setup.isOpenAllLevel());
 
-        menuSkin = new ActorTextKey(this, font.play_regular_14px, setup.getSkinStr(),
-                textures.getMenuSkin(),
+        menuSkin = new ActorTextKey(this, sound, font.play_regular_14px, setup.getSkinStr(),
+                textures.getMenuSkin(), textures.getWinHole(),
                 startX, startY + lineHeight,
-                KEY_NAME.MENU_SELECT_SKIN);
+                KEY_NAME.MENU_SELECT_SKIN,
+                true);
 
-        menuVolume = new ActorTextKey(this, font.play_regular_14px, "Громкость: " + setup.getVolume(),
-                textures.getMenuVolume(),
+        menuVolume = new ActorTextKey(this, sound, font.play_regular_14px, "Громкость: " + setup.getVolume(),
+                textures.getMenuVolume(), textures.getWinHole(),
                 startX, startY + lineHeight * 2,
-                KEY_NAME.MENU_VOLUME);
+                KEY_NAME.MENU_VOLUME,
+                true);
 
-        menuShadow = new ActorTextKey(this, font.play_regular_14px, setup.getShadowStr(),
-                textures.getMenuShadow(),
+        menuShadow = new ActorTextKey(this, sound, font.play_regular_14px, setup.getShadowStr(),
+                textures.getMenuShadow(), textures.getWinHole(),
                 startX, startY + lineHeight * 3,
-                KEY_NAME.MENU_SHADOW);
+                KEY_NAME.MENU_SHADOW,
+                true);
 
         if (setup.isViewHelp()) {
-            menuHelp = new ActorTextKey(this, font.play_regular_14px, setup.getHelpStr(),
-                    textures.getMenuHelp(),
+            menuHelp = new ActorTextKey(this, sound, font.play_regular_14px, setup.getHelpStr(),
+                    textures.getMenuHelp(), textures.getWinHole(),
                     startX, startY + lineHeight * 4,
-                    KEY_NAME.MENU_HELP);
+                    KEY_NAME.MENU_HELP,
+                    true);
         }
 
         actorLittleText = new ActorLittleText(sound,
@@ -172,6 +177,10 @@ public class MenuStage extends StageParent implements ReturnKey, InputProcessor 
         menuVolume.setBitmapFont(font.play_regular_14px);
 
         actorLittleText.setBitmapFont(font.play_regular_little);
+        actorLittleText.setBackground(textures.getBlackHole());
+
+        menuStart.setEnabled(Math.max(0, setup.getMax_level()) >= setup.getSkin() * 2 || setup.isOpenAllLevel());
+        menuStart.setLineShrink(textures.getBlackHole());
 
     }
 }

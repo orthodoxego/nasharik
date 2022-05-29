@@ -63,8 +63,8 @@ public class Font {
 
         } else if (skin == 1) {
             // CYBERBALL
-            play_regular = new FreeTypeFontGenerator(Gdx.files.internal("font/marske.ttf"));
-            play_bold = new FreeTypeFontGenerator(Gdx.files.internal("font/marske.ttf"));
+            play_regular = new FreeTypeFontGenerator(Gdx.files.internal("font/marske_correct.ttf"));
+            play_bold = new FreeTypeFontGenerator(Gdx.files.internal("font/marske_correct.ttf"));
 
             glyphLayout = new GlyphLayout();
 
@@ -167,14 +167,17 @@ public class Font {
             play_bold_big = play_bold.generateFont(parameter);
 
             // Надпись внизу меню
-            parameter.size = (int) (GdxViewport.FIXED_BLOCK * 1.3f);
+            parameter.size = (int) (GdxViewport.FIXED_BLOCK * 1.1f);
+            parameter.spaceX = -1;
             parameter.color = Color.valueOf("FFFFFF");
             play_regular_little = play_bold.generateFont(parameter);
 
         } else if (skin == 4) {
             // 8 бит
-            play_regular = new FreeTypeFontGenerator(Gdx.files.internal("font/mercutio.ttf"));
-            play_bold = new FreeTypeFontGenerator(Gdx.files.internal("font/mercutio.ttf"));
+//            play_regular = new FreeTypeFontGenerator(Gdx.files.internal("font/mercutio.ttf"));
+//            play_bold = new FreeTypeFontGenerator(Gdx.files.internal("font/mercutio.ttf"));
+            play_regular = new FreeTypeFontGenerator(Gdx.files.internal("font/bit.ttf"));
+            play_bold = new FreeTypeFontGenerator(Gdx.files.internal("font/bit.ttf"));
 
             glyphLayout = new GlyphLayout();
 
@@ -183,10 +186,10 @@ public class Font {
             parameter.characters = Setup.FONT_CHARS;
             parameter.flip = true;
             parameter.kerning = true;
-            parameter.size = (int) (GdxViewport.FIXED_BLOCK * 2.0f);
+            parameter.size = (int) (GdxViewport.FIXED_BLOCK * 1.7f);
             parameter.borderWidth = 0;
             parameter.borderStraight = true;
-            parameter.spaceX = 0;
+            parameter.padTop = 4;
             parameter.borderColor = Color.valueOf("3b8686");
             parameter.color = Color.valueOf("ffdab5");
 
@@ -201,7 +204,8 @@ public class Font {
             parameter.color = Color.valueOf("edd970");
             play_bold_big = play_bold.generateFont(parameter);
 
-            parameter.size = (int) (GdxViewport.FIXED_BLOCK * 1.5f);
+            parameter.size = (int) (GdxViewport.FIXED_BLOCK * 1.1f);
+            parameter.spaceX = -1;
             parameter.color = Color.valueOf("f9b182");
             play_regular_little = play_regular.generateFont(parameter);
 

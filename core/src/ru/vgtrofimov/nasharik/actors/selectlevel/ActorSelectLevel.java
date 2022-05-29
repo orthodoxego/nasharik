@@ -54,7 +54,7 @@ public class ActorSelectLevel extends Actor {
         setOrigin((getWidth() - 30) * 0.5f, 24);
 
         alphaChannel = 0.4f;
-        if (setup.getMax_level() / 5 * 5 >= num || Math.max(1, setup.getMax_level() + 1 - 3) >= num || setup.isOpenAllLevel()) {
+        if (setup.getMax_level() < 5 && num <= setup.getMax_level() || setup.getMax_level() / 5 * 5 >= num || Math.max(1, setup.getMax_level() + 1 - 3) >= num || setup.isOpenAllLevel()) {
         // if (setup.getMax_level() + 1 >= num) {
             setTouchable(Touchable.enabled);
             alphaChannel = 1.0f;
